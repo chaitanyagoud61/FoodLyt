@@ -50,6 +50,9 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
         activityFoodItemsBinding = DataBindingUtil.setContentView(this, R.layout.activity_food__items);
 
         activityFoodItemsBinding.setLifecycleOwner(this);
+
+
+        
         activityFoodItemsBinding.setFoodItemViewmodel(food_item_viewmodel);
         networkResponseInterface = this;
 
