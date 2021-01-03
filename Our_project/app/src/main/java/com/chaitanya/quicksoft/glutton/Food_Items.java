@@ -53,8 +53,6 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
         activityFoodItemsBinding.setFoodItemViewmodel(food_item_viewmodel);
         networkResponseInterface = this;
 
-        
-
         intent = getIntent();
         selected_restrnt = intent.getStringExtra("selected_restrnt");
         food_item_viewmodel.restaurantAddress.set(intent.getStringExtra("restaurant_address"));
