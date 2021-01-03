@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#c7483c</color>
+    <color name="colorPrimaryDark">#c7483c</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="red">#E4302D</color>
+    <color name="white">#fff</color>
+    <color name="hash">#A7A2A2</color>
+    <color name="very_light_hash">#F3F0F0</color>
+    <color name="dark_hash">#8F8A8A</color>
+    <color name="light_hash">#EBE9E9</color>
+    <color name="dark_white">#F3F0F0</color>
+    <color name="black">#000</color>
+    <color name="light_black">#1D1C1C</color>
+    <color name="blue">#1E88E5</color>
+    <color name="green">#43A047</color>
+    <color name="dark_green">#1B5E1F</color>
+    <color name="light_green">#7CB342</color>
+    <color name="minute_green">#DDF3C7</color>
+    <color name="darkred">#A60E00</color>
+    <color name="orange">#E78E0B</color>
+</resources>
+    <!--#c7483c-->

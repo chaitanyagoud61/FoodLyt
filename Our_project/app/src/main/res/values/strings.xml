@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">FoodLyt</string>
+    <string name="phone_number">Enter mobile number</string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="generate_otp">Generate OTP</string>
+    <string name="Enter_otp">Enter OTP</string>
+    <string name="email">Email</string>
+    <string name="Enter_name">Name</string>
+    <string name="Enter_address">Address</string>
+    <string name="title_activity_home_screen">Home_screen</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="adrees_hint">
+        <br> D/no : \n</br>
+    <br> Area (or) Street name : \n</br>
+    <br> Near by : \n</br>
+    <br>Rajam,Srikakulam,Andhra Pradesh</br></string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="Sign_in"><u> Sign In</u></string>
+    <string name="Login"><u> Login</u></string>
+    <string name="Goback"><u> Go back </u></string>
+</resources>
