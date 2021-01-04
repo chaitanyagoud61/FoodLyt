@@ -3,6 +3,7 @@ package com.chaitanya.quicksoft.glutton.retrofit;
 import android.content.Context;
 
 import com.chaitanya.response.AvailabilityResponse;
+import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemResponse;
 import com.chaitanya.response.Getotpresp;
 import com.chaitanya.response.HomeResponse;
@@ -160,14 +161,14 @@ public class ApiManager {
         });
 
     }
-    public void Proceed_order(JsonObject jsonObject, final ResponseCallBack<String> callBack){
+    public void Proceed_order(JsonObject jsonObject, final ResponseCallBack<FinalOrderResponse> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
-        Call<String> response=apiService.proceed_orders(jsonObject);
+        Call<FinalOrderResponse> response=apiService.proceed_orders(jsonObject);
 
-        response.enqueue(new Callback<String>() {
+        response.enqueue(new Callback<FinalOrderResponse>() {
             @Override
-            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+            public void onResponse(@NotNull Call<FinalOrderResponse> call, @NotNull Response<FinalOrderResponse> response) {
                 if(response.isSuccessful() && response.body()!=null)
                 {
                     callBack.onResponse(response.body());
@@ -175,7 +176,7 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(@NotNull Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<FinalOrderResponse> call, Throwable t) {
                 callBack.onError("");
             }
         });

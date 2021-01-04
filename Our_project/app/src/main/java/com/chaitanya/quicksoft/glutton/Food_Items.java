@@ -61,9 +61,6 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
         activityFoodItemsBinding.selectedRestrnt.setText(selected_restrnt);
         activityFoodItemsBinding.selectedRestrntAddress.setText(restaurant_address);
         activityFoodItemsBinding.selectedRestrntDescrptn.setText(restaurant_descrp);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(Food_Items.this, 1);
-        activityFoodItemsBinding.foodItemRecylr.setLayoutManager(gridLayoutManager);
         recycler_model_list = new ArrayList<>();
 
         networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, Food_Items.this);
@@ -151,7 +148,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
                             intent.putExtra("map", final_selected_food_item_qntity);
                             intent.putExtra("selected_restrnt", selected_restrnt);
                             intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
-                            intent.putExtra("restaurant_address", restaurant_address);
+                            intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
                             intent.putExtra("intial_amount", total_price);
                             startActivity(intent);
 
@@ -208,7 +205,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
                                 intent.putExtra("map", final_selected_food_item_qntity);
                                 intent.putExtra("selected_restrnt", selected_restrnt);
                                 intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
-                                intent.putExtra("restaurant_address", restaurant_address);
+                                intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
                                 intent.putExtra("intial_amount", total_price);
                                 startActivity(intent);
                             }

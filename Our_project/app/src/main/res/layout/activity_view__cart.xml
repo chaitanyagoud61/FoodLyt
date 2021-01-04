@@ -404,6 +404,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textSize="@dimen/_11sdp"
+                            android:text="@{view_cart_modelView.addressObservable.get()}"
                             android:textColor="@color/black">
 
                         </EditText>
@@ -568,12 +569,60 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_2sdp"
                             android:background="@drawable/proceed_to_pay_bg"
-                            android:text="Proceed to pay | COD"
+                            android:text="Proceed to pay"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp"
                             android:textStyle="bold">
 
                         </Button>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_2sdp"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/dotted_line"></View>
+
+                        <LinearLayout
+                            android:id="@+id/viewcartpayoncash"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_gravity="end"
+                                android:layout_weight="0.5"
+                                android:src="@drawable/ic_paying">
+
+                            </ImageView>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2.5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif"
+                                    android:text="Cash"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13sdp"></TextView>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/paymentDescription"></TextView>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>

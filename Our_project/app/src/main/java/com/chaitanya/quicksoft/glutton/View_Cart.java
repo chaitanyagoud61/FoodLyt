@@ -19,6 +19,7 @@ import com.chaitanya.quicksoft.glutton.databinding.ActivityViewCartBinding;
 import com.chaitanya.quicksoft.glutton.viewModels.Food_item_viewmodel;
 import com.chaitanya.quicksoft.glutton.viewModels.View_Cart_modelView;
 import com.chaitanya.response.AvailabilityResponse;
+import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemsItem;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
@@ -54,8 +55,13 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
     JsonObject availability_jsonObject = new JsonObject();
     JsonObject innr_availability_jsonObject = new JsonObject();
     JsonArray availability_jsonarray = new JsonArray();
+    JsonArray order_placement_jsonarray = new JsonArray();
+    JsonObject order_placement_jsonObject = new JsonObject();
+    JsonObject order_placement_food_items_jsonObject = new JsonObject();
     List<FoodItemsItem> foodItemsItemList = new ArrayList<>();
     Boolean items_avablty = false;
+    int user_id = 0;
+    String payment_id = "", payment_order_id = "";
 
 
     @Override
@@ -159,11 +165,13 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                         }
                         activityViewCartBinding.viewcartstatuscontentAval.setVisibility(View.GONE);
                         activityViewCartBinding.startPayment.setVisibility(View.GONE);
+                        activityViewCartBinding.viewcartpayoncash.setVisibility(View.GONE);
 
                     } else if (!items_avablty) {
                         activityViewCartBinding.viewcartstatuscontentAval.setVisibility(View.VISIBLE);
                         activityViewCartBinding.viewcartstatuscontentUnaval.setVisibility(View.GONE);
                         activityViewCartBinding.startPayment.setVisibility(View.VISIBLE);
+                        activityViewCartBinding.viewcartpayoncash.setVisibility(View.VISIBLE);
                     }
 
 
@@ -171,6 +179,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
                     activityViewCartBinding.viewcartrestrntstatusAval.setVisibility(View.VISIBLE);
                     activityViewCartBinding.startPayment.setVisibility(View.GONE);
+                    activityViewCartBinding.viewcartpayoncash.setVisibility(View.GONE);
                     activityViewCartBinding.viewcartstatuscontentAval.setVisibility(View.GONE);
 
                 }
@@ -178,7 +187,11 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             }
         });
 
+        activityViewCartBinding.viewcartpayoncash.setOnClickListener(view -> {
 
+            networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, View_Cart.this);
+            networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.ORDERTOSERVERAFTERSUCCESSFULLTRANSCATION);
+        });
 
         view_cart_modelView.getErrorMessage().observe(this, new Observer<String>() {
             @Override
@@ -205,7 +218,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             @Override
             public void onClick(View view) {
 
-                Intent goback_intent = new Intent(View_Cart.this,Home_screen.class);
+                Intent goback_intent = new Intent(View_Cart.this, Home_screen.class);
                 goback_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(goback_intent);
                 finish();
@@ -215,12 +228,50 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
     }
 
-    public void startordertoserver(){
+    public void startordertoserver() {
 
-           view_cart_modelView.ProceedOrderToServer().observe(this, new Observer<String>() {
+        order_placement_jsonObject.addProperty("user_id", user_id);
+        order_placement_jsonObject.addProperty("payment_id", payment_id);
+        order_placement_jsonObject.addProperty("transaction_id", payment_order_id);
+        order_placement_jsonObject.addProperty("transaction_id", Integer.valueOf(selected_restrnt_id));
+
+        Set<String> cart_keys = cart_hashMap.keySet();
+        for (String fooditem : cart_keys) {
+            order_placement_food_items_jsonObject = new JsonObject();
+            String item_name_and_food_quantity = "", food_name = "", food_quantity = "";
+            item_name_and_food_quantity = String.valueOf(cart_hashMap.get(fooditem));
+            String[] name_quantity = item_name_and_food_quantity.split("~");
+            food_name = name_quantity[0];
+            food_quantity = name_quantity[1];
+            selected_food_view_model = new Selected_food_view_model(food_name, food_quantity);
+            selectedFoodViewModelList.add(selected_food_view_model);
+            order_placement_food_items_jsonObject.addProperty("food_id", Integer.valueOf(fooditem));
+            order_placement_food_items_jsonObject.addProperty("name", food_name);
+            order_placement_food_items_jsonObject.addProperty("quantity", Integer.valueOf(food_quantity));
+            order_placement_jsonarray.add(order_placement_food_items_jsonObject);
+        }
+        order_placement_jsonObject.add("food_items", order_placement_jsonarray);
+        order_placement_jsonObject.addProperty("Total_price", String.valueOf(Integer.valueOf(intial_amount) + Integer.valueOf(delivery_fee)));
+        order_placement_jsonObject.addProperty("paymentmode", "online");
+        order_placement_jsonObject.addProperty("address", activityViewCartBinding.finalEdtLctn.getText().toString());
+
+        view_cart_modelView.ProceedOrderToServer(order_placement_jsonObject).observe(this, new Observer<FinalOrderResponse>() {
             @Override
-            public void onChanged(String s) {
+            public void onChanged(FinalOrderResponse s) {
 
+                if (!s.getStatus().isEmpty()) {
+
+
+                    Intent intent = new Intent(View_Cart.this, OrderList.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    if (s.getStatus().equalsIgnoreCase("success")) {
+                        startActivity(intent);
+
+                    } else if (s.getStatus().equalsIgnoreCase("failed")) {
+
+                        startActivity(intent);
+                    }
+                }
             }
         });
 
@@ -228,6 +279,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             @Override
             public void onChanged(String s) {
 
+                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -282,7 +334,8 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                 email = loginTable_entity.getEmail();
                 address = loginTable_entity.getAddress();
                 mobile = loginTable_entity.getMobilenumber();
-                activityViewCartBinding.finalEdtLctn.setText(address);
+                user_id = loginTable_entity.getUserId();
+                view_cart_modelView.addressObservable.set(address);
             }
         }
         GetUserprofileData getUserprofileData = new GetUserprofileData();
@@ -292,6 +345,8 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
     @Override
     public void onPaymentSuccess(String s, PaymentData paymentData) {
 
+        payment_id = paymentData.getPaymentId();
+        payment_order_id = paymentData.getOrderId();
         networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, View_Cart.this);
         networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.ORDERTOSERVERAFTERSUCCESSFULLTRANSCATION);
 
@@ -323,7 +378,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
                 case Glutton_Constants.ORDERTOSERVERAFTERSUCCESSFULLTRANSCATION:
 
-
+                    startordertoserver();
                     break;
             }
 

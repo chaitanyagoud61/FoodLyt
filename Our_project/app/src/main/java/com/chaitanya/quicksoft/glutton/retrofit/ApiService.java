@@ -1,6 +1,7 @@
 package com.chaitanya.quicksoft.glutton.retrofit;
 
 import com.chaitanya.response.AvailabilityResponse;
+import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemResponse;
 import com.chaitanya.response.Getotpresp;
 import com.chaitanya.response.HomeResponse;
@@ -29,8 +30,8 @@ public interface ApiService {
     @POST("getavailability")
     Call<AvailabilityResponse> View_Cart_items_status(@Body JsonObject jsonObject);
 
-    @POST("proceed_payments")
-    Call<String> proceed_orders(@Body JsonObject jsonObject);
+    @POST("orderdetails")
+    Call<FinalOrderResponse> proceed_orders(@Body JsonObject jsonObject);
 
     @POST("newuser")
     Call<SignResponse> Registration_response(@Body JsonObject jsonObject);

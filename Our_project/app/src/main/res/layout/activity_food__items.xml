@@ -110,6 +110,7 @@
                 android:id="@+id/food_item_recylr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 android:layout_gravity="center">
 
             </androidx.recyclerview.widget.RecyclerView>
