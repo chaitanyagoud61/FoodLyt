@@ -247,7 +247,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         order_placement_jsonObject = new JsonObject();
         order_placement_jsonarray = new JsonArray();
 
-        order_placement_jsonObject.addProperty("user_id", user_id);
+        order_placement_jsonObject.addProperty("id", user_id);
         order_placement_jsonObject.addProperty("payment_id", payment_id);
         order_placement_jsonObject.addProperty("transaction_id", payment_order_id);
         order_placement_jsonObject.addProperty("rest_id", Integer.valueOf(selected_restrnt_id));

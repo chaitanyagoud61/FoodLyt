@@ -7,6 +7,7 @@ import com.chaitanya.response.Getotpresp;
 import com.chaitanya.response.GstResponse;
 import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
+import com.chaitanya.response.Orderlistresp;
 import com.chaitanya.response.SignResponse;
 import com.google.gson.JsonObject;
 
@@ -37,9 +38,12 @@ public interface ApiService {
     @POST("newuser")
     Call<SignResponse> Registration_response(@Body JsonObject jsonObject);
 
+    @POST("orderstatus")
+    Call<String> getorderstatus(@Body JsonObject jsonObject);
+
 
     @POST("getorders")
-    Call<String> Orderlist_response(@Body JsonObject jsonObject);
+    Call<Orderlistresp> Orderlist_response(@Body JsonObject jsonObject);
 
     @POST("getpricing")
     Call<GstResponse> GetPrice_response(@Body JsonObject jsonObject);

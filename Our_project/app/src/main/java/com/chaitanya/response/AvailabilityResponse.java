@@ -32,4 +32,5 @@ public class AvailabilityResponse{
 	public String getStatus(){
 		return status;
 	}
+
 }

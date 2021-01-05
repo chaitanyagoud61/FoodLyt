@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+
+    <data>
+        <variable
+            name="orderstatusviewmodel"
+            type="com.chaitanya.quicksoft.glutton.viewModels.OrderStatusViewModel"/>
+    </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -75,7 +82,7 @@
                                 android:layout_margin="@dimen/_2sdp"
                                 android:layout_weight="1.5"
                                 android:fontFamily="@font/belgrano"
-                                android:text="All Restaurants Nearby"
+                                android:text="@{orderstatusviewmodel.rest_name.get()}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_13sdp"
                                 android:textStyle="bold"></TextView>
@@ -87,7 +94,7 @@
                                 android:layout_margin="@dimen/_2sdp"
                                 android:layout_weight="0.5"
                                 android:fontFamily="@font/belgrano"
-                                android:text="Rs. 100"
+                                android:text="@{orderstatusviewmodel.total_amount.get()}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_13sdp"
                                 android:textStyle="bold"></TextView>
@@ -101,7 +108,7 @@
                             android:drawableLeft="@drawable/ic_gps"
                             android:fontFamily="serif"
                             android:gravity="center"
-                            android:text="  Discover unique tastes"
+                            android:text="@{orderstatusviewmodel.rest_address.get()}"
                             android:textAlignment="viewStart"
                             android:textColor="@color/dark_hash"
                             android:textSize="@dimen/_10sdp"
@@ -114,7 +121,7 @@
                             android:drawableLeft="@drawable/ic_time"
                             android:fontFamily="serif"
                             android:gravity="center"
-                            android:text="  Order placed at 7:30 PM"
+                            android:text="@{orderstatusviewmodel.date_and_time.get()}"
                             android:textAlignment="viewStart"
                             android:textColor="@color/dark_hash"
                             android:textSize="@dimen/_10sdp"

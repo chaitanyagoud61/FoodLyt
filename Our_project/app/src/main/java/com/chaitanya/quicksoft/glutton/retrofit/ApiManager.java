@@ -10,6 +10,7 @@ import com.chaitanya.response.Getotpresp;
 import com.chaitanya.response.GstResponse;
 import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
+import com.chaitanya.response.Orderlistresp;
 import com.chaitanya.response.SignResponse;
 import com.google.gson.JsonObject;
 
@@ -206,10 +207,31 @@ public class ApiManager {
 
     }
 
-    public void getOrderDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
+    public void getOrderDetails(JsonObject jsonObject, final ResponseCallBack<Orderlistresp> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
-        Call<String> response=apiService.Orderlist_response(jsonObject);
+        Call<Orderlistresp> response=apiService.Orderlist_response(jsonObject);
+
+        response.enqueue(new Callback<Orderlistresp>() {
+            @Override
+            public void onResponse(@NotNull Call<Orderlistresp> call, @NotNull Response<Orderlistresp> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Orderlistresp> call, Throwable t) {
+                callBack.onError("");
+            }
+        });
+
+    }
+    public void getOrderStatusDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<String> response=apiService.getorderstatus(jsonObject);
 
         response.enqueue(new Callback<String>() {
             @Override
@@ -227,27 +249,6 @@ public class ApiManager {
         });
 
     }
-   /* public void getOrderStatusDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
-
-        ApiService apiService=RetrofitUtils.getInstance();
-        Call<String> response=apiService.Orderlist_response(jsonObject);
-
-        response.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
-                if(response.isSuccessful() && response.body()!=null)
-                {
-                    callBack.onResponse(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<String> call, Throwable t) {
-                callBack.onError("");
-            }
-        });
-
-    }*/
 
 
 }

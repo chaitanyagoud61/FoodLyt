@@ -8,11 +8,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chaitanya.quicksoft.glutton.databinding.OderListRowItemBinding;
+import com.chaitanya.response.Orderlistresp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.OrderListAdapterViewHolder> implements OrderClickListner{
@@ -20,13 +23,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     private Context context;
     OrderListModel orderListModel;
     OrderClickListner orderClickListner;
-    ArrayList<OrderListModel> orderListModelArrayList = new ArrayList<>();
+    List<OrderListModel> orderListModelArrayList = new ArrayList<>();
 
-    public OrderListAdapter(Context context, ArrayList<OrderListModel> orderListModelArrayList,OrderClickListner orderClickListner) {
+    public OrderListAdapter(Context context, List<OrderListModel> orderListModelArrayList,OrderClickListner orderClickListner) {
         this.context = context;
         this.orderListModelArrayList = orderListModelArrayList;
         this.orderClickListner = orderClickListner;
-
     }
 
     @NonNull

@@ -6,15 +6,15 @@ public class OrderListModel {
             order_price="",order_list_food_name_nd_qnty="",
             order_date_nd_time="";
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
-    int orderId=0;
+    String orderId="";
 
     Boolean delivered=false;
 
@@ -34,19 +34,10 @@ public class OrderListModel {
         this.inporgress = inporgress;
     }
 
-    public Boolean getFailure() {
-        return failure;
-    }
-
-    public void setFailure(Boolean failure) {
-        this.failure = failure;
-    }
-
     Boolean inporgress=false;
-    Boolean failure=false;
 
     public OrderListModel(String restaurant_name, String restaurant_address, String order_price,
-                          String order_list_food_name_nd_qnty, String order_date_nd_time, Boolean delivered,Boolean inporgress,Boolean failure,int orderId) {
+                          String order_list_food_name_nd_qnty, String order_date_nd_time, Boolean delivered,Boolean inporgress,String orderId) {
         this.restaurant_name = restaurant_name;
         this.restaurant_address = restaurant_address;
         this.order_price = order_price;
@@ -54,7 +45,6 @@ public class OrderListModel {
         this.order_date_nd_time = order_date_nd_time;
         this.delivered = delivered;
         this.inporgress = inporgress;
-        this.failure = failure;
         this.orderId = orderId;
 
     }

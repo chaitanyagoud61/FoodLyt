@@ -126,15 +126,34 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:weightSum="2"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="No of Items :"
+                                    android:textColor="@color/hash"
+                                    android:textSize="@dimen/_10sdp"
+                                    android:textStyle="bold"></TextView>
                             <TextView
                                 android:id="@+id/order_list_food_name_nd_qnty"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/_2sdp"
                                 android:text="@{orderlistmodel.order_list_food_name_nd_qnty}"
                                 android:textColor="@color/hash"
+                                android:textAlignment="viewStart"
                                 android:textSize="@dimen/_12sdp"
                                 android:textStyle="bold"></TextView>
+
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/order_date_nd_time"
