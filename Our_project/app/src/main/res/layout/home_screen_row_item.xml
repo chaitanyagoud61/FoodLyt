@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/_5sdp"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/home_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
         android:layout_gravity="center"
         app:cardCornerRadius="@dimen/_5sdp"
-        android:elevation="@dimen/_5sdp">
+        app:cardElevation="@dimen/_3sdp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:id="@+id/home_linr_lyt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:weightSum="2"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/_5sdp"
                 android:layout_height="@dimen/_100sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/hme_htl_image"
-                    android:scaleType="fitXY"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_100sdp"
-                    android:src="@drawable/ic_delivery">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardUseCompatPadding="true">
 
-                </ImageView>
 
+                        <ImageView
+                            android:id="@+id/hme_htl_image"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_90sdp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_delivery" />
+
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/_5sdp"
                 android:layout_height="@dimen/_100sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -85,10 +93,10 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <ImageView
@@ -103,9 +111,9 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:layout_gravity="center"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.5"
                         android:orientation="vertical">
 
                         <TextView

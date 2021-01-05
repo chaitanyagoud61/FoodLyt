@@ -62,6 +62,14 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/_20sdp"></TextView>
 
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/loginprogress"
+                android:indeterminateTint="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"></ProgressBar>
+
         </LinearLayout>
         <LinearLayout
             android:id="@+id/generate_otp_lyt"

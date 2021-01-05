@@ -139,11 +139,6 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
         getGSt();
 
-        activityViewCartBinding.intialAmount.setText("₹ " + intial_amount);
-        activityViewCartBinding.delivryAmount.setText("₹ " + delivery_fee);
-        activityViewCartBinding.gstTxt.setText("₹ " + gst);
-        activityViewCartBinding.finalPay.setText("₹ " + String.valueOf( Integer.valueOf(gst) +Integer.valueOf(intial_amount) + Integer.valueOf(delivery_fee)));
-
         activityViewCartBinding.startPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,7 +163,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
     }
 
-    public void getFoodAvldStatusforOnlinePay(){
+    public void getFoodAvldStatusforPay(String mode){
 
         view_cart_modelView.getMutableLiveViewCartfooditemsstatusData(availability_jsonObject).observe(this, new Observer<AvailabilityResponse>() {
             @Override
@@ -218,81 +213,11 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                         activityViewCartBinding.viewcartstatuscontentUnaval.setVisibility(View.GONE);
                         activityViewCartBinding.startPayment.setVisibility(View.VISIBLE);
                         activityViewCartBinding.viewcartpayoncash.setVisibility(View.VISIBLE);
-                        startPayment();
-                    }
-
-
-                } else if (availabilityResponse.getStatus().equalsIgnoreCase("off")) {
-
-                    activityViewCartBinding.viewcartrestrntstatusAval.setVisibility(View.VISIBLE);
-                    activityViewCartBinding.startPayment.setVisibility(View.GONE);
-                    activityViewCartBinding.viewcartpayoncash.setVisibility(View.GONE);
-                    activityViewCartBinding.viewcartstatuscontentAval.setVisibility(View.GONE);
-
-                }
-
-            }
-        });
-
-        view_cart_modelView.getErrorMessage().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
-    public void getFoodAvldStatusforCOD(){
-
-        view_cart_modelView.getMutableLiveViewCartfooditemsstatusData(availability_jsonObject).observe(this, new Observer<AvailabilityResponse>() {
-            @Override
-            public void onChanged(AvailabilityResponse availabilityResponse) {
-
-                if (availabilityResponse.getStatus().equalsIgnoreCase("on")) {
-
-                    foodItemsItemList = availabilityResponse.getFoodItems();
-                    for (FoodItemsItem foodItemsItem : foodItemsItemList) {
-
-                        if (foodItemsItem.getStatus().equalsIgnoreCase("on")) {
-
-                            items_avablty = false;
-                        } else if (foodItemsItem.getStatus().equalsIgnoreCase("off")) {
-
-                            items_avablty = true;
+                        if(!mode.isEmpty() && mode.equalsIgnoreCase("online")){
+                            startPayment();
+                        }else if(!mode.isEmpty() && mode.equalsIgnoreCase("cod")){
+                            startordertoserver("COD");
                         }
-
-                    }
-
-                    if (items_avablty) {
-
-                        activityViewCartBinding.viewcartstatuscontentUnaval.setVisibility(View.VISIBLE);
-
-                        for (FoodItemsItem foodItemsItem : foodItemsItemList) {
-
-                            if (foodItemsItem.getStatus().equalsIgnoreCase("on")) {
-
-
-                            } else if (foodItemsItem.getStatus().equalsIgnoreCase("off")) {
-
-                                String items = activityViewCartBinding.unavlbeItemCount.getText().toString();
-                                if (items.isEmpty()) {
-                                    activityViewCartBinding.unavlbeItemCount.setText(foodItemsItem.getName());
-                                } else {
-                                    activityViewCartBinding.unavlbeItemCount.setText(items + "," + foodItemsItem.getName());
-                                }
-                            }
-
-                        }
-                        activityViewCartBinding.viewcartstatuscontentAval.setVisibility(View.GONE);
-                        activityViewCartBinding.startPayment.setVisibility(View.GONE);
-                        activityViewCartBinding.viewcartpayoncash.setVisibility(View.GONE);
-
-                    } else if (!items_avablty) {
-                        activityViewCartBinding.viewcartstatuscontentAval.setVisibility(View.VISIBLE);
-                        activityViewCartBinding.viewcartstatuscontentUnaval.setVisibility(View.GONE);
-                        activityViewCartBinding.startPayment.setVisibility(View.VISIBLE);
-                        activityViewCartBinding.viewcartpayoncash.setVisibility(View.VISIBLE);
-                        startordertoserver();
                     }
 
 
@@ -317,7 +242,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
     }
 
-    public void startordertoserver() {
+    public void startordertoserver(String payment_mode) {
 
         order_placement_jsonObject = new JsonObject();
         order_placement_jsonarray = new JsonArray();
@@ -325,7 +250,8 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         order_placement_jsonObject.addProperty("user_id", user_id);
         order_placement_jsonObject.addProperty("payment_id", payment_id);
         order_placement_jsonObject.addProperty("transaction_id", payment_order_id);
-        order_placement_jsonObject.addProperty("transaction_id", Integer.valueOf(selected_restrnt_id));
+        order_placement_jsonObject.addProperty("rest_id", Integer.valueOf(selected_restrnt_id));
+        order_placement_jsonObject.addProperty("city_id", 1);
 
         Set<String> cart_keys = cart_hashMap.keySet();
         for (String fooditem : cart_keys) {
@@ -335,8 +261,6 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             String[] name_quantity = item_name_and_food_quantity.split("~");
             food_name = name_quantity[0];
             food_quantity = name_quantity[1];
-            selected_food_view_model = new Selected_food_view_model(food_name, food_quantity);
-            selectedFoodViewModelList.add(selected_food_view_model);
             order_placement_food_items_jsonObject.addProperty("food_id", Integer.valueOf(fooditem));
             order_placement_food_items_jsonObject.addProperty("name", food_name);
             order_placement_food_items_jsonObject.addProperty("quantity", Integer.valueOf(food_quantity));
@@ -344,7 +268,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         }
         order_placement_jsonObject.add("food_items", order_placement_jsonarray);
         order_placement_jsonObject.addProperty("Total_price", String.valueOf(Integer.valueOf(intial_amount) + Integer.valueOf(delivery_fee)));
-        order_placement_jsonObject.addProperty("paymentmode", "online");
+        order_placement_jsonObject.addProperty("paymentmode", payment_mode);
         order_placement_jsonObject.addProperty("address", activityViewCartBinding.finalEdtLctn.getText().toString());
 
         view_cart_modelView.ProceedOrderToServer(order_placement_jsonObject).observe(this, new Observer<FinalOrderResponse>() {
@@ -360,8 +284,8 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                         ProgressDialog progressBar = new ProgressDialog(View_Cart.this);
                         progressBar.setCancelable(false);//you can cancel it by pressing back button
                         progressBar.setMessage("Your Order is successfully placed ...");
-                        progressBar.setTitle("ORDER");
-                        progressBar.setIcon(R.drawable.ic_orderfood);
+                        progressBar.setTitle("ORDER Confirmed");
+                        progressBar.setIcon(R.drawable.ic_tick);
                         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         progressBar.show();
                         new Handler().postDelayed(new Runnable() {
@@ -379,8 +303,8 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                         ProgressDialog progressBar = new ProgressDialog(View_Cart.this);
                         progressBar.setCancelable(false);//you can cancel it by pressing back button
                         progressBar.setMessage("Your Order is Cancelled ...");
-                        progressBar.setTitle("ORDER");
-                        progressBar.setIcon(R.drawable.ic_orderfood);
+                        progressBar.setTitle("ORDER Cancelled");
+                        progressBar.setIcon(R.drawable.worng);
                         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         progressBar.show();
                         new Handler().postDelayed(new Runnable() {
@@ -413,7 +337,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         order_placement_jsonObject.addProperty("user_id", user_id);
         order_placement_jsonObject.addProperty("payment_id", payment_id);
         order_placement_jsonObject.addProperty("transaction_id", payment_order_id);
-        order_placement_jsonObject.addProperty("transaction_id", Integer.valueOf(selected_restrnt_id));
+        order_placement_jsonObject.addProperty("rest_id", Integer.valueOf(selected_restrnt_id));
 
         Set<String> cart_keys = cart_hashMap.keySet();
         for (String fooditem : cart_keys) {
@@ -423,8 +347,6 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             String[] name_quantity = item_name_and_food_quantity.split("~");
             food_name = name_quantity[0];
             food_quantity = name_quantity[1];
-            selected_food_view_model = new Selected_food_view_model(food_name, food_quantity);
-            selectedFoodViewModelList.add(selected_food_view_model);
             order_placement_food_items_jsonObject.addProperty("food_id", Integer.valueOf(fooditem));
             order_placement_food_items_jsonObject.addProperty("name", food_name);
             order_placement_food_items_jsonObject.addProperty("quantity", Integer.valueOf(food_quantity));
@@ -433,6 +355,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         order_placement_jsonObject.add("food_items", order_placement_jsonarray);
         order_placement_jsonObject.addProperty("Total_price", String.valueOf(Integer.valueOf(intial_amount)));
         order_placement_jsonObject.addProperty("paymentmode", "online");
+        order_placement_jsonObject.addProperty("city_id", 1);
         order_placement_jsonObject.addProperty("address", activityViewCartBinding.finalEdtLctn.getText().toString());
 
         view_cart_modelView.GetGStPrice_Dataresponse(order_placement_food_items_jsonObject).observe(this, new Observer<GstResponse>() {
@@ -441,6 +364,11 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
                 delivery_fee = String.valueOf(gstResponse.getDeliveryPartnerFee());
                 gst = String.valueOf(gstResponse.getTaxes());
+
+                activityViewCartBinding.intialAmount.setText("₹ " + intial_amount);
+                activityViewCartBinding.delivryAmount.setText("₹ " + delivery_fee);
+                activityViewCartBinding.gstTxt.setText("₹ " + gst);
+                activityViewCartBinding.finalPay.setText("₹ " + String.valueOf( Integer.valueOf(gst) +Integer.valueOf(intial_amount) + Integer.valueOf(delivery_fee)));
             }
         });
 
@@ -537,18 +465,18 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
                 case Glutton_Constants.PAYMENT_TRANSCATION:
 
-                    getFoodAvldStatusforOnlinePay();
+                    getFoodAvldStatusforPay("online");
 
                     break;
 
                 case Glutton_Constants.ORDERTOSERVERAFTERSUCCESSFULLTRANSCATION:
 
-                    startordertoserver();
+                    startordertoserver("online");
                     break;
 
                 case Glutton_Constants.CASHONDELIVERY:
 
-                    getFoodAvldStatusforCOD();
+                    getFoodAvldStatusforPay("Cod");
                     break;
             }
 

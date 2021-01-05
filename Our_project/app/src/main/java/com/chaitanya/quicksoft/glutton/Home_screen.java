@@ -2,6 +2,7 @@ package com.chaitanya.quicksoft.glutton;
 
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.chaitanya.quicksoft.glutton.databinding.ActivityHomeScreenBinding;
@@ -38,6 +39,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.view.Menu;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -204,7 +206,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
                     for (RestaurantsItem restaurantsItem : restaurantsItems) {
 
                         villageConfigCustomAdapterModel = new VillageConfigCustomAdapterModel(restaurantsItem.getName(),
-                                restaurantsItem.getAddress(), restaurantsItem.getImage(), "", restaurantsItem.getStatus(), restaurantsItem.getRestId(),restaurantsItem.getDescription());
+                                restaurantsItem.getAddress(), restaurantsItem.getImage(), restaurantsItem.getOffers(), restaurantsItem.getStatus(), restaurantsItem.getRestId(),restaurantsItem.getDescription());
                         recycler_model_list.add(villageConfigCustomAdapterModel);
                     }
                     villageListRecyclerCustomAdapter = new VillageListRecyclerCustomAdapter(Home_screen.this, recycler_model_list, Home_screen.this);
@@ -236,11 +238,39 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
         switch (id) {
 
             case R.id.MyOrders:
-                Toast.makeText(getApplicationContext(), "about", Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(Home_screen.this,OrderList.class));
+
                 break;
 
-            case R.id.help:
-                Toast.makeText(getApplicationContext(), "privacy_policy", Toast.LENGTH_SHORT).show();
+            case R.id.logout:
+
+
+                class Logout extends AsyncTask<Void,Void,Void> {
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+
+                        DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().loginTableDao().DeleteTable();
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void voids) {
+                        super.onPostExecute(voids);
+
+                            finish();
+                    }
+                }
+                Logout logout = new Logout();
+                logout.execute();
+
+                break;
+
+            case R.id.Profile:
+
+                startActivity(new Intent(Home_screen.this,Profile.class));
+
                 break;
 
 
@@ -266,6 +296,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
         startActivity(selected_restrnt);
 
     }
+
 
     @Override
     public void IsConnected(Boolean isconnected, int calling_request_from) {

@@ -9,9 +9,18 @@
             android:icon="@drawable/ic_dashboard_black_24dp"
             android:title="MyOrders" />
         <item
-            android:id="@+id/help"
-            android:icon="@drawable/ic_live_help_black_24dp"
-            android:title="help" />
+            android:id="@+id/Profile"
+            android:icon="@drawable/ic_account"
+            android:title="Profile" />
+
+    </group>
+
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/logout"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+
     </group>
 
 </menu>

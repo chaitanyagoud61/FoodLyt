@@ -2,6 +2,7 @@ package com.chaitanya.quicksoft.glutton.viewModels;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -53,7 +54,7 @@ public class LoginViewModel extends AndroidViewModel {
 
     public MutableLiveData<Getotpresp> getotpdatamutable(String mobl_num) {
         JsonObject otp_jsonObject = new JsonObject();
-        otp_jsonObject.addProperty("mobile", mobl_num);
+        otp_jsonObject.addProperty("mobile",mobl_num);
 
         ApiManager.getInstance(context).getotpdetails(otp_jsonObject, new ResponseCallBack<Getotpresp>() {
             @Override

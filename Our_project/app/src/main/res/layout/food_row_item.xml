@@ -11,7 +11,7 @@
         app:cardUseCompatPadding="true"
         android:layout_gravity="center"
         app:cardCornerRadius="@dimen/_5sdp"
-        android:elevation="@dimen/_5sdp">
+        app:cardElevation="@dimen/_5sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,24 +146,37 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_margin="@dimen/_5sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/imagePreview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:padding="@dimen/_2sdp" >
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardUseCompatPadding="true"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_2sdp">
 
                     <ImageView
                         android:id="@+id/rstrnt_food_image"
                         android:scaleType="fitXY"
-                        android:layout_width="@dimen/_80sdp"
-                        android:layout_height="@dimen/_70sdp"
+                        android:layout_width="@dimen/_90sdp"
+                        android:layout_height="@dimen/_80sdp"
                         android:src="@drawable/ic_delivery"
                         android:layout_centerInParent="true"/>
+                    </androidx.cardview.widget.CardView>
 
                    <!-- <Button
                         android:id="@+id/add_item"
@@ -178,7 +191,7 @@
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />-->
 
-                </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
 

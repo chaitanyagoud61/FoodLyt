@@ -9,9 +9,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +34,7 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
     ConnectivityManager connectivityManager;
     NetworkResponseInterface networkResponseInterface;
     Dialog dialog;
+    Animation animBlink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
         sign_view_model = ViewModelProviders.of(this).get(Sign_view_model.class);
         activitySignInBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in);
 
+        animBlink = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move);
         activitySignInBinding.setLifecycleOwner(this);
         activitySignInBinding.setSignViewModel(sign_view_model);
         networkResponseInterface = this;
@@ -96,12 +102,19 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
                 if (id != 0) {
 
                     activitySignInBinding.signMainCrdvw.setVisibility(View.GONE);
+                    activitySignInBinding.thnkBlink.setAnimation(animBlink);
                     activitySignInBinding.signMainThnkyuCrdvw.setVisibility(View.VISIBLE);
                     activitySignInBinding.btnRegsiter.setVisibility(View.GONE);
-                    Intent intent = new Intent(SignIn.this, Login.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(SignIn.this, Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }
+                    },2000);
+
                 }else {
                     Toast.makeText(getApplicationContext(),"User Already Exists",Toast.LENGTH_LONG).show();
                 }

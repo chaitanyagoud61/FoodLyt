@@ -38,7 +38,7 @@ public interface ApiService {
     Call<SignResponse> Registration_response(@Body JsonObject jsonObject);
 
 
-    @POST("orderlist")
+    @POST("getorders")
     Call<String> Orderlist_response(@Body JsonObject jsonObject);
 
     @POST("getpricing")

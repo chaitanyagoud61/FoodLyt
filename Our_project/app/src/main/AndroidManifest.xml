@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".OrderStatus"></activity>
+        <activity android:name=".Profile"></activity>
+        <activity android:name=".OrderStatus" />
         <activity android:name=".OrderList" />
         <activity android:name=".View_Cart" />
         <activity android:name=".Food_Items" />

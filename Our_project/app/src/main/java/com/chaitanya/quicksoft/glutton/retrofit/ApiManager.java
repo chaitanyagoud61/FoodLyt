@@ -1,6 +1,7 @@
 package com.chaitanya.quicksoft.glutton.retrofit;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
@@ -85,8 +86,7 @@ public class ApiManager {
         response.enqueue(new Callback<Getotpresp>() {
             @Override
             public void onResponse(@NotNull Call<Getotpresp> call, @NotNull Response<Getotpresp> response) {
-                if(response.isSuccessful() && response.body()!=null)
-                {
+                if(response.isSuccessful() && response.body()!=null) {
                     callBack.onResponse(response.body());
                 }
             }

@@ -123,7 +123,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
         }
         snackbar = Snackbar
                 .make(activityFoodItemsBinding.foodItemCoordnteLyt, total_price, snackbar.LENGTH_LONG)
-                .setDuration(60000)
+                .setDuration(70000)
                 .setAction("VIEW CART", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -182,7 +182,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
             }
             snackbar = Snackbar
                     .make(activityFoodItemsBinding.foodItemCoordnteLyt, total_price, snackbar.LENGTH_LONG)
-                    .setDuration(60000)
+                    .setDuration(70000)
                     .setAction("VIEW CART", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

@@ -29,7 +29,7 @@ public class OrderListViewModel extends AndroidViewModel {
 
     public MutableLiveData<String> getOrder_list_data(int user_id) {
         JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("user_id",user_id);
+        jsonObject.addProperty("id",user_id);
 
         ApiManager.getInstance(context).getOrderDetails(jsonObject, new ResponseCallBack<String>() {
             @Override

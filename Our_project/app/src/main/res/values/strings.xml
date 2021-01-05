@@ -31,4 +31,6 @@
     <string name="Sign_in"><u> Sign In</u></string>
     <string name="Login"><u> Login</u></string>
     <string name="Goback"><u> Go back </u></string>
+    <string name="name">Name :  %s</string>
+    <string name="mobilenum">Phone number :  %s</string>
 </resources>

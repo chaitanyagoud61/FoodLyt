@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -82,8 +83,6 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
 
                     networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, Login.this);
                     networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.login);
-                }else {
-                    Toast.makeText(getApplicationContext(),"Invalid Otp",Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -114,6 +113,8 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
                     activityLoginBinding.otpLoginLyt.setVisibility(View.VISIBLE);
                     activityLoginBinding.registerLnrLyt.setVisibility(View.GONE);
 
+                }else {
+                    Toast.makeText(getApplicationContext(),"Please register to login",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -161,16 +162,24 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
             @Override
             public void onChanged(LoginResponse s) {
 
-                if(!s.getAddress().isEmpty() && !s.getName().isEmpty()) {
-                    address = s.getAddress();
-                    user_id = s.getId();
-                    user_name = s.getName();
-                    email = s.getEmail();
-                    saveData();
-                    Intent intent = new Intent(Login.this, Home_screen.class);
-                    startActivity(intent);
-                    finish();
-                }
+                activityLoginBinding.loginprogress.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!s.getAddress().isEmpty() && !s.getName().isEmpty()) {
+                            address = s.getAddress();
+                            user_id = s.getId();
+                            user_name = s.getName();
+                            email = s.getEmail();
+                            saveData();
+                            Intent intent = new Intent(Login.this, Home_screen.class);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            Toast.makeText(getApplicationContext(),"Invalid",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },2000);
             }
         });
 
