@@ -227,7 +227,7 @@ public class ApiManager {
         });
 
     }
-    public void getOrderStatusDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
+   /* public void getOrderStatusDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
         Call<String> response=apiService.Orderlist_response(jsonObject);
@@ -247,7 +247,7 @@ public class ApiManager {
             }
         });
 
-    }
+    }*/
 
 
 }
