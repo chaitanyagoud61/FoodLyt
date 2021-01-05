@@ -4,6 +4,7 @@ import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemResponse;
 import com.chaitanya.response.Getotpresp;
+import com.chaitanya.response.GstResponse;
 import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
 import com.chaitanya.response.SignResponse;
@@ -39,4 +40,7 @@ public interface ApiService {
 
     @POST("orderlist")
     Call<String> Orderlist_response(@Body JsonObject jsonObject);
+
+    @POST("getpricing")
+    Call<GstResponse> GetPrice_response(@Body JsonObject jsonObject);
 }

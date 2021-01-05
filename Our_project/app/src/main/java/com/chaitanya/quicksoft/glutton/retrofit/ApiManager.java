@@ -6,6 +6,7 @@ import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemResponse;
 import com.chaitanya.response.Getotpresp;
+import com.chaitanya.response.GstResponse;
 import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
 import com.chaitanya.response.SignResponse;
@@ -183,7 +184,50 @@ public class ApiManager {
 
     }
 
+    public void getGst(JsonObject jsonObject, final ResponseCallBack<GstResponse> callBack){
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<GstResponse> response=apiService.GetPrice_response(jsonObject);
+
+        response.enqueue(new Callback<GstResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<GstResponse> call, @NotNull Response<GstResponse> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<GstResponse> call, Throwable t) {
+                callBack.onError("");
+            }
+        });
+
+    }
+
     public void getOrderDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<String> response=apiService.Orderlist_response(jsonObject);
+
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, Throwable t) {
+                callBack.onError("");
+            }
+        });
+
+    }
+    public void getOrderStatusDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
         Call<String> response=apiService.Orderlist_response(jsonObject);

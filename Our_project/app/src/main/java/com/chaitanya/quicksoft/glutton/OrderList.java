@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import com.chaitanya.quicksoft.glutton.viewModels.OrderListViewModel;
 
 import java.util.ArrayList;
 
-public class OrderList extends AppCompatActivity implements NetworkResponseInterface{
+public class OrderList extends AppCompatActivity implements NetworkResponseInterface,OrderClickListner{
 
     ActivityOrderListBinding activityOrderListBinding;
     OrderListViewModel orderListViewModel;
@@ -27,6 +28,7 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
     ArrayList<OrderListModel> orderListModelArrayList = new ArrayList<>();
     int user_id=0;
     String name="",email="",address="",mobile="";
+    OrderListAdapter orderListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,10 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
         activityOrderListBinding.setOrderlistviewmodel(orderListViewModel);
         networkResponseInterface = this;
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(OrderList.this, 1);
-        activityOrderListBinding.orderlistRcylr.setLayoutManager(gridLayoutManager);
-
         getProfileDataFromDatabase();
         networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, OrderList.this);
         networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.LOADTOTALORDERS);
+
 
     }
 
@@ -111,5 +111,18 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(OrderList.this, Home_screen.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void getselectedorder(OrderListModel orderListModel) {
+
+        orderListModel.getOrderId();
     }
 }

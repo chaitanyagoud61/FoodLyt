@@ -9,6 +9,7 @@
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/modifiedlogo"
@@ -17,8 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".OrderList"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".OrderStatus"></activity>
+        <activity android:name=".OrderList" />
         <activity android:name=".View_Cart" />
         <activity android:name=".Food_Items" />
         <activity
@@ -46,7 +47,7 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_slI9vuYjnvh2tN"></meta-data>
+            android:value="rzp_test_slI9vuYjnvh2tN" />
     </application>
 
 </manifest>

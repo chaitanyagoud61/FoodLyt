@@ -192,6 +192,49 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:text="Edit Delivery Loaction "
+                            android:textStyle="bold"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_13sdp"></TextView>
+
+                        <View
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/dotted_line"></View>
+
+                        <EditText
+                            android:id="@+id/final_edt_lctn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_11sdp"
+                            android:text="@{view_cart_modelView.addressObservable.get()}"
+                            android:textColor="@color/black">
+
+                        </EditText>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:padding="@dimen/_5sdp">
@@ -340,6 +383,53 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/_2sdp"
                                 android:fontFamily="@font/belgrano"
+                                android:text="Taxes and charges"
+                                android:textColor="@color/blue"
+                                android:textSize="@dimen/_10sdp"
+                                android:textStyle="bold"></TextView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/gst_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:fontFamily="@font/belgrano"
+                                android:text="₹ "
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/light_black"
+                                android:textSize="@dimen/_13sdp"
+                                android:textStyle="bold"></TextView>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:fontFamily="@font/belgrano"
                                 android:text="To pay"
                                 android:textColor="@color/light_black"
                                 android:textSize="@dimen/_13sdp"
@@ -370,46 +460,53 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_2sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/dotted_line"></View>
+
                 <LinearLayout
+                    android:id="@+id/viewcartpayoncash"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="left"
                     android:layout_margin="@dimen/_10sdp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="end"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/ic_paying">
+
+                    </ImageView>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
                         android:orientation="vertical">
-
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
-                            android:text="Edit Delivery Loaction "
-                            android:textStyle="bold"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorPrimary"
+                            android:text="Cash"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/_13sdp"></TextView>
 
-                        <View
-                            android:layout_width="@dimen/_150sdp"
-                            android:layout_height="@dimen/_2sdp"
-                            android:layout_margin="@dimen/_5sdp"
-                            android:background="@drawable/dotted_line"></View>
-
-                        <EditText
-                            android:id="@+id/final_edt_lctn"
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
                             android:textSize="@dimen/_11sdp"
-                            android:text="@{view_cart_modelView.addressObservable.get()}"
-                            android:textColor="@color/black">
-
-                        </EditText>
+                            android:textColor="@color/blue"
+                            android:text="@string/paymentDescription"></TextView>
 
                     </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -576,53 +673,6 @@
 
                         </Button>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_2sdp"
-                            android:layout_margin="@dimen/_5sdp"
-                            android:background="@drawable/dotted_line"></View>
-
-                        <LinearLayout
-                            android:id="@+id/viewcartpayoncash"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            android:layout_margin="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3">
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_gravity="end"
-                                android:layout_weight="0.5"
-                                android:src="@drawable/ic_paying">
-
-                            </ImageView>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2.5"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:text="Cash"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_13sdp"></TextView>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/paymentDescription"></TextView>
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>

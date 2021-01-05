@@ -8,7 +8,10 @@ import com.chaitanya.quicksoft.glutton.retrofit.ResponseCallBack;
 import com.chaitanya.response.FoodItemResponse;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

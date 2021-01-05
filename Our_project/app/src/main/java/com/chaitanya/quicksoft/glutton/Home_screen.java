@@ -194,7 +194,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
     private void getRestaurants() {
 
-        activityHomeScreenBinding.getHomescreenviewmodel().gethomerestrntsdata(1).observe(this, new Observer<HomeResponse>() {
+        ahomeScreenViewModel.gethomerestrntsdata(1).observe(this, new Observer<HomeResponse>() {
             @Override
             public void onChanged(HomeResponse homeResponse) {
 
