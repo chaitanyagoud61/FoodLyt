@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class Food_Item_Adapter extends RecyclerView.Adapter<Food_Item_Adapter.Fo
 
         holder.item_price.setText(model_list.get(position).getPrice());
         holder.food_name.setText(model_list.get(position).getFood_name());
-        Picasso.with(context).load(model_list.get(position).getFood_image()).into(holder.rstrnt_food_image);
+        Glide.with(context).load(model_list.get(position).getFood_image()).into(holder.rstrnt_food_image);
         holder.add_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

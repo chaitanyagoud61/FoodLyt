@@ -3,6 +3,7 @@ package com.chaitanya.quicksoft.glutton.retrofit;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.chaitanya.response.AppversionResponse;
 import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemResponse;
@@ -11,6 +12,7 @@ import com.chaitanya.response.GstResponse;
 import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
 import com.chaitanya.response.Orderlistresp;
+import com.chaitanya.response.OrderstatusResp;
 import com.chaitanya.response.SignResponse;
 import com.google.gson.JsonObject;
 
@@ -142,6 +144,29 @@ public class ApiManager {
         });
 
     }
+
+    public void getAppversionDetails(final ResponseCallBack<AppversionResponse> callBack){
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<AppversionResponse> response=apiService.getversion();
+
+        response.enqueue(new Callback<AppversionResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<AppversionResponse> call, @NotNull Response<AppversionResponse> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<AppversionResponse> call, Throwable t) {
+                callBack.onError("");
+            }
+        });
+
+    }
+
     public void getViewcartfooditemsstatus(JsonObject jsonObject, final ResponseCallBack<AvailabilityResponse> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
@@ -228,14 +253,14 @@ public class ApiManager {
         });
 
     }
-    public void getOrderStatusDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
+    public void getOrderStatusDetails(JsonObject jsonObject, final ResponseCallBack<OrderstatusResp> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
-        Call<String> response=apiService.getorderstatus(jsonObject);
+        Call<OrderstatusResp> response=apiService.getorderstatus(jsonObject);
 
-        response.enqueue(new Callback<String>() {
+        response.enqueue(new Callback<OrderstatusResp>() {
             @Override
-            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+            public void onResponse(@NotNull Call<OrderstatusResp> call, @NotNull Response<OrderstatusResp> response) {
                 if(response.isSuccessful() && response.body()!=null)
                 {
                     callBack.onResponse(response.body());
@@ -243,7 +268,7 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(@NotNull Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<OrderstatusResp> call, Throwable t) {
                 callBack.onError("");
             }
         });

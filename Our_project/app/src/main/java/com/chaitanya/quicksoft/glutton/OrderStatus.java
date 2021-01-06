@@ -10,6 +10,11 @@ import android.os.Bundle;
 
 import com.chaitanya.quicksoft.glutton.databinding.ActivityOrderStatusBinding;
 import com.chaitanya.quicksoft.glutton.viewModels.OrderStatusViewModel;
+import com.chaitanya.response.FooddetailsItem;
+import com.chaitanya.response.OrderstatusResp;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderStatus extends AppCompatActivity {
 
@@ -18,9 +23,13 @@ public class OrderStatus extends AppCompatActivity {
             order_price="",order_list_food_name_nd_qnty="",
             order_date_nd_time="";
     String orderId="";
+    Orderstatuslocalmodel orderstatuslocalmodel;
+    List<Orderstatuslocalmodel> orderstatuslocalmodelList = new ArrayList<>();
+    List<FooddetailsItem> fooddetailsItemslist = new ArrayList<>();
 
     ActivityOrderStatusBinding activityOrderStatusBinding;
     OrderStatusViewModel orderStatusViewModel;
+    OrderStatusAdapter orderStatusAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +40,7 @@ public class OrderStatus extends AppCompatActivity {
         activityOrderStatusBinding.setLifecycleOwner(this);
         activityOrderStatusBinding.setOrderstatusviewmodel(orderStatusViewModel);
         Intent intent= getIntent();
-        intent.getStringExtra("OrderId");
+        orderId = intent.getStringExtra("OrderId");
         orderStatusViewModel.rest_name.set(intent.getStringExtra("restaurant_name")!=null && intent.getStringExtra("restaurant_name").length()>0?
                 intent.getStringExtra("restaurant_name"):"");
         orderStatusViewModel.rest_address.set(intent.getStringExtra("restaurant_address")!=null && intent.getStringExtra("restaurant_address").length()>0?
@@ -42,9 +51,22 @@ public class OrderStatus extends AppCompatActivity {
                 intent.getStringExtra("order_date_nd_time"):"");
 
 
-        orderStatusViewModel.getOrderStatusData(orderId).observe(this, new Observer<String>() {
+        orderStatusViewModel.getOrderStatusData(orderId).observe(this, new Observer<OrderstatusResp>() {
             @Override
-            public void onChanged(String s) {
+            public void onChanged(OrderstatusResp s) {
+
+                orderStatusViewModel.isfoodprepared.set(s.Isfoodprepared());
+                orderStatusViewModel.Delivered.set(s.Delivered());
+                orderStatusViewModel.Dispatched.set(s.Dispatched());
+                fooddetailsItemslist = s.getFooddetails();
+                for (FooddetailsItem food:fooddetailsItemslist) {
+                    orderstatuslocalmodel = new Orderstatuslocalmodel(food.getName(),food.getPrice(),food.getQuantity()!=null?food.getQuantity():"" );
+                    orderstatuslocalmodelList.add(orderstatuslocalmodel);
+                }
+                orderStatusAdapter = new OrderStatusAdapter(OrderStatus.this,orderstatuslocalmodelList);
+                activityOrderStatusBinding.orderstatusRecylr.setAdapter(orderStatusAdapter);
+
+                
 
             }
         });

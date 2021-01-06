@@ -1,5 +1,6 @@
 package com.chaitanya.quicksoft.glutton.retrofit;
 
+import com.chaitanya.response.AppversionResponse;
 import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemResponse;
@@ -8,11 +9,13 @@ import com.chaitanya.response.GstResponse;
 import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
 import com.chaitanya.response.Orderlistresp;
+import com.chaitanya.response.OrderstatusResp;
 import com.chaitanya.response.SignResponse;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -29,6 +32,10 @@ public interface ApiService {
     @POST("getfooditems")
     Call<FoodItemResponse> FoodItems(@Body JsonObject jsonObject);
 
+    @GET("getversion")
+    Call<AppversionResponse> getversion();
+
+
     @POST("getavailability")
     Call<AvailabilityResponse> View_Cart_items_status(@Body JsonObject jsonObject);
 
@@ -39,7 +46,7 @@ public interface ApiService {
     Call<SignResponse> Registration_response(@Body JsonObject jsonObject);
 
     @POST("orderstatus")
-    Call<String> getorderstatus(@Body JsonObject jsonObject);
+    Call<OrderstatusResp> getorderstatus(@Body JsonObject jsonObject);
 
 
     @POST("getorders")

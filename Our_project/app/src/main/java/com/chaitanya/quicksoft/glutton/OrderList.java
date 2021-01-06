@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.chaitanya.quicksoft.glutton.databinding.ActivityOrderListBinding;
@@ -21,7 +22,7 @@ import com.chaitanya.response.Orderlistresp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderList extends AppCompatActivity implements NetworkResponseInterface,OrderClickListner{
+public class OrderList extends AppCompatActivity implements NetworkResponseInterface, OrderClickListner {
 
     ActivityOrderListBinding activityOrderListBinding;
     OrderListViewModel orderListViewModel;
@@ -30,8 +31,8 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
     ConnectivityManager connectivityManager;
     OrderListModel orderListModel;
     List<OrderListModel> orderListModelArrayList = new ArrayList<>();
-    int user_id=0;
-    String name="",email="",address="",mobile="";
+    int user_id = 0;
+    String name = "", email = "", address = "", mobile = "";
     OrderListAdapter orderListAdapter;
     List<OrderlistItem> orderlistItem = new ArrayList<>();
     OrderClickListner orderClickListner;
@@ -41,7 +42,7 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         orderListViewModel = ViewModelProviders.of(this).get(OrderListViewModel.class);
-        activityOrderListBinding = DataBindingUtil.setContentView(this,R.layout.activity_order_list);
+        activityOrderListBinding = DataBindingUtil.setContentView(this, R.layout.activity_order_list);
 
         getProfileDataFromDatabase();
         activityOrderListBinding.setLifecycleOwner(this);
@@ -55,9 +56,9 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
     @Override
     public void IsConnected(Boolean isconnected, int calling_request_from) {
 
-        if(isconnected){
+        if (isconnected) {
 
-            switch (calling_request_from){
+            switch (calling_request_from) {
 
                 case Glutton_Constants.LOADTOTALORDERS:
 
@@ -66,9 +67,9 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
                     break;
             }
 
-        }else {
+        } else {
 
-            Toast.makeText(getApplicationContext(),"Please Enable internet",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please Enable internet", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -101,7 +102,7 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
         getUserprofileData.execute();
     }
 
-    public void gettotalorders(){
+    public void gettotalorders() {
 
 
         orderListViewModel.getOrder_list_data(user_id).observe(this, new Observer<Orderlistresp>() {
@@ -109,15 +110,16 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
             public void onChanged(Orderlistresp s) {
 
                 orderlistItem = s.getOrderlist();
+                for (OrderlistItem orderItem : orderlistItem) {
 
-                for (OrderlistItem orderItem: orderlistItem) {
-
-                    orderListModel = new OrderListModel(orderItem.getRestName(),orderItem.getRestAddress(),
-                            String.valueOf(orderItem.getTotalPrice()), String.valueOf(orderItem.getFdItemCount()),orderItem.getDateTime(), orderItem.isDelivered(),orderItem.isInprogress(),orderItem.getOrderid());
+                    orderListModel = new OrderListModel(orderItem.getRestName(), orderItem.getRestAddress(),
+                            String.valueOf(orderItem.getTotalPrice()), String.valueOf(orderItem.getFdItemCount()), orderItem.getDateTime(), orderItem.isDelivered(), orderItem.isInprogress(), orderItem.getOrderid());
                     orderListModelArrayList.add(orderListModel);
                 }
-
-                orderListAdapter = new OrderListAdapter(OrderList.this,orderListModelArrayList,OrderList.this);
+                if (orderListModelArrayList.size() > 0) {
+                    activityOrderListBinding.emptyLnr.setVisibility(View.GONE);
+                }
+                orderListAdapter = new OrderListAdapter(OrderList.this, orderListModelArrayList, OrderList.this);
                 activityOrderListBinding.orderlistRcylr.setAdapter(orderListAdapter);
 
             }
@@ -142,12 +144,12 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
     @Override
     public void getselectedorder(OrderListModel orderListModel) {
 
-        Intent intent = new Intent(OrderList.this,OrderStatus.class);
-        intent.putExtra("OrderId",orderListModel.getOrderId());
-        intent.putExtra("restaurant_name",orderListModel.getRestaurant_name());
-        intent.putExtra("restaurant_address",orderListModel.getRestaurant_address());
-        intent.putExtra("order_price","Rs. "+orderListModel.getOrder_price());
-        intent.putExtra("order_date_nd_time",orderListModel.getOrder_date_nd_time());
+        Intent intent = new Intent(OrderList.this, OrderStatus.class);
+        intent.putExtra("OrderId", orderListModel.getOrderId());
+        intent.putExtra("restaurant_name", orderListModel.getRestaurant_name());
+        intent.putExtra("restaurant_address", orderListModel.getRestaurant_address());
+        intent.putExtra("order_price", "Rs. " + orderListModel.getOrder_price());
+        intent.putExtra("order_date_nd_time", orderListModel.getOrder_date_nd_time());
         startActivity(intent);
     }
 }

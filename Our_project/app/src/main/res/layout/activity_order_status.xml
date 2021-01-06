@@ -6,6 +6,7 @@
         <variable
             name="orderstatusviewmodel"
             type="com.chaitanya.quicksoft.glutton.viewModels.OrderStatusViewModel"/>
+        <import type="android.view.View"></import>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -161,8 +162,8 @@
                                         android:orientation="horizontal">
 
                                         <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
                                             android:src="@drawable/ic_tick"></ImageView>
 
                                         <TextView
@@ -172,7 +173,7 @@
                                             android:text="Order placed"
                                             android:textAlignment="center"
                                             android:layout_gravity="center"
-                                            android:textSize="@dimen/_13sdp"
+                                            android:textSize="@dimen/_12sdp"
                                             android:textStyle="bold">
 
                                         </TextView>
@@ -186,9 +187,10 @@
                                         android:orientation="horizontal">
 
                                         <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:src="@drawable/ic_tick"></ImageView>
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:src="@{orderstatusviewmodel.isfoodprepared ? @drawable/ic_tick :@drawable/ic_workflow}"
+                                            tools:src="@mipmap/ic_launcher"></ImageView>
 
                                         <TextView
                                             android:id="@+id/is_food_prepared"
@@ -197,7 +199,7 @@
                                             android:text="Food is being prepared"
                                             android:textAlignment="center"
                                             android:layout_gravity="center"
-                                            android:textSize="@dimen/_13sdp"
+                                            android:textSize="@dimen/_12sdp"
                                             android:textStyle="bold">
 
                                         </TextView>
@@ -227,9 +229,10 @@
                                         android:orientation="horizontal">
 
                                         <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:src="@drawable/ic_tick"></ImageView>
+                                            android:layout_width="@dimen/_25sdp"
+                                            android:layout_height="@dimen/_25sdp"
+                                            android:src="@{orderstatusviewmodel.Dispatched ? @drawable/ic_tick :@drawable/ic_workflow}"
+                                            tools:src="@mipmap/ic_launcher"></ImageView>
 
                                         <TextView
                                             android:id="@+id/order_dispatch"
@@ -238,7 +241,7 @@
                                             android:text="Order dispatched"
                                             android:textAlignment="center"
                                             android:layout_gravity="center"
-                                            android:textSize="@dimen/_13sdp"
+                                            android:textSize="@dimen/_12sdp"
                                             android:textStyle="bold"/>
 
                                     </LinearLayout>
@@ -252,9 +255,10 @@
 
 
                                         <ImageView
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="@dimen/_25sdp"
                                             android:layout_height="wrap_content"
-                                            android:src="@drawable/ic_workflow"></ImageView>
+                                            android:src="@{orderstatusviewmodel.Delivered ? @drawable/ic_tick :@drawable/ic_workflow}"
+                                            tools:src="@mipmap/ic_launcher"></ImageView>
 
                                         <TextView
                                             android:id="@+id/order_delivered"
@@ -263,7 +267,7 @@
                                             android:text="Order Delivered"
                                             android:textAlignment="center"
                                             android:layout_gravity="center"
-                                            android:textSize="@dimen/_13sdp"
+                                            android:textSize="@dimen/_12sdp"
                                             android:textStyle="bold"/>
 
                                     </LinearLayout>
@@ -321,7 +325,9 @@
                             android:background="@drawable/dotted_line"></View>
 
                         <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/orderstatus_recylr"
                             android:layout_width="match_parent"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                             android:layout_height="wrap_content">
 
                         </androidx.recyclerview.widget.RecyclerView>

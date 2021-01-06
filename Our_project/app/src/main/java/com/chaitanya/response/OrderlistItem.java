@@ -8,7 +8,7 @@ public class OrderlistItem{
 	private String restAddress;
 
 	@SerializedName("total_price")
-	private int totalPrice;
+	private double totalPrice;
 
 	@SerializedName("date_time")
 	private String dateTime;
@@ -32,7 +32,7 @@ public class OrderlistItem{
 		return restAddress;
 	}
 
-	public int getTotalPrice(){
+	public double getTotalPrice(){
 		return totalPrice;
 	}
 

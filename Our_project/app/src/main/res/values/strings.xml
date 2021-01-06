@@ -33,4 +33,6 @@
     <string name="Goback"><u> Go back </u></string>
     <string name="name">Name :  %s</string>
     <string name="mobilenum">Phone number :  %s</string>
+    <string name="dialog_message">Updates are available please update .</string>
+    <string name="dialog_title">FoodLyt need to be updated</string>
 </resources>
