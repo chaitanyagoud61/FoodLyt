@@ -212,7 +212,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                         activityViewCartBinding.viewcartstatuscontentAval.setVisibility(View.VISIBLE);
                         activityViewCartBinding.viewcartstatuscontentUnaval.setVisibility(View.GONE);
                         activityViewCartBinding.startPayment.setVisibility(View.VISIBLE);
-                        activityViewCartBinding.viewcartpayoncash.setVisibility(View.VISIBLE);
+                        //activityViewCartBinding.viewcartpayoncash.setVisibility(View.VISIBLE);
                         if(!mode.isEmpty() && mode.equalsIgnoreCase("online")){
                             startPayment();
                         }else if(!mode.isEmpty() && mode.equalsIgnoreCase("cod")){
@@ -354,7 +354,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         }
         order_placement_jsonObject.add("food_items", order_placement_jsonarray);
         order_placement_jsonObject.addProperty("Total_price", String.valueOf(Integer.valueOf(intial_amount)));
-        order_placement_jsonObject.addProperty("paymentmode", "online");
+        order_placement_jsonObject.addProperty("paymentmode", "COD");
         order_placement_jsonObject.addProperty("city_id", 1);
         order_placement_jsonObject.addProperty("address", activityViewCartBinding.finalEdtLctn.getText().toString());
 
@@ -465,18 +465,18 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
                 case Glutton_Constants.PAYMENT_TRANSCATION:
 
-                    getFoodAvldStatusforPay("online");
+                    getFoodAvldStatusforPay("Cod");
 
                     break;
 
                 case Glutton_Constants.ORDERTOSERVERAFTERSUCCESSFULLTRANSCATION:
 
-                    startordertoserver("online");
+                    //startordertoserver("online");
                     break;
 
                 case Glutton_Constants.CASHONDELIVERY:
 
-                    getFoodAvldStatusforPay("Cod");
+                   // getFoodAvldStatusforPay("Cod");
                     break;
             }
 

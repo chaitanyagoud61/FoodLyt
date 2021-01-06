@@ -468,6 +468,7 @@
 
                 <LinearLayout
                     android:id="@+id/viewcartpayoncash"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -666,7 +667,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_2sdp"
                             android:background="@drawable/proceed_to_pay_bg"
-                            android:text="Proceed to pay"
+                            android:text="Proceed to pay | COD"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp"
                             android:textStyle="bold">
