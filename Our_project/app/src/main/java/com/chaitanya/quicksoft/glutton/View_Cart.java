@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -267,7 +268,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             order_placement_jsonarray.add(order_placement_food_items_jsonObject);
         }
         order_placement_jsonObject.add("food_items", order_placement_jsonarray);
-        order_placement_jsonObject.addProperty("Total_price", String.valueOf(Integer.valueOf(intial_amount) + Integer.valueOf(delivery_fee)));
+        order_placement_jsonObject.addProperty("Total_price", String.valueOf(Integer.valueOf(gst) +Integer.valueOf(intial_amount) + Integer.valueOf(delivery_fee)));
         order_placement_jsonObject.addProperty("paymentmode", payment_mode);
         order_placement_jsonObject.addProperty("address", activityViewCartBinding.finalEdtLctn.getText().toString());
 
@@ -276,6 +277,9 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             public void onChanged(FinalOrderResponse s) {
 
                 if (!s.getStatus().isEmpty()) {
+
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    activityViewCartBinding.pytmprogress.setVisibility(View.GONE);
 
                     Intent intent = new Intent(View_Cart.this, OrderList.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -465,6 +469,8 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
                 case Glutton_Constants.PAYMENT_TRANSCATION:
 
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    activityViewCartBinding.pytmprogress.setVisibility(View.VISIBLE);
                     getFoodAvldStatusforPay("Cod");
 
                     break;

@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaitanya.quicksoft.glutton.databinding.ActivityFoodItemsBinding;
@@ -101,118 +104,148 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
     }
 
     @Override
-    public void add_selected_food_item_click(String selected_item_price, String itemId, int quantity,String item_name) {
+    public void add_selected_food_item_click(String selected_item_price, String itemId, int quantity, String item_name) {
 
         if (!total_price.isEmpty() && !selected_item_price.isEmpty()) {
-            String selected_quantity="",selected_food_item="";
+            String selected_quantity = "", selected_food_item = "";
             total_price = String.valueOf(Integer.valueOf(total_price) + Integer.valueOf(selected_item_price));
             if (selectd_food_item_qntity != null && selectd_food_item_qntity.containsKey(itemId)) {
                 String previous_qntity_and_name = selectd_food_item_qntity.get(itemId);
-                String []selected_data = previous_qntity_and_name.split("~");
+                String[] selected_data = previous_qntity_and_name.split("~");
                 selected_food_item = selected_data[0];
                 selected_quantity = selected_data[1];
                 selected_quantity = String.valueOf(quantity);
-                previous_qntity_and_name = selected_food_item+"~"+selected_quantity;
+                previous_qntity_and_name = selected_food_item + "~" + selected_quantity;
                 selectd_food_item_qntity.put(itemId, previous_qntity_and_name);
 
 
             } else if (selectd_food_item_qntity != null && !selectd_food_item_qntity.containsKey(itemId)) {
 
-                selectd_food_item_qntity.put(itemId,item_name+"~"+quantity);
+                selectd_food_item_qntity.put(itemId, item_name + "~" + quantity);
             }
         }
-        snackbar = Snackbar
-                .make(activityFoodItemsBinding.foodItemCoordnteLyt, total_price, snackbar.LENGTH_LONG)
-                .setDuration(70000)
-                .setAction("VIEW CART", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
 
-                        final_selected_food_item_qntity = new HashMap<>();
-                        Set<String> keys = selectd_food_item_qntity.keySet();
-                        for (String key : keys) {
-                            String selected_quantity="",selected_food_item="";
-                            String previous_qntity_and_name = selectd_food_item_qntity.get(key);
-                            String []selected_data = previous_qntity_and_name.split("~");
-                            selected_food_item = selected_data[0];
-                            selected_quantity = selected_data[1];
-                            int item_qnty = Integer.valueOf(selected_quantity);
-                            if (item_qnty != 0 && item_qnty > 0) {
-                                final_selected_food_item_qntity.put(key, previous_qntity_and_name);
-                            }
-                        }
+        final Snackbar snackbar = Snackbar.make(activityFoodItemsBinding.foodItemCoordnteLyt, "", Snackbar.LENGTH_LONG);
 
-                        if(final_selected_food_item_qntity.size()!=0 && final_selected_food_item_qntity.size()>0){
+        View customSnackView = getLayoutInflater().inflate(R.layout.customsnackbar, null);
+        snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+        snackbarLayout.setPadding(0, 0, 0, 0);
 
-                            Intent intent = new Intent(Food_Items.this, View_Cart.class);
-                            intent.putExtra("map", final_selected_food_item_qntity);
-                            intent.putExtra("selected_restrnt", selected_restrnt);
-                            intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
-                            intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
-                            intent.putExtra("intial_amount", total_price);
-                            startActivity(intent);
+        Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
+        TextView price_txt = customSnackView.findViewById(R.id.snckbr_price);
+        price_txt.setText(String.valueOf("₹ "+total_price));
 
-                        }
+        bGotoWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final_selected_food_item_qntity = new HashMap<>();
+                Set<String> keys = selectd_food_item_qntity.keySet();
+                for (String key : keys) {
+                    String selected_quantity = "", selected_food_item = "";
+                    String previous_qntity_and_name = selectd_food_item_qntity.get(key);
+                    String[] selected_data = previous_qntity_and_name.split("~");
+                    selected_food_item = selected_data[0];
+                    selected_quantity = selected_data[1];
+                    int item_qnty = Integer.valueOf(selected_quantity);
+                    if (item_qnty != 0 && item_qnty > 0) {
+                        final_selected_food_item_qntity.put(key, previous_qntity_and_name);
                     }
-                });
+                }
+
+                if (final_selected_food_item_qntity.size() != 0 && final_selected_food_item_qntity.size() > 0) {
+
+                    Intent intent = new Intent(Food_Items.this, View_Cart.class);
+                    intent.putExtra("map", final_selected_food_item_qntity);
+                    intent.putExtra("selected_restrnt", selected_restrnt);
+                    intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
+                    intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
+                    intent.putExtra("intial_amount", total_price);
+                    startActivity(intent);
+
+                }
+
+            }
+        });
+
+
+        snackbarLayout.addView(customSnackView, 0);
 
         snackbar.show();
     }
 
 
     @Override
-    public void minus_selected_food_item_click(String selected_item_price, String itemId, int quantity,String item_name) {
+    public void minus_selected_food_item_click(String selected_item_price, String itemId, int quantity, String item_name) {
 
         if (!total_price.isEmpty() && !selected_item_price.isEmpty()) {
-            String selected_quantity="",selected_food_item="";
+            String selected_quantity = "", selected_food_item = "";
             total_price = String.valueOf(Integer.valueOf(total_price) - Integer.valueOf(selected_item_price));
             if (selectd_food_item_qntity != null && selectd_food_item_qntity.containsKey(itemId)) {
                 String previous_qntity_and_name = selectd_food_item_qntity.get(itemId);
-                String []selected_data = previous_qntity_and_name.split("~");
+                String[] selected_data = previous_qntity_and_name.split("~");
                 selected_food_item = selected_data[0];
                 selected_quantity = selected_data[1];
                 selected_quantity = String.valueOf(quantity);
-                previous_qntity_and_name = selected_food_item+"~"+selected_quantity;
+                previous_qntity_and_name = selected_food_item + "~" + selected_quantity;
                 selectd_food_item_qntity.put(itemId, previous_qntity_and_name);
 
             } else if (selectd_food_item_qntity != null && !selectd_food_item_qntity.containsKey(itemId)) {
 
-                selectd_food_item_qntity.put(itemId, item_name+"~"+quantity);
+                selectd_food_item_qntity.put(itemId, item_name + "~" + quantity);
 
             }
-            snackbar = Snackbar
-                    .make(activityFoodItemsBinding.foodItemCoordnteLyt, total_price, snackbar.LENGTH_LONG)
-                    .setDuration(70000)
-                    .setAction("VIEW CART", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            final_selected_food_item_qntity = new HashMap<>();
-                            Set<String> keys = selectd_food_item_qntity.keySet();
-                            for (String key : keys) {
-                                String selected_quantity="",selected_food_item="";
-                                String previous_qntity_and_name = selectd_food_item_qntity.get(key);
-                                String []selected_data = previous_qntity_and_name.split("~");
-                                selected_food_item = selected_data[0];
-                                selected_quantity = selected_data[1];
-                                int item_qnty = Integer.valueOf(selected_quantity);
-                                if (item_qnty != 0 && item_qnty > 0) {
-                                    final_selected_food_item_qntity.put(key, previous_qntity_and_name);
-                                }
-                            }
-                            if(final_selected_food_item_qntity.size()!=0 && final_selected_food_item_qntity.size()>0){
 
-                                Intent intent = new Intent(Food_Items.this, View_Cart.class);
-                                intent.putExtra("map", final_selected_food_item_qntity);
-                                intent.putExtra("selected_restrnt", selected_restrnt);
-                                intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
-                                intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
-                                intent.putExtra("intial_amount", total_price);
-                                startActivity(intent);
-                            }
+
+            final Snackbar snackbar = Snackbar.make(activityFoodItemsBinding.foodItemCoordnteLyt, "", Snackbar.LENGTH_LONG);
+
+            View customSnackView = getLayoutInflater().inflate(R.layout.customsnackbar, null);
+            snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+            Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+            snackbarLayout.setPadding(0, 0, 0, 0);
+
+            Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
+            TextView price_txt = customSnackView.findViewById(R.id.snckbr_price);
+            price_txt.setText(String.valueOf("₹ "+total_price));
+
+            bGotoWebsite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    final_selected_food_item_qntity = new HashMap<>();
+                    Set<String> keys = selectd_food_item_qntity.keySet();
+                    for (String key : keys) {
+                        String selected_quantity = "", selected_food_item = "";
+                        String previous_qntity_and_name = selectd_food_item_qntity.get(key);
+                        String[] selected_data = previous_qntity_and_name.split("~");
+                        selected_food_item = selected_data[0];
+                        selected_quantity = selected_data[1];
+                        int item_qnty = Integer.valueOf(selected_quantity);
+                        if (item_qnty != 0 && item_qnty > 0) {
+                            final_selected_food_item_qntity.put(key, previous_qntity_and_name);
                         }
-                    });
+                    }
+                    if (final_selected_food_item_qntity.size() != 0 && final_selected_food_item_qntity.size() > 0) {
+
+                        Intent intent = new Intent(Food_Items.this, View_Cart.class);
+                        intent.putExtra("map", final_selected_food_item_qntity);
+                        intent.putExtra("selected_restrnt", selected_restrnt);
+                        intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
+                        intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
+                        intent.putExtra("intial_amount", total_price);
+                        startActivity(intent);
+                    }
+
+                }
+            });
+
+
+            snackbarLayout.addView(customSnackView, 0);
 
             snackbar.show();
+
+
         }
 
     }
@@ -231,8 +264,8 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
 
             }
 
-        }else {
-            Toast.makeText(getApplicationContext(),"Please Enable internet",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please Enable internet", Toast.LENGTH_LONG).show();
         }
 
     }
