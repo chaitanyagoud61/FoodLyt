@@ -29,7 +29,7 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-    <string name="Sign_in"><u> Sign In</u></string>
+    <string name="Sign_up"><u> Sign up</u></string>
     <string name="Login"><u> Login</u></string>
     <string name="Goback"><u> Go back </u></string>
     <string name="name">Name :  %s</string>

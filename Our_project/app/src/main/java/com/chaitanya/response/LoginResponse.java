@@ -19,6 +19,13 @@ public class LoginResponse{
 	@SerializedName("email")
 	private String email;
 
+	public String getStatus() {
+		return status;
+	}
+
+	@SerializedName("status")
+	private String status;
+
 	public String getAddress(){
 		return address;
 	}

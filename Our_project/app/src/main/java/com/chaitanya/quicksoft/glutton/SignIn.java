@@ -98,8 +98,7 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
             @Override
             public void onChanged(SignResponse s) {
 
-                int id = s.getId();
-                if (id != 0) {
+                if (s.getStatus().equalsIgnoreCase("success")) {
 
                     activitySignInBinding.signMainCrdvw.setVisibility(View.GONE);
                     activitySignInBinding.thnkBlink.setAnimation(animBlink);
@@ -116,7 +115,7 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
                     },2000);
 
                 }else {
-                    Toast.makeText(getApplicationContext(),"User Already Exists",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),s.getStatus(),Toast.LENGTH_LONG).show();
                 }
 
             }

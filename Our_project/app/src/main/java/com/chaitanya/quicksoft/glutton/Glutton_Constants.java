@@ -12,4 +12,5 @@ public class Glutton_Constants {
     public static final int ORDERTOSERVERAFTERSUCCESSFULLTRANSCATION =007;
     public static final int LOADTOTALORDERS =8;
     public static final int CASHONDELIVERY =9;
+    public static final int LOCATION_REQUEST =10;
 }

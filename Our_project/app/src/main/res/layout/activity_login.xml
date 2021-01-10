@@ -176,13 +176,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_weight="1.2">
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:gravity="center"
-                    android:text=" Register for Login ! "
+                    android:textSize="@dimen/_13sdp"
+                    android:text=" New user ? "
+                    android:textStyle="bold"
                     android:textAlignment="viewEnd"></TextView>
 
             </LinearLayout>
@@ -191,16 +193,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_weight="0.8">
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:gravity="center"
-                    android:text="@string/Sign_in"
+                    android:text="@string/Sign_up"
                     android:textColor="@color/blue"
                     android:textStyle="bold"
-                    android:textSize="@dimen/_15sdp"
+                    android:textSize="@dimen/_16sdp"
                     android:textAlignment="viewStart"></TextView>
 
             </LinearLayout>

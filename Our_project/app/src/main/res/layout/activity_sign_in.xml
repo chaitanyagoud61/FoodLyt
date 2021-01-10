@@ -86,7 +86,7 @@
                         android:layout_above="@+id/alredy_have_accnt_lnr_lyt"
                         android:layout_margin="@dimen/_10sdp"
                         android:background="@drawable/btn_retry_bg"
-                        android:text="@string/Sign_in"
+                        android:text="@string/Sign_up"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12sdp" />
 
@@ -108,7 +108,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_30sdp"
                                 android:gravity="center"
-                                android:text="Alraedy have an account ? "
+                                android:text="Already have an account ? "
                                 android:textAlignment="viewEnd"></TextView>
 
                         </LinearLayout>

@@ -131,6 +131,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
         snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
         Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
         snackbarLayout.setPadding(0, 0, 0, 0);
+        snackbar.setDuration(60000);
 
         Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
         TextView price_txt = customSnackView.findViewById(R.id.snckbr_price);
