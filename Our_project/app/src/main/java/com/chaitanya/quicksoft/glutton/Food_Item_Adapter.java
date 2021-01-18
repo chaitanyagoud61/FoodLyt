@@ -75,6 +75,16 @@ public class Food_Item_Adapter extends RecyclerView.Adapter<Food_Item_Adapter.Fo
         return model_list.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
     public class Food_item_ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView food_avld_or_not,rstrnt_food_image;

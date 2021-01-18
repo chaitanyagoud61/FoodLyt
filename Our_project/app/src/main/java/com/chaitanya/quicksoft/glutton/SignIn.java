@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -100,6 +101,8 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
 
                 if (s.getStatus().equalsIgnoreCase("success")) {
 
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    activitySignInBinding.signprogress.setVisibility(View.GONE);
                     activitySignInBinding.signMainCrdvw.setVisibility(View.GONE);
                     activitySignInBinding.thnkBlink.setAnimation(animBlink);
                     activitySignInBinding.signMainThnkyuCrdvw.setVisibility(View.VISIBLE);
@@ -116,6 +119,8 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
 
                 }else {
                     Toast.makeText(getApplicationContext(),s.getStatus(),Toast.LENGTH_LONG).show();
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    activitySignInBinding.signprogress.setVisibility(View.GONE);
                 }
 
             }
@@ -141,6 +146,8 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
 
                 case Glutton_Constants.REGISTER:
 
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    activitySignInBinding.signprogress.setVisibility(View.VISIBLE);
                     SaveRegistartion();
 
                     break;

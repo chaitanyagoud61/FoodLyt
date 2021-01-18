@@ -83,12 +83,17 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
             @Override
             public void onClick(View v) {
 
-                if (!activityLoginBinding.etOtpNumber.getText().toString().isEmpty() &&
-                        activityLoginBinding.etOtpNumber.getText().toString().length() == 6) {
-                    otp = activityLoginBinding.etOtpNumber.getText().toString();
+                if (!activityLoginBinding.etOtpNumber.getText().toString().isEmpty()){
+                    if(activityLoginBinding.etOtpNumber.getText().toString().length() == 6) {
+                        otp = activityLoginBinding.etOtpNumber.getText().toString();
 
-                    networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, Login.this);
-                    networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.login);
+                        networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, Login.this);
+                        networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.login);
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Invalid OTP", Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(), "Enter OTP", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -205,7 +210,7 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
 
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         activityLoginBinding.loginprogress.setVisibility(View.GONE);
-                        if (s.getStatus().equalsIgnoreCase("success")) {
+                        /*if (s.getStatus().equalsIgnoreCase("success")) {*/
                             if (!s.getAddress().isEmpty() && !s.getName().isEmpty()) {
                                 address = s.getAddress();
                                 user_id = s.getId();
@@ -218,10 +223,10 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
                             } else {
                                 Toast.makeText(getApplicationContext(), "Invalid", Toast.LENGTH_LONG).show();
                             }
-                        } else {
+                     /*   } else {
                             Toast.makeText(getApplicationContext(), s.getStatus(), Toast.LENGTH_LONG).show();
 
-                        }
+                        }*/
                     }
                 }, 2000);
             }
