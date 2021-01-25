@@ -81,12 +81,19 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         activityViewCartBinding.setLifecycleOwner(this);
         activityViewCartBinding.setViewCartModelView(view_cart_modelView);
 
-        getProfileDataFromDatabase();
         Intent intent = getIntent();
         cart_hashMap = (HashMap<String, String>) intent.getSerializableExtra("map");
         selected_restrnt = intent.getStringExtra("selected_restrnt");
         restaurant_address = intent.getStringExtra("restaurant_address");
         selected_restrnt_id = intent.getStringExtra("selected_restrnt_id");
+
+        name = intent.getStringExtra("name");
+        address = intent.getStringExtra("address");
+        mobile = intent.getStringExtra("mobile");
+        email = intent.getStringExtra("email");
+        user_id = intent.getIntExtra("user_id",0);
+
+        view_cart_modelView.addressObservable.set(address);
 
         intial_amount = intent.getStringExtra("intial_amount") != null && !intent.getStringExtra("intial_amount").isEmpty() ?
                 intent.getStringExtra("intial_amount") : "0";
@@ -339,8 +346,6 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         order_placement_jsonObject = new JsonObject();
         order_placement_jsonarray = new JsonArray();
         order_placement_jsonObject.addProperty("user_id", user_id);
-        order_placement_jsonObject.addProperty("payment_id", payment_id);
-        order_placement_jsonObject.addProperty("transaction_id", payment_order_id);
         order_placement_jsonObject.addProperty("rest_id", Integer.valueOf(selected_restrnt_id));
 
         Set<String> cart_keys = cart_hashMap.keySet();
@@ -358,11 +363,9 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         }
         order_placement_jsonObject.add("food_items", order_placement_jsonarray);
         order_placement_jsonObject.addProperty("Total_price", String.valueOf(Integer.valueOf(intial_amount)));
-        order_placement_jsonObject.addProperty("paymentmode", "COD");
         order_placement_jsonObject.addProperty("city_id", 1);
-        order_placement_jsonObject.addProperty("address", activityViewCartBinding.finalEdtLctn.getText().toString());
 
-        view_cart_modelView.GetGStPrice_Dataresponse(order_placement_food_items_jsonObject).observe(this, new Observer<GstResponse>() {
+        view_cart_modelView.GetGStPrice_Dataresponse(order_placement_jsonObject).observe(this, new Observer<GstResponse>() {
             @Override
             public void onChanged(GstResponse gstResponse) {
 
@@ -415,33 +418,6 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         }
 
 
-    }
-
-    public void getProfileDataFromDatabase() {
-
-
-        class GetUserprofileData extends AsyncTask<Void, Void, LoginTable_entity> {
-
-            @Override
-            protected LoginTable_entity doInBackground(Void... voids) {
-
-                LoginTable_entity loginTable_entity = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().loginTableDao().getAll();
-                return loginTable_entity;
-            }
-
-            @Override
-            protected void onPostExecute(LoginTable_entity loginTable_entity) {
-                super.onPostExecute(loginTable_entity);
-                name = loginTable_entity.getUsername();
-                email = loginTable_entity.getEmail();
-                address = loginTable_entity.getAddress();
-                mobile = loginTable_entity.getMobilenumber();
-                user_id = loginTable_entity.getUserId();
-                view_cart_modelView.addressObservable.set(address);
-            }
-        }
-        GetUserprofileData getUserprofileData = new GetUserprofileData();
-        getUserprofileData.execute();
     }
 
     @Override

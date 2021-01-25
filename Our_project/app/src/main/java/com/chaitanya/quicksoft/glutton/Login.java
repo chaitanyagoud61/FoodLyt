@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 
@@ -23,7 +24,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -79,27 +83,65 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
 
             }
         });
+
+        activityLoginBinding.etOtpNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (activityLoginBinding.etOtpNumber.getText().toString().length() != 6) {
+                    final int sdk = android.os.Build.VERSION.SDK_INT;
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        activityLoginBinding.valdteOtp.setBackgroundDrawable(ContextCompat.getDrawable(Login.this, R.drawable.btn_retry_disenble));
+                        activityLoginBinding.valdteOtp.setEnabled(false);
+                    } else {
+                        activityLoginBinding.valdteOtp.setBackground(ContextCompat.getDrawable(Login.this, R.drawable.btn_retry_disenble));
+                        activityLoginBinding.valdteOtp.setEnabled(false);
+                    }
+                }else if(activityLoginBinding.etOtpNumber.getText().toString().length() == 6){
+                    final int sdk = android.os.Build.VERSION.SDK_INT;
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        activityLoginBinding.valdteOtp.setBackgroundDrawable(ContextCompat.getDrawable(Login.this, R.drawable.btn_retry_bg));
+                        activityLoginBinding.valdteOtp.setEnabled(true);
+                    } else {
+                        activityLoginBinding.valdteOtp.setBackground(ContextCompat.getDrawable(Login.this, R.drawable.btn_retry_bg));
+                        activityLoginBinding.valdteOtp.setEnabled(true);
+                    }
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         activityLoginBinding.valdteOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (!activityLoginBinding.etOtpNumber.getText().toString().isEmpty()){
-                    if(activityLoginBinding.etOtpNumber.getText().toString().length() == 6) {
+                if (!activityLoginBinding.etOtpNumber.getText().toString().isEmpty()) {
+                    if (activityLoginBinding.etOtpNumber.getText().toString().length() == 6) {
                         otp = activityLoginBinding.etOtpNumber.getText().toString();
 
                         networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, Login.this);
                         networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.login);
-                    }else {
+                    } else {
                         Toast.makeText(getApplicationContext(), "Invalid OTP", Toast.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Enter OTP", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
 
-        activityLoginBinding.registerLnrLyt.setOnClickListener(new View.OnClickListener() {
+        activityLoginBinding.signupbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -156,9 +198,10 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
                     Toast.makeText(getApplicationContext(), getotpresp.getStatus(), Toast.LENGTH_LONG).show();
                 }
             }
+
         });
 
-        loginViewModel.getErrorMessage().observe(this, new Observer<String>() {
+      /*  loginViewModel.getErrorMessage().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
 
@@ -167,7 +210,7 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 activityLoginBinding.loginprogress.setVisibility(View.GONE);
             }
-        });
+        });*/
 
     }
 
@@ -208,31 +251,35 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
                     @Override
                     public void run() {
 
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        activityLoginBinding.loginprogress.setVisibility(View.GONE);
-                        /*if (s.getStatus().equalsIgnoreCase("success")) {*/
-                            if (!s.getAddress().isEmpty() && !s.getName().isEmpty()) {
-                                address = s.getAddress();
-                                user_id = s.getId();
-                                user_name = s.getName();
-                                email = s.getEmail();
-                                saveData();
-                                Intent intent = new Intent(Login.this, Home_screen.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Invalid", Toast.LENGTH_LONG).show();
-                            }
-                     /*   } else {
-                            Toast.makeText(getApplicationContext(), s.getStatus(), Toast.LENGTH_LONG).show();
+                        try {
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            activityLoginBinding.loginprogress.setVisibility(View.GONE);
+                            /*if (s.getStatus() == null) {*/
+                                if (!s.getAddress().isEmpty() && !s.getName().isEmpty()) {
+                                    address = s.getAddress();
+                                    user_id = s.getId();
+                                    user_name = s.getName();
+                                    email = s.getEmail();
+                                    saveData();
+                                    Intent intent = new Intent(Login.this, Home_screen.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Invalid OTP ,Please check your otp again", Toast.LENGTH_LONG).show();
+                                }
+                           /* } else {
+                                Toast.makeText(getApplicationContext(), s.getStatus(), Toast.LENGTH_LONG).show();
 
-                        }*/
+                            }*/
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, 2000);
             }
         });
 
-        loginViewModel.getErrorMessage().observe(this, new Observer<String>() {
+     /*   loginViewModel.getErrorMessage().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
 
@@ -241,7 +288,7 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 activityLoginBinding.loginprogress.setVisibility(View.GONE);
             }
-        });
+        });*/
     }
 
     @Override

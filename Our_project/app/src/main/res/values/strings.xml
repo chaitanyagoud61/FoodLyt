@@ -29,11 +29,19 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-    <string name="Sign_up"><u> Sign up</u></string>
-    <string name="Login"><u> Login</u></string>
-    <string name="Goback"><u> Go back </u></string>
+    <string name="Sign_up"> Sign up</string>
+    <string name="Login"> Login</string>
+    <string name="Goback"> Go back </string>
     <string name="name">Name :  %s</string>
     <string name="mobilenum">Phone number :  %s</string>
     <string name="dialog_message">Updates are available please update .</string>
     <string name="dialog_title">FoodLyt need to be updated</string>
+    <string name="about"><br>We, Fooflyt team operating to </br>
+        <br>fil the gap between restaurants </br>
+        <br>and customers in tier-3 cities</br>
+    <br> by providing food </br>
+    <br> delivery services. </br>
+    <br>Right now we started </br>
+    <br>our services in Rajam, </br>
+    <br>Srikakulam District</br></string>
 </resources>

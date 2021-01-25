@@ -1,59 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout>
+
     <data>
 
         <variable
             name="foodItemViewmodel"
-            type="com.chaitanya.quicksoft.glutton.viewModels.Food_item_viewmodel"/>
+            type="com.chaitanya.quicksoft.glutton.viewModels.Food_item_viewmodel" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/food_item_coordnte_lyt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/food_item_coordnte_lyt"
         tools:context=".Food_Items">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/selected_restrnt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_2sdp"
-                android:fontFamily="@font/belgrano"
-                android:text="All Restaurants Nearby"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"></TextView>
-
-            <TextView
-                android:id="@+id/selected_restrnt_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_2sdp"
-                android:fontFamily="serif"
-                android:text="@{foodItemViewmodel.restaurantAddress.get()}"
-                android:textColor="@color/hash"
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="normal"/>.
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_2sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:background="@drawable/dotted_line"></View>
 
 
             <LinearLayout
@@ -65,56 +32,117 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/selected_restrnt_descrptn"
-                        android:layout_width="0dp"
+                        android:id="@+id/selected_restrnt"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_2sdp"
-                        android:layout_weight="1.5"
-                        android:text="Best biryani "
-                        android:textColor="@color/hash"
-                        android:textSize="@dimen/_10sdp"
-                        android:textStyle="normal"></TextView>
+                        android:fontFamily="@font/belgrano"
+                        android:text="All Restaurants Nearby"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold"></TextView>
 
                     <TextView
-                        android:visibility="gone"
-                        android:id="@+id/selected_restrnt_delvry_mins"
-                        android:layout_width="0dp"
+                        android:id="@+id/selected_restrnt_address"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_2sdp"
-                        android:layout_weight="1"
-                        android:text="Best biryani "
+                        android:fontFamily="serif"
+                        android:text="@{foodItemViewmodel.restaurantAddress.get()}"
                         android:textColor="@color/hash"
                         android:textSize="@dimen/_10sdp"
-                        android:textStyle="normal"></TextView>
+                        android:textStyle="normal" />.
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/dotted_line"></View>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_2sdp"
-                        android:layout_weight="0.5"
-                        android:text="Best biryani "
-                        android:textColor="@color/hash"
-                        android:textSize="@dimen/_10sdp"
-                        android:textStyle="normal"
-                        android:visibility="invisible"></TextView>
+                        android:layout_margin="@dimen/_5sdp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/selected_restrnt_descrptn"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:layout_weight="1.5"
+                                android:text="Best biryani "
+                                android:textColor="@color/hash"
+                                android:textSize="@dimen/_10sdp"
+                                android:textStyle="normal"></TextView>
+
+                            <TextView
+                                android:id="@+id/selected_restrnt_delvry_mins"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:layout_weight="1"
+                                android:text="Best biryani "
+                                android:textColor="@color/hash"
+                                android:textSize="@dimen/_10sdp"
+                                android:textStyle="normal"
+                                android:visibility="gone"></TextView>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:layout_weight="0.5"
+                                android:text="Best biryani "
+                                android:textColor="@color/hash"
+                                android:textSize="@dimen/_10sdp"
+                                android:textStyle="normal"
+                                android:visibility="invisible"></TextView>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/btn_retry_bg"
+                                android:layout_margin="@dimen/_5sdp"
+                                android:orientation="horizontal">
+
+                                <SearchView
+                                    android:id="@+id/food_search"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_30sdp"
+                                    android:focusable="false"
+                                    android:iconifiedByDefault="false"
+                                    android:queryBackground="@color/light_hash"
+                                    android:queryHint="Search by Food" />
+
+                            </LinearLayout>
 
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/food_item_recylr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
             </LinearLayout>
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/food_item_recylr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                android:layout_gravity="center">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

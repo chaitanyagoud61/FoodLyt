@@ -3,8 +3,10 @@ package com.chaitanya.quicksoft.glutton;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -52,14 +54,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Home_screen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,Home_CustomAdapter_Item_Click,NetworkResponseInterface {
+public class Home_screen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Home_CustomAdapter_Item_Click, NetworkResponseInterface {
 
     private AppBarConfiguration mAppBarConfiguration;
     SearchView Restrnt_search;
     private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    private static final Integer[] IMAGES= {R.drawable.one,R.drawable.two,R.drawable.three};
+    private static final Integer[] IMAGES = {R.drawable.one, R.drawable.two, R.drawable.three};
     private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
     VillageListRecyclerCustomAdapter villageListRecyclerCustomAdapter;
     RecyclerView home_recycler_view;
@@ -71,22 +73,27 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
     NetworkCheck networkCheck;
     NetworkResponseInterface networkResponseInterface;
     ConnectivityManager connectivityManager;
+    View headerview;
+    TextView headertxt;
+    Menu nav_Menu;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeScreenViewModel = ViewModelProviders.of(this).get(HomeScreenViewModel.class);
-        activityHomeScreenBinding = DataBindingUtil.setContentView(this,R.layout.activity_home_screen);
+        activityHomeScreenBinding = DataBindingUtil.setContentView(this, R.layout.activity_home_screen);
         activityHomeScreenBinding.setLifecycleOwner(this);
         activityHomeScreenBinding.setHomescreenviewmodel(homeScreenViewModel);
 
         networkResponseInterface = this;
+        getProfileDataFromDatabase();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -95,6 +102,21 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+
+        nav_Menu = navigationView.getMenu();
+
+        headerview = navigationView.getHeaderView(0);
+
+        String version = "";
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = pInfo.versionName;
+            nav_Menu.findItem(R.id.app_version).setTitle("App Version : " + version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Restrnt_search = findViewById(R.id.Restrnt_search);
         home_recycler_view = (RecyclerView) findViewById(R.id.home_recycler_view);
@@ -126,14 +148,40 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
     }
 
+    public void getProfileDataFromDatabase() {
+
+
+        class GetUserprofileData extends AsyncTask<Void, Void, LoginTable_entity> {
+
+            @Override
+            protected LoginTable_entity doInBackground(Void... voids) {
+
+                LoginTable_entity loginTable_entity = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().loginTableDao().getAll();
+                return loginTable_entity;
+            }
+
+            @Override
+            protected void onPostExecute(LoginTable_entity loginTable_entity) {
+                super.onPostExecute(loginTable_entity);
+                String name = loginTable_entity.getUsername();
+                headertxt = (TextView) headerview.findViewById(R.id.usrname);
+                headertxt.setText(name);
+
+
+            }
+        }
+        GetUserprofileData getUserprofileData = new GetUserprofileData();
+        getUserprofileData.execute();
+    }
+
     private void init() {
-        for(int i=0;i<IMAGES.length;i++)
+        for (int i = 0; i < IMAGES.length; i++)
             ImagesArray.add(IMAGES[i]);
 
         mPager = (ViewPager) findViewById(R.id.pager);
 
 
-        mPager.setAdapter(new SlidingImage_Adapter(Home_screen.this,ImagesArray));
+        mPager.setAdapter(new SlidingImage_Adapter(Home_screen.this, ImagesArray));
 
 
         CirclePageIndicator indicator = (CirclePageIndicator)
@@ -146,7 +194,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 //Set circle indicator radius
         indicator.setRadius(5 * density);
 
-        NUM_PAGES =IMAGES.length;
+        NUM_PAGES = IMAGES.length;
 
         // Auto start of viewpager
         final Handler handler = new Handler();
@@ -207,11 +255,11 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
                 recycler_model_list = new ArrayList<>();
                 restaurantsItems = homeResponse.getRestaurants();
-                if(restaurantsItems!=null) {
+                if (restaurantsItems != null) {
                     for (RestaurantsItem restaurantsItem : restaurantsItems) {
 
                         villageConfigCustomAdapterModel = new VillageConfigCustomAdapterModel(restaurantsItem.getName(),
-                                restaurantsItem.getAddress(), restaurantsItem.getImage(), restaurantsItem.getOffers(), restaurantsItem.getStatus(), restaurantsItem.getRestId(),restaurantsItem.getDescription());
+                                restaurantsItem.getAddress(), restaurantsItem.getImage(), restaurantsItem.getOffers(), restaurantsItem.getStatus(), restaurantsItem.getRestId(), restaurantsItem.getDescription());
                         recycler_model_list.add(villageConfigCustomAdapterModel);
                     }
                     villageListRecyclerCustomAdapter = new VillageListRecyclerCustomAdapter(Home_screen.this, recycler_model_list, Home_screen.this);
@@ -244,14 +292,14 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
             case R.id.MyOrders:
 
-                startActivity(new Intent(Home_screen.this,OrderList.class));
+                startActivity(new Intent(Home_screen.this, OrderList.class));
 
                 break;
 
             case R.id.logout:
 
 
-                class Logout extends AsyncTask<Void,Void,Void> {
+                class Logout extends AsyncTask<Void, Void, Void> {
 
                     @Override
                     protected Void doInBackground(Void... voids) {
@@ -264,7 +312,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
                     protected void onPostExecute(Void voids) {
                         super.onPostExecute(voids);
 
-                            finish();
+                        finish();
                     }
                 }
                 Logout logout = new Logout();
@@ -274,8 +322,31 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
             case R.id.Profile:
 
-                startActivity(new Intent(Home_screen.this,Profile.class));
+                startActivity(new Intent(Home_screen.this, Profile.class));
 
+                break;
+
+            case R.id.contact_us:
+
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:7032628705"));
+                startActivity(intent);
+
+                break;
+
+            case R.id.about_us:
+
+                startActivity(new Intent(Home_screen.this,About.class));
+
+                break;
+
+            case R.id.share:
+
+                Intent i=new Intent(android.content.Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject test");
+                i.putExtra(android.content.Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.chaitanya.quicksoft.glutton");
+                startActivity(Intent.createChooser(i,"Share via"));
                 break;
 
 
@@ -291,24 +362,24 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
     private void checkpermissions() {
 
 
-       if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED &&
-       ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-           ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
-                   Glutton_Constants.LOCATION_REQUEST);
-       }
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Glutton_Constants.LOCATION_REQUEST);
+        }
 
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == Glutton_Constants.LOCATION_REQUEST){
+        if (requestCode == Glutton_Constants.LOCATION_REQUEST) {
 
-            if(grantResults.length>0){
+            if (grantResults.length > 0) {
 
 
-            }else {
+            } else {
                 checkpermissions();
             }
 
@@ -316,15 +387,15 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
     }
 
     @Override
-    public void Village_List_Custom_Adapter_Item_click(String restaurant_name, String address, String Image, String offers,int restaurant_id,String restaurant_descrp) {
+    public void Village_List_Custom_Adapter_Item_click(String restaurant_name, String address, String Image, String offers, int restaurant_id, String restaurant_descrp) {
 
-        Intent selected_restrnt = new Intent(Home_screen.this,Food_Items.class);
-        selected_restrnt.putExtra("selected_restrnt",restaurant_name);
-        selected_restrnt.putExtra("selected_restrnt_id",restaurant_id);
-        selected_restrnt.putExtra("restaurant_address",address);
-        selected_restrnt.putExtra("restaurant_image",Image);
-        selected_restrnt.putExtra("restaurant_offer",offers);
-        selected_restrnt.putExtra("restaurant_descrp",restaurant_descrp);
+        Intent selected_restrnt = new Intent(Home_screen.this, Food_Items.class);
+        selected_restrnt.putExtra("selected_restrnt", restaurant_name);
+        selected_restrnt.putExtra("selected_restrnt_id", restaurant_id);
+        selected_restrnt.putExtra("restaurant_address", address);
+        selected_restrnt.putExtra("restaurant_image", Image);
+        selected_restrnt.putExtra("restaurant_offer", offers);
+        selected_restrnt.putExtra("restaurant_descrp", restaurant_descrp);
         startActivity(selected_restrnt);
 
     }
@@ -332,19 +403,19 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
     @Override
     public void IsConnected(Boolean isconnected, int calling_request_from) {
-        if(isconnected){
+        if (isconnected) {
 
-            switch (calling_request_from){
+            switch (calling_request_from) {
 
-                case Glutton_Constants.LOADRESTAURANTS :
+                case Glutton_Constants.LOADRESTAURANTS:
 
                     getRestaurants();
 
                     break;
 
             }
-        }else {
-            Toast.makeText(getApplicationContext(),"Please Enable internet",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please Enable internet", Toast.LENGTH_LONG).show();
         }
     }
 }

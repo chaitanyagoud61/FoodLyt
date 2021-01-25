@@ -34,6 +34,7 @@ public class LoginViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<LoginResponse> getLoginMutableLiveData(int userId, String otp) {
+        mutableLiveData = new MutableLiveData<>();
         JsonObject login_jsonObject = new JsonObject();
         login_jsonObject.addProperty("id", userId);
         login_jsonObject.addProperty("otp", otp);
@@ -49,10 +50,13 @@ public class LoginViewModel extends AndroidViewModel {
                 errorMessage.postValue(message);
             }
         });
+
         return mutableLiveData;
     }
 
     public MutableLiveData<Getotpresp> getotpdatamutable(String mobl_num) {
+
+        login_mutableLiveData = new MutableLiveData<>();
         JsonObject otp_jsonObject = new JsonObject();
         otp_jsonObject.addProperty("mobile",mobl_num);
 

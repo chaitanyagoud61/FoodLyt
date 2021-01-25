@@ -19,6 +19,7 @@ public class HomeScreenViewModel extends AndroidViewModel {
     Context context;
     private MutableLiveData<HomeResponse>
             home_mutableLiveData = new MutableLiveData<>();
+
     private MutableLiveData<String>
             errorMessage = new MutableLiveData<>();
 

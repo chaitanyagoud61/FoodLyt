@@ -112,6 +112,7 @@
                                 android:layout_height="@dimen/_30sdp"
                                 android:gravity="center"
                                 android:text="Already have an account ? "
+                                android:textSize="@dimen/_12sdp"
                                 android:textAlignment="viewEnd"></TextView>
 
                         </LinearLayout>
@@ -119,12 +120,11 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left"
                             android:layout_weight="0.8">
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
+                                android:layout_height="@dimen/_28sdp"
                                 android:gravity="center"
                                 android:text="@string/Login"
                                 android:textAlignment="viewStart"
@@ -176,6 +176,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
                                 android:text="@string/Enter_name"
+                                android:inputType="text"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_12sdp"
                                 android:textStyle="bold">
@@ -218,7 +219,7 @@
                                 android:layout_height="wrap_content"
                                 android:focusable="true"
                                 android:imeOptions="actionNext"
-                                android:inputType="text"
+                                android:inputType="textEmailAddress"
                                 android:padding="@dimen/_10sdp"
                                 android:textColor="@color/light_black"
                                 android:textSize="@dimen/_13sdp"
@@ -259,7 +260,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_margin="@dimen/_10sdp"
                             android:orientation="vertical">
 
                             <TextView
@@ -356,7 +357,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textStyle="normal"
-                                            android:text="Street name (OR) Area :"
+                                            android:text="Area :"
                                             android:textAlignment="center"
                                             android:textSize="@dimen/_10sdp">
 
@@ -405,7 +406,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textStyle="normal"
-                                            android:text="Near by :"
+                                            android:text="Landmark :"
                                             android:textAlignment="center"
                                             android:textSize="@dimen/_10sdp">
 

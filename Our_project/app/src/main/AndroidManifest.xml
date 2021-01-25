@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <supports-screens
         android:largeScreens="true"
@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Profile"></activity>
+        <activity android:name=".About"></activity>
+        <activity android:name=".Profile" />
         <activity android:name=".OrderStatus" />
         <activity android:name=".OrderList" />
         <activity android:name=".View_Cart" />
@@ -51,7 +52,8 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_slI9vuYjnvh2tN" />
-        <service android:name=".GpsService"/>
+
+        <service android:name=".GpsService" />
     </application>
 
 </manifest>

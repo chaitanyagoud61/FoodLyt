@@ -2,8 +2,9 @@ package com.chaitanya.quicksoft.glutton;
 
 public class Glutton_Constants {
 
-  public static final String url ="https://foodlyt-wq36w.ondigitalocean.app/api/"; //production
+ public static final String url ="https://foodlyt-wq36w.ondigitalocean.app/api/"; //production
    // public static final String url ="http://13.233.91.79:2000/app/api/"; // test
+    // public static final String url ="http://54.82.124.69:3000/app/api/"; // test
     public static final int getOtp =001;
     public static final int login =002;
     public static final int PAYMENT_TRANSCATION =003;

@@ -1,17 +1,21 @@
 package com.chaitanya.quicksoft.glutton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +48,9 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
     NetworkCheck networkCheck;
     NetworkResponseInterface networkResponseInterface;
     ConnectivityManager connectivityManager;
+    String name = "", address = "", mobile = "", email = "";
+    int user_id=0;
+    AlertDialog.Builder alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
         activityFoodItemsBinding.setFoodItemViewmodel(food_item_viewmodel);
         networkResponseInterface = this;
 
+        getProfileDataFromDatabase();
         intent = getIntent();
         selected_restrnt = intent.getStringExtra("selected_restrnt");
         food_item_viewmodel.restaurantAddress.set(intent.getStringExtra("restaurant_address"));
@@ -68,6 +76,24 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
 
         networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, Food_Items.this);
         networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.LOADFOODITEMS);
+
+        activityFoodItemsBinding.foodSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                activityFoodItemsBinding.foodSearch.clearFocus();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (food_item_adapter != null) {
+
+                    food_item_adapter.getFilter().filter(s);
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -88,7 +114,9 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
                             recycler_model_list.add(foodItemRowModel);
                         }
                         food_item_adapter = new Food_Item_Adapter(Food_Items.this, recycler_model_list, Food_Items.this);
+                        activityFoodItemsBinding.foodItemRecylr.setItemViewCacheSize(recycler_model_list.size());
                         activityFoodItemsBinding.foodItemRecylr.setAdapter(food_item_adapter);
+
                     }
                 }
             }
@@ -101,6 +129,32 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
             }
         });
 
+    }
+
+    public void getProfileDataFromDatabase() {
+
+
+        class GetUserprofileData extends AsyncTask<Void, Void, LoginTable_entity> {
+
+            @Override
+            protected LoginTable_entity doInBackground(Void... voids) {
+
+                LoginTable_entity loginTable_entity = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().loginTableDao().getAll();
+                return loginTable_entity;
+            }
+
+            @Override
+            protected void onPostExecute(LoginTable_entity loginTable_entity) {
+                super.onPostExecute(loginTable_entity);
+                name = loginTable_entity.getUsername();
+                email = loginTable_entity.getEmail();
+                address = loginTable_entity.getAddress();
+                mobile = loginTable_entity.getMobilenumber();
+                user_id = loginTable_entity.getUserId();
+            }
+        }
+        GetUserprofileData getUserprofileData = new GetUserprofileData();
+        getUserprofileData.execute();
     }
 
     @Override
@@ -135,38 +189,37 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
 
         Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
         TextView price_txt = customSnackView.findViewById(R.id.snckbr_price);
-        price_txt.setText(String.valueOf("₹ "+total_price));
+        price_txt.setText(String.valueOf("₹ " + total_price));
 
         bGotoWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final_selected_food_item_qntity = new HashMap<>();
-                Set<String> keys = selectd_food_item_qntity.keySet();
-                for (String key : keys) {
-                    String selected_quantity = "", selected_food_item = "";
-                    String previous_qntity_and_name = selectd_food_item_qntity.get(key);
-                    String[] selected_data = previous_qntity_and_name.split("~");
-                    selected_food_item = selected_data[0];
-                    selected_quantity = selected_data[1];
-                    int item_qnty = Integer.valueOf(selected_quantity);
-                    if (item_qnty != 0 && item_qnty > 0) {
-                        final_selected_food_item_qntity.put(key, previous_qntity_and_name);
-                    }
-                }
-
-                if (final_selected_food_item_qntity.size() != 0 && final_selected_food_item_qntity.size() > 0) {
-
-                    Intent intent = new Intent(Food_Items.this, View_Cart.class);
-                    intent.putExtra("map", final_selected_food_item_qntity);
-                    intent.putExtra("selected_restrnt", selected_restrnt);
-                    intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
-                    intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
-                    intent.putExtra("intial_amount", total_price);
-                    startActivity(intent);
+                if (Integer.valueOf(total_price) >= 99) {
+                    intentMethod();
 
                 }
+                else {
+                    alertDialog = new AlertDialog.Builder(Food_Items.this);
 
+                    alertDialog.setMessage("Extra delivery charges will be applied on cart value less than ₹ 99")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    intentMethod();
+
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert = alertDialog.create();
+                    alert.setTitle("Order");
+                    alert.show();
+                }
             }
         });
 
@@ -205,39 +258,39 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
             snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
             Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
             snackbarLayout.setPadding(0, 0, 0, 0);
-
+            snackbar.setDuration(60000);
             Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
             TextView price_txt = customSnackView.findViewById(R.id.snckbr_price);
-            price_txt.setText(String.valueOf("₹ "+total_price));
+            price_txt.setText(String.valueOf("₹ " + total_price));
 
             bGotoWebsite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    final_selected_food_item_qntity = new HashMap<>();
-                    Set<String> keys = selectd_food_item_qntity.keySet();
-                    for (String key : keys) {
-                        String selected_quantity = "", selected_food_item = "";
-                        String previous_qntity_and_name = selectd_food_item_qntity.get(key);
-                        String[] selected_data = previous_qntity_and_name.split("~");
-                        selected_food_item = selected_data[0];
-                        selected_quantity = selected_data[1];
-                        int item_qnty = Integer.valueOf(selected_quantity);
-                        if (item_qnty != 0 && item_qnty > 0) {
-                            final_selected_food_item_qntity.put(key, previous_qntity_and_name);
-                        }
-                    }
-                    if (final_selected_food_item_qntity.size() != 0 && final_selected_food_item_qntity.size() > 0) {
+                    if (Integer.valueOf(total_price) >= 99 ) {
+                        intentMethod();
 
-                        Intent intent = new Intent(Food_Items.this, View_Cart.class);
-                        intent.putExtra("map", final_selected_food_item_qntity);
-                        intent.putExtra("selected_restrnt", selected_restrnt);
-                        intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
-                        intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
-                        intent.putExtra("intial_amount", total_price);
-                        startActivity(intent);
-                    }
+                    }else {
+                        alertDialog = new AlertDialog.Builder(Food_Items.this);
 
+                        alertDialog.setMessage("Extra delivery charges will be applied on cart value less than ₹ 99")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        intentMethod();
+
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog alert = alertDialog.create();
+                        alert.setTitle("Order");
+                        alert.show();
+                    }
                 }
             });
 
@@ -247,6 +300,39 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
             snackbar.show();
 
 
+        }
+
+    }
+
+    public void intentMethod(){
+
+        final_selected_food_item_qntity = new HashMap<>();
+        Set<String> keys = selectd_food_item_qntity.keySet();
+        for (String key : keys) {
+            String selected_quantity = "", selected_food_item = "";
+            String previous_qntity_and_name = selectd_food_item_qntity.get(key);
+            String[] selected_data = previous_qntity_and_name.split("~");
+            selected_food_item = selected_data[0];
+            selected_quantity = selected_data[1];
+            int item_qnty = Integer.valueOf(selected_quantity);
+            if (item_qnty != 0 && item_qnty > 0) {
+                final_selected_food_item_qntity.put(key, previous_qntity_and_name);
+            }
+        }
+        if (final_selected_food_item_qntity.size() != 0 && final_selected_food_item_qntity.size() > 0) {
+
+            Intent intent = new Intent(Food_Items.this, View_Cart.class);
+            intent.putExtra("map", final_selected_food_item_qntity);
+            intent.putExtra("selected_restrnt", selected_restrnt);
+            intent.putExtra("selected_restrnt_id", String.valueOf(selected_restrnt_id));
+            intent.putExtra("restaurant_address", food_item_viewmodel.restaurantAddress.get());
+            intent.putExtra("intial_amount", total_price);
+            intent.putExtra("name", name);
+            intent.putExtra("address", address);
+            intent.putExtra("mobile", mobile);
+            intent.putExtra("email", email);
+            intent.putExtra("user_id", user_id);
+            startActivity(intent);
         }
 
     }
@@ -269,5 +355,37 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
             Toast.makeText(getApplicationContext(), "Please Enable internet", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(Integer.valueOf(total_price)!=0) {
+            alertDialog = new AlertDialog.Builder(Food_Items.this);
+
+            alertDialog.setMessage("Do you want to cancel this order")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = alertDialog.create();
+            alert.setTitle("Cancel Order");
+            alert.show();
+        }else {
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onNavigateUp() {
+        return super.onNavigateUp();
     }
 }

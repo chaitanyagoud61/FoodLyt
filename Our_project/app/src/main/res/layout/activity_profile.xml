@@ -71,7 +71,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:text="Name :"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
@@ -80,8 +80,7 @@
                         android:id="@+id/user_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
+                        android:layout_weight="1.5"
                         android:text="@{profilemodelview.name.get()}"
                         android:textSize="@dimen/_15sdp" />
 
@@ -108,7 +107,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
-                        android:gravity="center"
                          android:text="@{profilemodelview.mailId.get()}"
                         android:textSize="@dimen/_15sdp" />
 
@@ -135,7 +133,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
-                        android:gravity="center"
                         android:text="@{profilemodelview.mobile.get()}"
                         android:textSize="@dimen/_15sdp" />
 
@@ -150,19 +147,18 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:text="Address :"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
 
                     <TextView
                         android:id="@+id/address"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
+                        android:layout_weight="1.5"
                         android:text="@{profilemodelview.address.get()}"
                         android:textSize="@dimen/_15sdp" />
 
