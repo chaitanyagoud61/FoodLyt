@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".About"></activity>
+        <activity android:name=".Support"></activity>
+        <activity android:name=".About" />
         <activity android:name=".Profile" />
         <activity android:name=".OrderStatus" />
         <activity android:name=".OrderList" />

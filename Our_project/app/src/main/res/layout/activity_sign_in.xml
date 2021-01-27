@@ -59,15 +59,6 @@
 
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="@dimen/_30sdp"
-                            android:layout_height="@dimen/_2sdp"
-                            android:layout_margin="@dimen/_10sdp"
-                            android:background="@color/white"
-                            android:gravity="center|bottom"></View>
-
-
-
                     </LinearLayout>
 
                 </LinearLayout>
@@ -78,7 +69,6 @@
                     android:layout_height="0dp"
                     android:layout_weight="1.5"
                     android:background="@color/white">
-
 
                     <Button
                         android:id="@+id/btn_regsiter"
@@ -112,8 +102,8 @@
                                 android:layout_height="@dimen/_30sdp"
                                 android:gravity="center"
                                 android:text="Already have an account ? "
-                                android:textSize="@dimen/_12sdp"
-                                android:textAlignment="viewEnd"></TextView>
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/_12sdp"></TextView>
 
                         </LinearLayout>
 
@@ -142,10 +132,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/center_lyt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_margin="@dimen/_20sdp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/_5sdp"
@@ -168,15 +159,15 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_10sdp"
+                            android:layout_margin="@dimen/_5sdp"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
-                                android:text="@string/Enter_name"
                                 android:inputType="text"
+                                android:text="@string/Enter_name"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_12sdp"
                                 android:textStyle="bold">
@@ -199,7 +190,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_10sdp"
+                            android:layout_margin="@dimen/_5sdp"
                             android:orientation="vertical">
 
                             <TextView
@@ -229,7 +220,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_10sdp"
+                            android:layout_margin="@dimen/_5sdp"
                             android:orientation="vertical">
 
                             <TextView
@@ -260,7 +251,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_10sdp"
+                            android:layout_margin="@dimen/_5sdp"
                             android:orientation="vertical">
 
                             <TextView
@@ -275,13 +266,13 @@
                             </TextView>
 
                             <ProgressBar
-                                android:visibility="gone"
-                                android:layout_gravity="center"
                                 android:id="@+id/signprogress"
-                                android:indeterminateTint="@color/colorPrimary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"></ProgressBar>
+                                android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
+                                android:indeterminateTint="@color/colorPrimary"
+                                android:visibility="gone"></ProgressBar>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -297,19 +288,19 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:layout_gravity="center"
-                                        android:layout_height="wrap_content"
                                         android:orientation="vertical">
 
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:textStyle="normal"
                                             android:text="D/no :"
                                             android:textAlignment="center"
-                                            android:textSize="@dimen/_10sdp">
+                                            android:textSize="@dimen/_10sdp"
+                                            android:textStyle="normal">
 
                                         </TextView>
 
@@ -317,8 +308,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
                                         android:orientation="vertical">
 
                                         <EditText
@@ -347,19 +338,19 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:layout_gravity="center"
-                                        android:layout_height="wrap_content"
                                         android:orientation="vertical">
 
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:textStyle="normal"
                                             android:text="Area :"
                                             android:textAlignment="center"
-                                            android:textSize="@dimen/_10sdp">
+                                            android:textSize="@dimen/_10sdp"
+                                            android:textStyle="normal">
 
                                         </TextView>
 
@@ -367,8 +358,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
                                         android:orientation="vertical">
 
                                         <EditText
@@ -396,19 +387,19 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:layout_gravity="center"
-                                        android:layout_height="wrap_content"
                                         android:orientation="vertical">
 
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:textStyle="normal"
                                             android:text="Landmark :"
                                             android:textAlignment="center"
-                                            android:textSize="@dimen/_10sdp">
+                                            android:textSize="@dimen/_10sdp"
+                                            android:textStyle="normal">
 
                                         </TextView>
 
@@ -416,8 +407,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
                                         android:orientation="vertical">
 
                                         <EditText
@@ -437,6 +428,44 @@
 
                                 </LinearLayout>
 
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:gravity="right">
+
+                                    <CheckBox
+                                        android:id="@+id/terms_checkbox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="right"
+                                        android:onClick="onCheckboxClicked"
+                                        android:padding="10dp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.5"
+                                    android:gravity="center">
+                                <TextView
+                                    android:id="@+id/sign_up_terms"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_30sdp"
+                                    android:gravity="center"
+                                    android:textSize="@dimen/_10sdp"></TextView>
+                                </LinearLayout>
 
                             </LinearLayout>
 

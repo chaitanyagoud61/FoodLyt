@@ -34,14 +34,19 @@
     <string name="Goback"> Go back </string>
     <string name="name">Name :  %s</string>
     <string name="mobilenum">Phone number :  %s</string>
+    <string name="support_header">LEGAL, TERMS  &amp;  CONDITIONS</string>
+    <string name="Cancellation">Cancellation /Refund policy</string>
+    <string name="Privacy_plcy">Privacy policy </string>
+    <string name="Terms_of_use">Terms of use </string>
     <string name="dialog_message">Updates are available please update .</string>
     <string name="dialog_title">FoodLyt need to be updated</string>
-    <string name="about"><br>We, Fooflyt team operating to </br>
-        <br>fil the gap between restaurants </br>
+    <string name="about"><br>We, Foodlyt team operating to </br>
+        <br>fill the gap between restaurants </br>
         <br>and customers in tier-3 cities</br>
     <br> by providing food </br>
     <br> delivery services. </br>
     <br>Right now we started </br>
     <br>our services in Rajam, </br>
     <br>Srikakulam District</br></string>
+    <string name="Read_more"><a href="https://docs.google.com/document/d/e/2PACX-1vRs8G5BwBWf2xcwBIGFQZDJwUSI_820HpQpV3Z-eUmyX-s6MBBZ5xco9TZ0r4FLV9C9wyd4R95LSxGq/pub">Terms &amp; Conditions </a></string>
 </resources>

@@ -36,7 +36,7 @@ public class View_Cart_modelView extends AndroidViewModel {
     public ObservableField<String> addressObservable = new ObservableField<>();
 
     public MutableLiveData<AvailabilityResponse> getMutableLiveViewCartfooditemsstatusData(JsonObject jsonObject) {
-
+        mutableLiveData = new MutableLiveData<>();
         ApiManager.getInstance(context).getViewcartfooditemsstatus(jsonObject, new ResponseCallBack<AvailabilityResponse>() {
             @Override
             public void onResponse(AvailabilityResponse availabilityResponse) {

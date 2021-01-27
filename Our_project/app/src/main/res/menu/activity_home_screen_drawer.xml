@@ -22,6 +22,10 @@
             android:id="@+id/contact_us"
             android:icon="@drawable/call_24dp"
             android:title="Contact us" />
+        <item
+            android:id="@+id/Support"
+            android:icon="@drawable/ic_support"
+            android:title="Support" />
 
     </group>
 

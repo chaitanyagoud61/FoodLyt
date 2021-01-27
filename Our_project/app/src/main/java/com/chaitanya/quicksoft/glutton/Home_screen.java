@@ -349,6 +349,10 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
                 startActivity(Intent.createChooser(i,"Share via"));
                 break;
 
+            case R.id.Support:
+
+                startActivity(new Intent(Home_screen.this,Support.class));
+                break;
 
         }
         return false;

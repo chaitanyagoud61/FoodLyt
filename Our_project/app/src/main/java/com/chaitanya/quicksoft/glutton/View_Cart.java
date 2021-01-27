@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class View_Cart extends AppCompatActivity implements PaymentResultWithDataListener, NetworkResponseInterface {
+public class View_Cart extends AppCompatActivity implements PaymentResultWithDataListener, NetworkResponseInterface,BottomSheetDialogInterface {
 
     View_Cart_modelView view_cart_modelView;
     ActivityViewCartBinding activityViewCartBinding;
@@ -69,6 +69,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
     int user_id = 0;
     String payment_id = "", payment_order_id = "";
     Snackbar snackbar;
+    BottomSheetDialogInterface bottomSheetDialogInterface;
 
 
     @Override
@@ -80,6 +81,8 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
         activityViewCartBinding.setLifecycleOwner(this);
         activityViewCartBinding.setViewCartModelView(view_cart_modelView);
+
+        bottomSheetDialogInterface = this;
 
         Intent intent = getIntent();
         cart_hashMap = (HashMap<String, String>) intent.getSerializableExtra("map");
@@ -168,7 +171,6 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
             }
         });
-
     }
 
     public void getFoodAvldStatusforPay(String mode){
@@ -224,7 +226,10 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                         if(!mode.isEmpty() && mode.equalsIgnoreCase("online")){
                             startPayment();
                         }else if(!mode.isEmpty() && mode.equalsIgnoreCase("cod")){
-                            startordertoserver("COD");
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            activityViewCartBinding.pytmprogress.setVisibility(View.GONE);
+                            Bottomfrag frag= new Bottomfrag(bottomSheetDialogInterface);
+                            frag.show(getSupportFragmentManager(),"PAYMENT TYPE");
                         }
                     }
 
@@ -249,6 +254,8 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         });
 
     }
+
+
 
     public void startordertoserver(String payment_mode) {
 
@@ -465,5 +472,14 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         } else {
             Toast.makeText(getApplicationContext(), "Please Enable internet", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void getresponse(Object o) {
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        activityViewCartBinding.pytmprogress.setVisibility(View.VISIBLE);
+        startordertoserver(o.toString());
+
     }
 }
