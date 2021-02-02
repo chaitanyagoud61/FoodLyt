@@ -78,7 +78,7 @@ public class Splash_screen extends AppCompatActivity {
         return retn_vle;
     }
 
-    public void ShowUpdateDialog() {
+    public void ShowUpdateDialog(){
 
         builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
         builder.setCancelable(false)
