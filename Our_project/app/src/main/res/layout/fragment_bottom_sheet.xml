@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/bottomsheetbg"
+    android:layout_margin="@dimen/_10sdp"
+    android:padding="@dimen/_5sdp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/cancel_dialog"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_cancel_black_24dp">
+
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="PAYMENT MODE "
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_13sdp"></TextView>
+
+            <View
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@drawable/dotted_line"></View>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/_5sdp"
+        android:gravity="center"
+        android:id="@+id/radioGroup">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cash on delivery"
+                android:id="@+id/cashradioButton"
+                android:layout_gravity="center_horizontal"
+                android:checked="false"
+                android:layout_margin="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textSize="@dimen/_15sdp" />
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Online pay"
+            android:id="@+id/onlineradioButton"
+            android:layout_gravity="center_horizontal"
+            android:checked="false"
+            android:textStyle="bold"
+            android:enabled="false"
+            android:textSize="@dimen/_15sdp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/place_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_2sdp"
+        android:background="@drawable/proceed_to_pay_bg"
+        android:text="Place Order | COD"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold">
+
+    </Button>
+
+</LinearLayout>
