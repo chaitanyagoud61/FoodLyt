@@ -53,7 +53,39 @@ public class Splash_screen extends AppCompatActivity {
         animMove = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move);
         builder = new AlertDialog.Builder(this);
+        saveData();
 
+    }
+
+    public void saveData() {
+
+        class savelogindata extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... Voids) {
+
+                LoginTable_entity loginTable_entity = new LoginTable_entity();
+                loginTable_entity.setUserId(1);
+                loginTable_entity.setUsername("chaitanya");
+                loginTable_entity.setEmail("chaitanyagoud61@gmail.com");
+                loginTable_entity.setAddress("gurudwara");
+                loginTable_entity.setMobilenumber("9603705287");
+
+                DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().loginTableDao().insert(loginTable_entity);
+                Intent intent = new Intent(Splash_screen.this, Home_screen.class);
+                startActivity(intent);
+                finish();
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+            }
+        }
+        savelogindata savelogindata = new savelogindata();
+        savelogindata.execute();
     }
 
     @Override

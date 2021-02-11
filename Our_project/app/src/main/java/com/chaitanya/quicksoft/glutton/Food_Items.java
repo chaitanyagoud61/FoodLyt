@@ -81,7 +81,10 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
             @Override
             public boolean onQueryTextSubmit(String s) {
 
-                activityFoodItemsBinding.foodSearch.clearFocus();
+                if (food_item_adapter != null) {
+
+                    food_item_adapter.getFilter().filter(s);
+                }
                 return false;
             }
 
