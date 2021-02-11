@@ -56,6 +56,7 @@ public class Splash_screen extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
