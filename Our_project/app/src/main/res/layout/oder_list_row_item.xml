@@ -1,181 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
+    <data>
+
+        <variable
+            name="orderlistmodel"
+            type="com.chaitanya.quicksoft.glutton.OrderListModel" />
+
+        <variable
+            name="OrderClickListner"
+            type="com.chaitanya.quicksoft.glutton.OrderClickListner" />
+
+        <import type="android.view.View"></import>
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        android:layout_gravity="center"
-        app:cardCornerRadius="@dimen/_5sdp"
-        android:elevation="@dimen/_5sdp">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/_5sdp"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:elevation="@dimen/_5sdp"
+            android:onClick="@{() ->OrderClickListner.getselectedorder(orderlistmodel)}"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/order_list_restrnt_name"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Kodi kura chitigare"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp"
-                    android:textStyle="bold"></TextView>
-
-                <TextView
-                    android:id="@+id/order_list_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:fontFamily="serif"
-                    android:text="Discover unique tastes"
-                    android:textColor="@color/hash"
-                    android:textSize="@dimen/_10sdp"
-                    android:textStyle="bold"></TextView>
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/_5sdp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:gravity="center"
-                        android:layout_gravity="center"
+
+                    <TextView
+                        android:id="@+id/order_list_restrnt_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_rupee">
-
-                        </ImageView>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
                         android:layout_margin="@dimen/_2sdp"
-                        android:layout_gravity="center"
+                        android:text="@{orderlistmodel.restaurant_name}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/order_list_address"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/order_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="serif"
-                            android:text="200"
-                            android:textColor="@color/hash"
-                            android:textSize="@dimen/_13sdp"
-                            android:textStyle="normal"></TextView>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/dotted_line"></View>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                        android:layout_margin="@dimen/_2sdp"
+                        android:fontFamily="serif"
+                        android:text="@{orderlistmodel.restaurant_address}"
+                        android:textColor="@color/hash"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="bold"></TextView>
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/order_list_food_name_nd_qnty"
-                            android:layout_margin="@dimen/_2sdp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kodi kura chitigare"
-                            android:textColor="@color/hash"
-                            android:textSize="@dimen/_12sdp"
-                            android:textStyle="bold"></TextView>
-
-                        <TextView
-                            android:id="@+id/order_date_nd_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_2sdp"
-                            android:fontFamily="serif"
-                            android:text="March 8,3:23 PM"
-                            android:textColor="@color/hash"
-                            android:textSize="@dimen/_10sdp"
-                            android:textStyle="bold"></TextView>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:weightSum="2"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/greenbackground">
-
-
-                        <TextView
-                            android:id="@+id/order_list_status"
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_weight="1.5"
                             android:layout_height="wrap_content"
-                            android:text="Delivered "
-                            android:textSize="@dimen/_14sdp"
-                            android:textStyle="bold"
-                            android:fontFamily="serif"
-                            android:textColor="@color/white"
-                            android:textAlignment="center"></TextView>
-
-                        <ImageView
-                            android:id="@+id/order_list_status_image"
-                            android:layout_width="0dp"
+                            android:layout_gravity="center"
                             android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_rupee">
+
+                            </ImageView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_done_all_black_24dp"></ImageView>
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_weight="1.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/order_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="serif"
+                                android:text="@{orderlistmodel.order_price}"
+                                android:textColor="@color/hash"
+                                android:textSize="@dimen/_13sdp"
+                                android:textStyle="normal"></TextView>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/dotted_line"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:weightSum="2"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="No of Items :"
+                                    android:textColor="@color/hash"
+                                    android:textSize="@dimen/_10sdp"
+                                    android:textStyle="bold"></TextView>
+                            <TextView
+                                android:id="@+id/order_list_food_name_nd_qnty"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:text="@{orderlistmodel.order_list_food_name_nd_qnty}"
+                                android:textColor="@color/hash"
+                                android:textAlignment="viewStart"
+                                android:textSize="@dimen/_12sdp"
+                                android:textStyle="bold"></TextView>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/order_date_nd_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:fontFamily="serif"
+                                android:text="@{orderlistmodel.order_date_nd_time}"
+                                android:textColor="@color/hash"
+                                android:textSize="@dimen/_10sdp"
+                                android:textStyle="bold"></TextView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/greenbackground"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="@{orderlistmodel.delivered? View.VISIBLE:View.GONE}"
+                            android:weightSum="2">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.5"
+                                android:fontFamily="serif"
+                                android:text="Delivered"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_14sdp"
+                                android:textStyle="bold"></TextView>
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:src="@drawable/ic_done_all_black_24dp"></ImageView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/orangebackground"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="@{orderlistmodel.inporgress? View.VISIBLE:View.GONE}"
+                            android:weightSum="2">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.5"
+                                android:fontFamily="serif"
+                                android:text="In Progress"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_14sdp"
+                                android:textStyle="bold"></TextView>
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:src="@drawable/ic_timelapse_black_24dp"></ImageView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/redbackground"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="@{orderlistmodel.delivered? View.VISIBLE:View.GONE}"
+                            android:weightSum="2">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.5"
+                                android:fontFamily="serif"
+                                android:text="Failed"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_14sdp"
+                                android:textStyle="bold"></TextView>
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:src="@drawable/ic_error_black_24dp"></ImageView>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
+
 
             </LinearLayout>
 
 
+        </androidx.cardview.widget.CardView>
 
-
-        </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

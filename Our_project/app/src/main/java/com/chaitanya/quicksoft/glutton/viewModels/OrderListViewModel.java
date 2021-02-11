@@ -6,9 +6,13 @@ import android.content.Context;
 import com.chaitanya.quicksoft.glutton.retrofit.ApiManager;
 import com.chaitanya.quicksoft.glutton.retrofit.ResponseCallBack;
 import com.chaitanya.response.FoodItemResponse;
+import com.chaitanya.response.Orderlistresp;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -16,7 +20,7 @@ import androidx.lifecycle.MutableLiveData;
 public class OrderListViewModel extends AndroidViewModel {
 
     public Context context;
-    public MutableLiveData<String> order_list_data = new MutableLiveData<>();
+    public MutableLiveData<Orderlistresp> order_list_data = new MutableLiveData<>();
     public MutableLiveData<String> error_data = new MutableLiveData<>();
 
     public OrderListViewModel(@NonNull Application application) {
@@ -24,13 +28,13 @@ public class OrderListViewModel extends AndroidViewModel {
         this.context = application;
     }
 
-    public MutableLiveData<String> getOrder_list_data(int user_id) {
+    public MutableLiveData<Orderlistresp> getOrder_list_data(int user_id) {
         JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("user_id",user_id);
+        jsonObject.addProperty("id",user_id);
 
-        ApiManager.getInstance(context).getOrderDetails(jsonObject, new ResponseCallBack<String>() {
+        ApiManager.getInstance(context).getOrderDetails(jsonObject, new ResponseCallBack<Orderlistresp>() {
             @Override
-            public void onResponse(String s) {
+            public void onResponse(Orderlistresp s) {
                 order_list_data.postValue(s);
             }
 

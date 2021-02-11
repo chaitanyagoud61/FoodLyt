@@ -5,22 +5,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Food_Item_Adapter extends RecyclerView.Adapter<Food_Item_Adapter.Food_item_ViewHolder> {
+public class Food_Item_Adapter extends RecyclerView.Adapter<Food_Item_Adapter.Food_item_ViewHolder> implements Filterable {
     private Context context;
     Food_item_row_model foodItemRowModel;
     ArrayList<Food_item_row_model> model_list = new ArrayList<>();
+    HashMap<Integer,String> quantity_hashmap = new HashMap<>();
     food_item_click food_item_click;
     int quantity=0;
+    FoodFliter foodFliter;
+    HashMap<String,Integer> data_map = new HashMap();
 
     public Food_Item_Adapter(Context context,ArrayList<Food_item_row_model> food_item_row_model_list,food_item_click food_item_click1) {
         this.context = context;
@@ -36,22 +44,39 @@ public class Food_Item_Adapter extends RecyclerView.Adapter<Food_Item_Adapter.Fo
         return new Food_Item_Adapter.Food_item_ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(Food_item_ViewHolder holder, int position) {
         if(model_list.get(position).getFood_category().equalsIgnoreCase("Non-Veg")){
             holder.food_avld_or_not.setImageResource(R.drawable.ic_redcircle);
-        }else if(model_list.get(position).getFood_on_or_off().equalsIgnoreCase("Veg")){
+        }else if(model_list.get(position).getFood_category().equalsIgnoreCase("Veg")){
             holder.food_avld_or_not.setImageResource(R.drawable.ic_greencircle);
         }
-
+        if(data_map.containsKey(model_list.get(position).getFood_item_id())){
+            holder.item_quanty.setText(String.valueOf(data_map.get(model_list.get(position).getFood_item_id())));
+        }else {
+            holder.item_quanty.setText("0");
+        }
         holder.item_price.setText(model_list.get(position).getPrice());
         holder.food_name.setText(model_list.get(position).getFood_name());
-        Picasso.with(context).load(model_list.get(position).getFood_image()).into(holder.rstrnt_food_image);
+        Glide.with(context).load(model_list.get(position).getFood_image()).into(holder.rstrnt_food_image);
         holder.add_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                quantity = Integer.valueOf(holder.item_quanty.getText().toString());
+               // quantity = Integer.valueOf(holder.item_quanty.getText().toString());
+                if(data_map.containsKey(model_list.get(position).getFood_item_id())){
+                   quantity = data_map.get(model_list.get(position).getFood_item_id());
+                }else {
+                    quantity = 0;
+                }
                 quantity++;
+
+                if(data_map.containsKey(model_list.get(position).getFood_item_id())){
+                    data_map.put(model_list.get(position).getFood_item_id(),quantity);
+                }else {
+                    data_map.put(model_list.get(position).getFood_item_id(),quantity);
+                }
+
                 holder.item_quanty.setText(String.valueOf(quantity));
                 holder.add_food_item_selected(model_list.get(position).getPrice(),String.valueOf(model_list.get(position).getFood_item_id()),quantity,model_list.get(position).getFood_name());
             }
@@ -64,15 +89,32 @@ public class Food_Item_Adapter extends RecyclerView.Adapter<Food_Item_Adapter.Fo
                 if(quantity>=0) {
                     holder.item_quanty.setText(String.valueOf(quantity));
                     holder.minus_food_item_selected(model_list.get(position).getPrice(),String.valueOf(model_list.get(position).getFood_item_id()),quantity,model_list.get(position).getFood_name());
+
                 }
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
         return model_list.size();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(foodFliter==null){
+
+            foodFliter = new FoodFliter(this,model_list);
+        }
+        return foodFliter;
+    }
+
 
     public class Food_item_ViewHolder extends RecyclerView.ViewHolder {
 

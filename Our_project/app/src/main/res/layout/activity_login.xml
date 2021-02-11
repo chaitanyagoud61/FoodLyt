@@ -59,35 +59,44 @@
                 android:text="@string/app_name"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/_20sdp"></TextView>
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"></TextView>
+
+            <ProgressBar
+                android:id="@+id/loginprogress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:indeterminateTint="@color/white"
+                android:visibility="gone"></ProgressBar>
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/generate_otp_lyt"
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_gravity="center"
             android:layout_weight="2"
             android:gravity="center"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <EditText
                 android:id="@+id/et_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_15sdp"
+                android:background="@drawable/bordercolor"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:hint="@string/phone_number"
+                android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLength="10"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:imeOptions="actionDone"
-                android:background="@drawable/bordercolor"
-                android:textSize="@dimen/_13sdp"
                 android:padding="@dimen/_10sdp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
                 android:textStyle="bold" />
 
             <Button
@@ -95,31 +104,32 @@
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_retry_bg"
-                android:text="@string/generate_otp"
+                android:text="@string/Login"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/otp_login_lyt"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_gravity="center"
             android:layout_weight="2"
             android:gravity="center"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/et_otp_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_margin="@dimen/_15sdp"
                 android:background="@drawable/bordercolor"
                 android:hint="@string/Enter_otp"
                 android:imeOptions="actionDone"
                 android:inputType="number"
-                android:maxLength="10"
+                android:maxLength="6"
                 android:padding="@dimen/_10sdp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -127,35 +137,19 @@
                 android:textStyle="bold" />
 
 
-            <androidx.cardview.widget.CardView
+            <Button
                 android:id="@+id/valdte_otp"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_60sdp"
-                android:minHeight="@dimen/_50sdp"
-                app:cardCornerRadius="@dimen/_20sdp"
-                android:layout_gravity="center"
-                android:elevation="@dimen/_5sdp"
-                app:cardUseCompatPadding="true">
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_retry_disenble"
+                android:text="Verify Otp "
+                android:enabled="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:background="@drawable/login_btn"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_arrow_forward_black_24dp">
-
-                    </ImageView>
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/register_lnr_lyt"
             android:layout_width="match_parent"
@@ -168,14 +162,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_weight="1.2">
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:gravity="center"
-                    android:text=" Register for Login ! "
-                    android:textAlignment="viewEnd"></TextView>
+                    android:text=" New user ? "
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"></TextView>
 
             </LinearLayout>
 
@@ -183,23 +179,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_weight="0.8">
+                android:layout_weight="1">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
+                    android:id="@+id/signupbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_28sdp"
                     android:gravity="center"
-                    android:text="@string/Sign_in"
+                    android:text="@string/Sign_up"
+                    android:textAlignment="center"
                     android:textColor="@color/blue"
-                    android:textStyle="bold"
                     android:textSize="@dimen/_15sdp"
-                    android:textAlignment="viewStart"></TextView>
+                    android:textStyle="bold"></TextView>
 
             </LinearLayout>
 
         </LinearLayout>
-
-
 
 
     </LinearLayout>

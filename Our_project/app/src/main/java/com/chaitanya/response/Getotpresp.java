@@ -10,4 +10,11 @@ public class Getotpresp{
 	public int getId(){
 		return id;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	@SerializedName("status")
+	private String status;
 }

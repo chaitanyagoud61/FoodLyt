@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -51,7 +52,9 @@ public class VillageListRecyclerCustomAdapter extends RecyclerView.Adapter<Villa
         try {
             viewHolder.hme_htl_name.setText(model_list.get(i).getRestaurant_name());
             viewHolder.hme_htl_address.setText(model_list.get(i).getAddress());
-            Picasso.with(context).load(model_list.get(i).getImage()).into(viewHolder.hme_htl_image);
+            Glide.with(context)
+                    .load(model_list.get(i).getImage())
+                    .into(viewHolder.hme_htl_image);
             viewHolder.offers.setText(model_list.get(i).getOffers());
 
 

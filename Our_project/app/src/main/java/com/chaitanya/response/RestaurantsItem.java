@@ -22,6 +22,13 @@ public class RestaurantsItem{
 	@SerializedName("status")
 	private String status;
 
+	public String getOffers() {
+		return offers;
+	}
+
+	@SerializedName("offers")
+	private String offers;
+
 	public String getImage(){
 		return image;
 	}

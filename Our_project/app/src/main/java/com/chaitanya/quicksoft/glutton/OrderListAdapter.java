@@ -7,32 +7,45 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chaitanya.quicksoft.glutton.databinding.OderListRowItemBinding;
+import com.chaitanya.response.Orderlistresp;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.OrderListAdapterViewHolder> {
+public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.OrderListAdapterViewHolder> implements OrderClickListner{
 
     private Context context;
     OrderListModel orderListModel;
-    ArrayList<OrderListModel> orderListModelArrayList = new ArrayList<>();
+    OrderClickListner orderClickListner;
+    List<OrderListModel> orderListModelArrayList = new ArrayList<>();
 
-    public OrderListAdapter(Context context, ArrayList<OrderListModel> orderListModelArrayList) {
+    public OrderListAdapter(Context context, List<OrderListModel> orderListModelArrayList,OrderClickListner orderClickListner) {
         this.context = context;
         this.orderListModelArrayList = orderListModelArrayList;
+        this.orderClickListner = orderClickListner;
     }
 
     @NonNull
     @Override
     public OrderListAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.oder_list_row_item,null);
-        return new OrderListAdapterViewHolder(view);
+        OderListRowItemBinding binding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()), R.layout.oder_list_row_item, parent, false);
+
+        return new OrderListAdapterViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull OrderListAdapterViewHolder holder, int position) {
-
+        OrderListModel dataModel =orderListModelArrayList.get(position);
+        holder.oderListRowItemBinding.setOrderlistmodel(dataModel);
+        holder.bind(dataModel);
+        holder.oderListRowItemBinding.setOrderClickListner(this);
     }
 
     @Override
@@ -40,21 +53,22 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
         return orderListModelArrayList.size();
     }
 
+
+    public void getselectedorder(OrderListModel orderListModel) {
+        orderClickListner.getselectedorder(orderListModel);
+    }
+
     public class OrderListAdapterViewHolder extends RecyclerView.ViewHolder {
+        OderListRowItemBinding oderListRowItemBinding;
+        public OrderListAdapterViewHolder(OderListRowItemBinding oderListRowItemBinding1) {
+            super(oderListRowItemBinding1.getRoot());
+            this.oderListRowItemBinding = oderListRowItemBinding1;
 
-        TextView order_list_restrnt_name,order_list_address,order_price,
-                order_list_food_name_nd_qnty,order_date_nd_time,order_list_status;
-        ImageView order_list_status_image;
-        public OrderListAdapterViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            order_list_restrnt_name = (TextView)itemView.findViewById(R.id.order_list_restrnt_name);
-            order_list_address = (TextView)itemView.findViewById(R.id.order_list_address);
-            order_price = (TextView)itemView.findViewById(R.id.order_price);
-            order_list_food_name_nd_qnty = (TextView)itemView.findViewById(R.id.order_list_food_name_nd_qnty);
-            order_date_nd_time = (TextView)itemView.findViewById(R.id.order_date_nd_time);
-            order_list_status = (TextView)itemView.findViewById(R.id.order_list_status);
-            order_list_status_image = (ImageView) itemView.findViewById(R.id.order_list_status_image);
         }
+        public void bind(Object obj) {
+            oderListRowItemBinding.setVariable(BR.orderlistmodel, obj);
+            oderListRowItemBinding.executePendingBindings();
+        }
+
     }
 }

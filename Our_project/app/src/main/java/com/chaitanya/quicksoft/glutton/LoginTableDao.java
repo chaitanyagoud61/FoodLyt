@@ -18,7 +18,7 @@ public interface LoginTableDao  {
     @Update
     void update(LoginTable_entity loginTable_entity);
 
-    @Delete
-    void delete(LoginTable_entity loginTable_entity);
+    @Query("DELETE FROM logintable_entity")
+    void DeleteTable();
 
 }

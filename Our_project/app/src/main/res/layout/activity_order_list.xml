@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="orderlistviewmodel"
-            type="com.chaitanya.quicksoft.glutton.viewModels.OrderListViewModel"/>
+            type="com.chaitanya.quicksoft.glutton.viewModels.OrderListViewModel" />
+
+        <variable
+            name="orderlistmodel"
+            type="com.chaitanya.quicksoft.glutton.OrderListModel" />
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/order_list_cordnte_lyt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,7 +52,6 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,11 +59,50 @@
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/orderlist_rcylr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/orderlist_rcylr">
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager">
 
                 </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/empty_lnr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/_10sdp"
+                android:gravity="center"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:src="@drawable/ic_cart">
+
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/amita"
+                    android:text="Empty order list"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold">
+
+                </TextView>
 
             </LinearLayout>
 

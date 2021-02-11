@@ -1,12 +1,18 @@
 package com.chaitanya.quicksoft.glutton.retrofit;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.chaitanya.response.AppversionResponse;
 import com.chaitanya.response.AvailabilityResponse;
+import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemResponse;
 import com.chaitanya.response.Getotpresp;
+import com.chaitanya.response.GstResponse;
 import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
+import com.chaitanya.response.Orderlistresp;
+import com.chaitanya.response.OrderstatusResp;
 import com.chaitanya.response.SignResponse;
 import com.google.gson.JsonObject;
 
@@ -83,8 +89,7 @@ public class ApiManager {
         response.enqueue(new Callback<Getotpresp>() {
             @Override
             public void onResponse(@NotNull Call<Getotpresp> call, @NotNull Response<Getotpresp> response) {
-                if(response.isSuccessful() && response.body()!=null)
-                {
+                if(response.isSuccessful() && response.body()!=null) {
                     callBack.onResponse(response.body());
                 }
             }
@@ -139,6 +144,29 @@ public class ApiManager {
         });
 
     }
+
+    public void getAppversionDetails(final ResponseCallBack<AppversionResponse> callBack){
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<AppversionResponse> response=apiService.getversion();
+
+        response.enqueue(new Callback<AppversionResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<AppversionResponse> call, @NotNull Response<AppversionResponse> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<AppversionResponse> call, Throwable t) {
+                callBack.onError("");
+            }
+        });
+
+    }
+
     public void getViewcartfooditemsstatus(JsonObject jsonObject, final ResponseCallBack<AvailabilityResponse> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
@@ -160,14 +188,14 @@ public class ApiManager {
         });
 
     }
-    public void Proceed_order(JsonObject jsonObject, final ResponseCallBack<String> callBack){
+    public void Proceed_order(JsonObject jsonObject, final ResponseCallBack<FinalOrderResponse> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
-        Call<String> response=apiService.proceed_orders(jsonObject);
+        Call<FinalOrderResponse> response=apiService.proceed_orders(jsonObject);
 
-        response.enqueue(new Callback<String>() {
+        response.enqueue(new Callback<FinalOrderResponse>() {
             @Override
-            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+            public void onResponse(@NotNull Call<FinalOrderResponse> call, @NotNull Response<FinalOrderResponse> response) {
                 if(response.isSuccessful() && response.body()!=null)
                 {
                     callBack.onResponse(response.body());
@@ -175,21 +203,21 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(@NotNull Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<FinalOrderResponse> call, Throwable t) {
                 callBack.onError("");
             }
         });
 
     }
 
-    public void getOrderDetails(JsonObject jsonObject, final ResponseCallBack<String> callBack){
+    public void getGst(JsonObject jsonObject, final ResponseCallBack<GstResponse> callBack){
 
         ApiService apiService=RetrofitUtils.getInstance();
-        Call<String> response=apiService.Orderlist_response(jsonObject);
+        Call<GstResponse> response=apiService.GetPrice_response(jsonObject);
 
-        response.enqueue(new Callback<String>() {
+        response.enqueue(new Callback<GstResponse>() {
             @Override
-            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+            public void onResponse(@NotNull Call<GstResponse> call, @NotNull Response<GstResponse> response) {
                 if(response.isSuccessful() && response.body()!=null)
                 {
                     callBack.onResponse(response.body());
@@ -197,7 +225,50 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(@NotNull Call<String> call, Throwable t) {
+            public void onFailure(@NotNull Call<GstResponse> call, Throwable t) {
+                callBack.onError("");
+            }
+        });
+
+    }
+
+    public void getOrderDetails(JsonObject jsonObject, final ResponseCallBack<Orderlistresp> callBack){
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<Orderlistresp> response=apiService.Orderlist_response(jsonObject);
+
+        response.enqueue(new Callback<Orderlistresp>() {
+            @Override
+            public void onResponse(@NotNull Call<Orderlistresp> call, @NotNull Response<Orderlistresp> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Orderlistresp> call, Throwable t) {
+                callBack.onError("");
+            }
+        });
+
+    }
+    public void getOrderStatusDetails(JsonObject jsonObject, final ResponseCallBack<OrderstatusResp> callBack){
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<OrderstatusResp> response=apiService.getorderstatus(jsonObject);
+
+        response.enqueue(new Callback<OrderstatusResp>() {
+            @Override
+            public void onResponse(@NotNull Call<OrderstatusResp> call, @NotNull Response<OrderstatusResp> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<OrderstatusResp> call, Throwable t) {
                 callBack.onError("");
             }
         });

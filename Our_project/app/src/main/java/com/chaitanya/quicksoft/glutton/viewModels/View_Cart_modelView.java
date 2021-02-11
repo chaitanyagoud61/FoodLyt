@@ -6,9 +6,12 @@ import android.content.Context;
 import com.chaitanya.quicksoft.glutton.retrofit.ApiManager;
 import com.chaitanya.quicksoft.glutton.retrofit.ResponseCallBack;
 import com.chaitanya.response.AvailabilityResponse;
+import com.chaitanya.response.FinalOrderResponse;
+import com.chaitanya.response.GstResponse;
 import com.google.gson.JsonObject;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -23,13 +26,17 @@ public class View_Cart_modelView extends AndroidViewModel {
 
     private MutableLiveData<AvailabilityResponse>
             mutableLiveData = new MutableLiveData<>();
-    private MutableLiveData<String>
+    private MutableLiveData<FinalOrderResponse>
             paymnetmutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<GstResponse>
+            gstmutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String>
             errorMessage = new MutableLiveData<>();
 
-    public MutableLiveData<AvailabilityResponse> getMutableLiveViewCartfooditemsstatusData(JsonObject jsonObject) {
+    public ObservableField<String> addressObservable = new ObservableField<>();
 
+    public MutableLiveData<AvailabilityResponse> getMutableLiveViewCartfooditemsstatusData(JsonObject jsonObject) {
+        mutableLiveData = new MutableLiveData<>();
         ApiManager.getInstance(context).getViewcartfooditemsstatus(jsonObject, new ResponseCallBack<AvailabilityResponse>() {
             @Override
             public void onResponse(AvailabilityResponse availabilityResponse) {
@@ -43,12 +50,11 @@ public class View_Cart_modelView extends AndroidViewModel {
         });
         return mutableLiveData;
     }
-    public MutableLiveData<String> ProceedOrderToServer() {
-        JsonObject jsonObject=new JsonObject();
+    public MutableLiveData<FinalOrderResponse> ProceedOrderToServer(JsonObject jsonObject) {
 
-        ApiManager.getInstance(context).Proceed_order(jsonObject, new ResponseCallBack<String>() {
+        ApiManager.getInstance(context).Proceed_order(jsonObject, new ResponseCallBack<FinalOrderResponse>() {
             @Override
-            public void onResponse(String s) {
+            public void onResponse(FinalOrderResponse s) {
                 paymnetmutableLiveData.postValue(s);
             }
 
@@ -58,6 +64,21 @@ public class View_Cart_modelView extends AndroidViewModel {
             }
         });
         return paymnetmutableLiveData;
+    }
+    public MutableLiveData<GstResponse> GetGStPrice_Dataresponse(JsonObject jsonObject) {
+
+        ApiManager.getInstance(context).getGst(jsonObject, new ResponseCallBack<GstResponse>() {
+            @Override
+            public void onResponse(GstResponse s) {
+                gstmutableLiveData.postValue(s);
+            }
+
+            @Override
+            public void onError(String message) {
+                errorMessage.postValue(message);
+            }
+        });
+        return gstmutableLiveData;
     }
 
     public LiveData<String> getErrorMessage(){

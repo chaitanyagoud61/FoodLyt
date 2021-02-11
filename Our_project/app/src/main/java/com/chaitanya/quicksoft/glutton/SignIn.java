@@ -9,9 +9,16 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +38,7 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
     ConnectivityManager connectivityManager;
     NetworkResponseInterface networkResponseInterface;
     Dialog dialog;
+    Animation animBlink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,8 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
         sign_view_model = ViewModelProviders.of(this).get(Sign_view_model.class);
         activitySignInBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in);
 
+        animBlink = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.move);
         activitySignInBinding.setLifecycleOwner(this);
         activitySignInBinding.setSignViewModel(sign_view_model);
         networkResponseInterface = this;
@@ -53,19 +63,25 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
                         !activitySignInBinding.signMblNum.getText().toString().isEmpty() && activitySignInBinding.signMblNum.getText().toString().length() > 0 &&
                         !activitySignInBinding.addressDno.getText().toString().isEmpty() && activitySignInBinding.addressDno.getText().toString().length() > 0 &&
                         !activitySignInBinding.addressArea.getText().toString().isEmpty() && activitySignInBinding.addressArea.getText().toString().length() > 0 &&
-                        !activitySignInBinding.addressNearBy.getText().toString().isEmpty() && activitySignInBinding.addressNearBy.getText().toString().length() > 0 ) {
+                        !activitySignInBinding.addressNearBy.getText().toString().isEmpty() && activitySignInBinding.addressNearBy.getText().toString().length() > 0) {
 
                     if (activitySignInBinding.signMblNum.getText().length() == 10) {
 
-                        registartion_jsonObject.addProperty("name", activitySignInBinding.signNme.getText().toString());
-                        registartion_jsonObject.addProperty("email", activitySignInBinding.signEmail.getText().toString());
-                        registartion_jsonObject.addProperty("mobile", activitySignInBinding.signMblNum.getText().toString());
-                        registartion_jsonObject.addProperty("address",activitySignInBinding.addressDno.getText().toString()+","+
-                                activitySignInBinding.addressArea.getText().toString()+","+activitySignInBinding.addressNearBy.getText().toString()+"Rajam,Srikakulam,Andhra Pradesh");
+                        if (activitySignInBinding.termsCheckbox.isChecked()) {
 
-                        networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, SignIn.this);
-                        networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.REGISTER);
+                            registartion_jsonObject.addProperty("name", activitySignInBinding.signNme.getText().toString());
+                            registartion_jsonObject.addProperty("email", activitySignInBinding.signEmail.getText().toString());
+                            registartion_jsonObject.addProperty("mobile", activitySignInBinding.signMblNum.getText().toString());
+                            registartion_jsonObject.addProperty("address", activitySignInBinding.addressDno.getText().toString() + "," +
+                                    activitySignInBinding.addressArea.getText().toString() + "," + activitySignInBinding.addressNearBy.getText().toString() + "Rajam,Srikakulam,Andhra Pradesh");
+
+                            networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, SignIn.this);
+                            networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.REGISTER);
+                        }else {
+                            Toast.makeText(getApplicationContext(), "Please agree terms & conditions", Toast.LENGTH_LONG).show();
+                        }
                     }
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Enter above details", Toast.LENGTH_LONG).show();
                 }
@@ -83,7 +99,29 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
             }
         });
 
+        activitySignInBinding.signUpTerms.setText(Html.fromHtml("I have read and agree to the " +
+                "<a href='https://docs.google.com/document/d/e/2PACX-1vRs8G5BwBWf2xcwBIGFQZDJwUSI_820HpQpV3Z-eUmyX-s6MBBZ5xco9TZ0r4FLV9C9wyd4R95LSxGq/pub'>" +
+                "TERMS AND CONDITIONS</a>"));
+        activitySignInBinding.signUpTerms.setClickable(true);
+        activitySignInBinding.signUpTerms.setMovementMethod(LinkMovementMethod.getInstance());
 
+
+
+    }
+
+    public void onCheckboxClicked(View view) {
+
+        boolean checked = ((CheckBox) view).isChecked();
+        switch (view.getId()) {
+            case R.id.terms_checkbox:
+                if (checked) {
+
+                } else {
+
+                }
+
+                break;
+        }
     }
 
     public void SaveRegistartion() {
@@ -92,18 +130,28 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
             @Override
             public void onChanged(SignResponse s) {
 
-                int id = s.getId();
-                if (id != 0) {
+                if (s.getStatus().equalsIgnoreCase("success")) {
 
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    activitySignInBinding.signprogress.setVisibility(View.GONE);
                     activitySignInBinding.signMainCrdvw.setVisibility(View.GONE);
+                    activitySignInBinding.thnkBlink.setAnimation(animBlink);
                     activitySignInBinding.signMainThnkyuCrdvw.setVisibility(View.VISIBLE);
                     activitySignInBinding.btnRegsiter.setVisibility(View.GONE);
-                    Intent intent = new Intent(SignIn.this, Login.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
-                }else {
-                    Toast.makeText(getApplicationContext(),"User Already Exists",Toast.LENGTH_LONG).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(SignIn.this, Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 2000);
+
+                } else {
+                    Toast.makeText(getApplicationContext(), s.getStatus(), Toast.LENGTH_LONG).show();
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    activitySignInBinding.signprogress.setVisibility(View.GONE);
                 }
 
             }
@@ -113,7 +161,7 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
             @Override
             public void onChanged(String s) {
 
-                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
 
             }
         });
@@ -129,6 +177,8 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
 
                 case Glutton_Constants.REGISTER:
 
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    activitySignInBinding.signprogress.setVisibility(View.VISIBLE);
                     SaveRegistartion();
 
                     break;
