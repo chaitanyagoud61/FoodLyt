@@ -2,7 +2,7 @@ package com.chaitanya.quicksoft.glutton.retrofit;
 
 
 
-import com.chaitanya.quicksoft.glutton.Glutton_Constants;
+import com.chaitanya.quicksoft.glutton.utils.Glutton_Constants;
 
 import androidx.databinding.library.BuildConfig;
 
@@ -23,7 +23,7 @@ public class RetrofitUtils {
     public static ApiService getInstance() {
         if (retrofit == null)
             retrofit = new Retrofit.Builder()
-                    .baseUrl(Glutton_Constants.url)
+                    .baseUrl(Glutton_Constants.testUrl) // change to production URL here
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(getHttpClient())
                     .build();

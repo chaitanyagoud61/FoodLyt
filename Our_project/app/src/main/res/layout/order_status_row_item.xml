@@ -6,7 +6,7 @@
         
         <variable
             name="orderstatuslocalmodel"
-            type="com.chaitanya.quicksoft.glutton.Orderstatuslocalmodel" />
+            type="com.chaitanya.quicksoft.glutton.activities.restaurant.orders.Orderstatuslocalmodel" />
     </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

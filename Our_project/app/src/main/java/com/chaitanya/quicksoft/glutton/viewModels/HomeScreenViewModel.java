@@ -35,6 +35,7 @@ public class HomeScreenViewModel extends AndroidViewModel {
         ApiManager.getInstance(context).getHomeresponse(hme_jsonObject, new ResponseCallBack<HomeResponse>() {
             @Override
             public void onResponse(HomeResponse s) {
+
                 home_mutableLiveData.postValue(s);
             }
 

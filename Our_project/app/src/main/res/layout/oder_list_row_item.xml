@@ -6,11 +6,11 @@
 
         <variable
             name="orderlistmodel"
-            type="com.chaitanya.quicksoft.glutton.OrderListModel" />
+            type="com.chaitanya.quicksoft.glutton.activities.restaurant.orders.OrderListModel" />
 
         <variable
             name="OrderClickListner"
-            type="com.chaitanya.quicksoft.glutton.OrderClickListner" />
+            type="com.chaitanya.quicksoft.glutton.interfaces.OrderClickListner" />
 
         <import type="android.view.View"></import>
     </data>

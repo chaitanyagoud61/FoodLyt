@@ -1,7 +1,6 @@
 package com.chaitanya.quicksoft.glutton;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,12 +9,22 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.chaitanya.quicksoft.glutton.activities.general.About;
+import com.chaitanya.quicksoft.glutton.activities.general.Profile;
+import com.chaitanya.quicksoft.glutton.activities.general.Support;
+import com.chaitanya.quicksoft.glutton.activities.restaurant.Food_Items;
+import com.chaitanya.quicksoft.glutton.activities.restaurant.SlidingImage_Adapter;
+import com.chaitanya.quicksoft.glutton.activities.restaurant.orders.OrderList;
 import com.chaitanya.quicksoft.glutton.databinding.ActivityHomeScreenBinding;
+import com.chaitanya.quicksoft.glutton.interfaces.Home_CustomAdapter_Item_Click;
+import com.chaitanya.quicksoft.glutton.interfaces.NetworkResponseInterface;
+import com.chaitanya.quicksoft.glutton.room.DatabaseClient;
+import com.chaitanya.quicksoft.glutton.room.LoginTable_entity;
+import com.chaitanya.quicksoft.glutton.utils.Glutton_Constants;
+import com.chaitanya.quicksoft.glutton.utils.NetworkCheck;
 import com.chaitanya.quicksoft.glutton.viewModels.HomeScreenViewModel;
 import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.RestaurantsItem;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.os.Handler;
 import android.view.MenuItem;
@@ -27,10 +36,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -48,7 +54,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -336,7 +341,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
             case R.id.about_us:
 
-                startActivity(new Intent(Home_screen.this,About.class));
+                startActivity(new Intent(Home_screen.this, About.class));
 
                 break;
 
@@ -351,7 +356,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
 
             case R.id.Support:
 
-                startActivity(new Intent(Home_screen.this,Support.class));
+                startActivity(new Intent(Home_screen.this, Support.class));
                 break;
 
         }

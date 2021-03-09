@@ -1,5 +1,6 @@
 package com.chaitanya.quicksoft.glutton.retrofit;
 
+import com.chaitanya.response.CategoryFoodItemResponse;
 import com.chaitanya.response.AppversionResponse;
 import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
@@ -54,4 +55,10 @@ public interface ApiService {
 
     @POST("getpricing")
     Call<GstResponse> GetPrice_response(@Body JsonObject jsonObject);
+
+    // Test URL Service Registration
+
+    @POST("getfooditems")
+    Call<CategoryFoodItemResponse> FoodCategoryItemResponse(@Body JsonObject jsonObject);
+
 }

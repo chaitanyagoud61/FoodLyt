@@ -20,5 +20,9 @@
     <color name="minute_green">#DDF3C7</color>
     <color name="darkred">#A60E00</color>
     <color name="orange">#E78E0B</color>
+
+    <color name="colorVeg">#4CAF50</color>
+    <color name="colorNonVeg">#E31313</color>
+
 </resources>
     <!--#c7483c-->

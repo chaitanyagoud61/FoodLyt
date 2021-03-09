@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.chaitanya.quicksoft.glutton.retrofit.ApiManager;
 import com.chaitanya.quicksoft.glutton.retrofit.ResponseCallBack;
+import com.chaitanya.response.CategoryFoodItemResponse;
 import com.chaitanya.response.FoodItemResponse;
 import com.google.gson.JsonObject;
 
@@ -22,6 +23,12 @@ public class Food_item_viewmodel extends AndroidViewModel {
             food_item_mutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String>
             food_item_errorMessage = new MutableLiveData<>();
+
+    private final MutableLiveData<CategoryFoodItemResponse>
+            load_all_food_Items_Mutable = new MutableLiveData<>();
+    private final MutableLiveData<String>
+            load_all_food_items_response = new MutableLiveData<>();
+
 
     public ObservableField<String> restaurantAddress  = new ObservableField<String>();
 
@@ -47,6 +54,25 @@ public class Food_item_viewmodel extends AndroidViewModel {
         });
         return food_item_mutableLiveData;
     }
+
+    public MutableLiveData<CategoryFoodItemResponse> getLoadAllFoodItems(int selected_restrnt_id) {
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("rest_id",selected_restrnt_id);
+
+        ApiManager.getInstance(context).getCategoryItemDetails(jsonObject, new ResponseCallBack<CategoryFoodItemResponse>() {
+            @Override
+            public void onResponse(CategoryFoodItemResponse s) {
+                load_all_food_Items_Mutable.postValue(s);
+            }
+
+            @Override
+            public void onError(String message) {
+                load_all_food_items_response.postValue(message);
+            }
+        });
+        return load_all_food_Items_Mutable;
+    }
+
     public LiveData<String> getErrorMessage(){
         return food_item_errorMessage;
     }

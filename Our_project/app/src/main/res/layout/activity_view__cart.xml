@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/very_light_hash"
-        tools:context=".View_Cart">
+        tools:context=".activities.restaurant.View_Cart">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -470,7 +470,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/_2sdp"
                                 android:fontFamily="@font/belgrano"
-                                android:text="₹ 200"
+                                android:text="₹ "
                                 android:textAlignment="viewEnd"
                                 android:textColor="@color/light_black"
                                 android:textSize="@dimen/_13sdp"

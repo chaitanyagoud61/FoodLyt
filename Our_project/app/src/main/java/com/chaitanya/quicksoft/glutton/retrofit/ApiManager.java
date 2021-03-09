@@ -1,8 +1,8 @@
 package com.chaitanya.quicksoft.glutton.retrofit;
 
 import android.content.Context;
-import android.widget.Toast;
 
+import com.chaitanya.response.CategoryFoodItemResponse;
 import com.chaitanya.response.AppversionResponse;
 import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
@@ -53,6 +53,30 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NotNull Call<HomeResponse> call, Throwable t) {
+                callBack.onError("");
+            }
+        });
+
+    }
+
+    // Category Items Details
+
+    public void getCategoryItemDetails(JsonObject jsonObject, final ResponseCallBack<CategoryFoodItemResponse> callBack) {
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<CategoryFoodItemResponse> response=apiService.FoodCategoryItemResponse(jsonObject);
+
+        response.enqueue(new Callback<CategoryFoodItemResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<CategoryFoodItemResponse> call, @NotNull Response<CategoryFoodItemResponse> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CategoryFoodItemResponse> call, Throwable t) {
                 callBack.onError("");
             }
         });
@@ -274,6 +298,8 @@ public class ApiManager {
         });
 
     }
+
+
 
 
 }

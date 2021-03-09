@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="4"
-        tools:context=".Login">
+        tools:context=".activities.authentication.Login">
 
         <LinearLayout
             android:layout_width="match_parent"
