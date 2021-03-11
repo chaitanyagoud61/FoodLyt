@@ -21,10 +21,11 @@
         android:name=".utils.RestaurantUtils"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".activities.restaurant.SearchResultsActivity"
             android:windowSoftInputMode="stateVisible">
-
         </activity>
+
         <activity android:name=".activities.general.Support" />
         <activity android:name=".activities.general.About" />
         <activity android:name=".activities.general.Profile" />

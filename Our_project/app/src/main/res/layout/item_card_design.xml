@@ -68,19 +68,18 @@
 
 
 
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
+        android:layout_marginStart="4dp"
         android:gravity="right|end|center_vertical"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/subCategoryQuantityLayout"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_width="135dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="0dp"
             android:background="@drawable/rounded_add"
             android:gravity="center"
@@ -90,8 +89,7 @@
             android:weightSum="3"
             tools:ignore="RtlHardcoded"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            >
+            android:layout_centerVertical="true">
 
 <!--
             <TextView
@@ -148,13 +146,14 @@
 
         <LinearLayout
             android:id="@+id/quantityLayout"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_width="135dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="0dp"
             android:gravity="center"
             android:layout_gravity="end"
             android:orientation="horizontal"
             android:weightSum="5"
+            android:background="@drawable/rounded_add"
             tools:ignore="RtlHardcoded"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -167,7 +166,6 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="—"
-                android:background="@drawable/rounded_add"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:textSize="14sp"
@@ -195,9 +193,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="＋"
-                android:background="@drawable/rounded_add"
-                android:paddingLeft="8dp"
+                android:text="＋" android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
@@ -218,6 +214,7 @@
         android:layout_height="@dimen/_2sdp"
         android:layout_marginTop="2dp"
         android:id="@+id/lastDivider"
+        android:visibility="gone"
         android:background="@drawable/dotted_line"></View>
 
 
