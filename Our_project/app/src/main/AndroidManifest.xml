@@ -39,7 +39,7 @@
             android:name=".Home_screen"
             android:label="@string/title_activity_home_screen"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.authentication.SignIn" />
+        <activity android:name=".activities.authentication.SignUp" />
         <activity android:name=".activities.authentication.Login" />
 
         <uses-library

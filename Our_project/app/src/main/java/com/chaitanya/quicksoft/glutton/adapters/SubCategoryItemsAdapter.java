@@ -3,6 +3,7 @@ package com.chaitanya.quicksoft.glutton.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -90,6 +91,23 @@ public class SubCategoryItemsAdapter extends RecyclerView.Adapter<SubCategoryIte
         holder.title.setText(categoryItemsModel.getName());
         holder.price.setText("₹ "+categoryItemsModel.getPrice());
 
+        int discount_value = RestaurantUtils.getRestaurant_discount();
+
+        if(discount_value!=0) {
+
+            holder.price.setPaintFlags(holder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            holder.txtDiscountPercentage.setVisibility(View.VISIBLE);
+            holder.txtDiscountedPrice.setVisibility(View.VISIBLE);
+
+
+            int reduced_price = (categoryItemsModel.getPrice() - (categoryItemsModel.getPrice() * discount_value/100));
+            holder.txtDiscountedPrice.setText("₹ " + reduced_price);
+          //  holder.txtDiscountPercentage.setText(discount_value + "% Off");
+            holder.txtDiscountPercentage.setVisibility(View.GONE);
+        }
+
+
         if(!quantity_hashmap.isEmpty()) {
 
             if(quantity_hashmap.get(parentItemName + " " + categoryItemsModel.getName()) == null) {
@@ -142,10 +160,17 @@ public class SubCategoryItemsAdapter extends RecyclerView.Adapter<SubCategoryIte
 
 
 
+                int final_price = 0;
+                if(RestaurantUtils.getRestaurant_discount()!=0) {
+                    String[] discount = holder.txtDiscountedPrice.getText().toString().split(" ");
+                    final_price = Integer.parseInt(discount[1]);
+                } else {
+                    final_price = itemsModelList.get(position).getPrice();
+                }
 
                 // NOTE: Here due to lack of IDs present in other_props array we fetched from parent and appending to parentID + 00 + position.
                 // For example parentItemID is 1 then here new Item ID will be 1001.
-                holder.add_food_item_selected(String.valueOf(itemsModelList.get(position).getPrice()),String.valueOf(parentItemFoodId + 00 + (position+1)),quantity,parentItemName +" "+itemsModelList.get(position).getName());
+                holder.add_food_item_selected(String.valueOf(final_price),String.valueOf(parentItemFoodId + 00 + (position+1)),quantity,parentItemName +" "+itemsModelList.get(position).getName());
             }
         });
 
@@ -187,9 +212,18 @@ public class SubCategoryItemsAdapter extends RecyclerView.Adapter<SubCategoryIte
 
                     data_map.put(parentItemName+ " " + categoryItemsModel.getName(), quantity);
 
+                    int final_price = 0;
+                    if(RestaurantUtils.getRestaurant_discount()!=0) {
+                        String[] discount = holder.txtDiscountedPrice.getText().toString().split(" ");
+                        final_price = Integer.parseInt(discount[1]);
+                    } else {
+                        final_price = itemsModelList.get(position).getPrice();
+                    }
+
+
                     // NOTE: Here due to lack of IDs present in other_props array we fetched from parent and appending to parentID + 00 + position.
                     // For example parentItemID is 1 then here new Item ID will be 1001.
-                    holder.minus_food_item_selected(String.valueOf(itemsModelList.get(position).getPrice()),String.valueOf(parentItemFoodId + 00 + (position+1)),quantity,parentItemName+ " " +itemsModelList.get(position).getName());
+                    holder.minus_food_item_selected(String.valueOf(final_price),String.valueOf(parentItemFoodId + 00 + (position+1)),quantity,parentItemName+ " " +itemsModelList.get(position).getName());
                 }
             }
         });
@@ -256,7 +290,7 @@ public class SubCategoryItemsAdapter extends RecyclerView.Adapter<SubCategoryIte
 
         Button addItem;
         TextView title, price;
-        TextView productMinus,productPlus,productQuantity;
+        TextView productMinus,productPlus,productQuantity,txtDiscountedPrice,txtDiscountPercentage;
         LinearLayout addButtonLayout;
 
         public ViewHolder(@NonNull View itemView) {
@@ -267,6 +301,9 @@ public class SubCategoryItemsAdapter extends RecyclerView.Adapter<SubCategoryIte
             productPlus= itemView.findViewById(R.id.product_plus);
             productQuantity= itemView.findViewById(R.id.product_quantity);
             addButtonLayout = itemView.findViewById(R.id.quantityLayout);
+            txtDiscountedPrice = itemView.findViewById(R.id.reduced_price);
+            txtDiscountPercentage = itemView.findViewById(R.id.discount_val);
+
 
         }
 

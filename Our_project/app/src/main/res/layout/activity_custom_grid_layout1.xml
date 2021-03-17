@@ -10,7 +10,7 @@
     android:padding="4dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="145dp"
+        android:layout_width="150dp"
         android:layout_height="110dp"
         app:cardElevation="5dp"
         android:clickable="true"
@@ -41,6 +41,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:minLines="2"
+        android:layout_marginBottom="3dp"
         android:maxLines="2"
         android:gravity="center_vertical"
         android:drawableStart="@drawable/ic_veg"
@@ -53,18 +54,56 @@
         android:textStyle="bold"
         />
 
-    <TextView
-        android:id="@+id/price"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:shadowColor="#ffffff"
-        android:text="Rs. 550"
-        android:textAllCaps="true"
-        android:textColor="#000"
-        android:textSize="12dp" />
+        android:weightSum="3"
+        android:layout_marginStart="2dp"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="left"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:shadowColor="#ffffff"
+            android:text="Rs. 550"
+            android:textAllCaps="false"
+            android:textSize="11dp" />
+        <TextView
+            android:id="@+id/reduced_price"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:shadowColor="#ffffff"
+            android:text="Rs. 150"
+            android:textAllCaps="false"
+            android:textColor="#000"
+            android:textSize="11dp" />
+        <TextView
+            android:id="@+id/discount_val"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:visibility="invisible"
+            android:shadowColor="#ffffff"
+            android:text="0% Off"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
+            android:textSize="11dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/quantityLayout"
@@ -74,7 +113,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="end"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rounded_add"
         android:gravity="center"
         android:orientation="horizontal"

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout style="?attr/actionButtonStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:focusable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:cardElevation="@dimen/_3sdp"
+        app:cardUseCompatPadding="true">
+
+
+        <ImageView
+        android:id="@+id/hme_htl_image"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_90sdp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/ic_delivery" />
+
+        <TextView
+            android:id="@+id/discount_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|left|top"
+            android:visibility="gone"
+            android:layout_marginEnd="-2dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginTop="5dp"
+            android:text="0% Off"
+            android:background="@drawable/login_btn"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginStart="-8dp"
+            android:backgroundTint="@color/red"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"/>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</FrameLayout>

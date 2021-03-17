@@ -84,6 +84,8 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
     String name = "", address = "", mobile = "", email = "";
     int user_id = 0;
     AlertDialog.Builder alertDialog, zeroCartDialog;
+    int restaurant_discount = 0;
+
     ImageView btnClose;
 
     CardView searchCardLayout;
@@ -119,6 +121,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
     Switch aSwitch;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +132,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
         activityFoodItemsBinding.setLifecycleOwner(this);
         activityFoodItemsBinding.setFoodItemViewmodel(food_item_viewmodel);
         networkResponseInterface = this;
+
 
         searchCardLayout = findViewById(R.id.searchcard_layout);
 
@@ -161,6 +165,11 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
         food_item_viewmodel.restaurantAddress.set(intent.getStringExtra("restaurant_address"));
         selected_restrnt_id = intent.getIntExtra("selected_restrnt_id", 0);
         restaurant_descrp = intent.getStringExtra("restaurant_descrp");
+        restaurant_discount = intent.getIntExtra("restaurant_discount",0);
+
+        // Setting the Restaurant Discount Globally
+        RestaurantUtils.setRestaurant_discount(restaurant_discount);
+
         activityFoodItemsBinding.selectedRestrnt.setText(selected_restrnt);
         activityFoodItemsBinding.selectedRestrntAddress.setText(restaurant_address);
         activityFoodItemsBinding.selectedRestrntDescrptn.setText(restaurant_descrp);
@@ -705,6 +714,7 @@ public class Food_Items extends AppCompatActivity implements food_item_click, Ne
                         public void onClick(DialogInterface dialog, int id) {
 
                             RestaurantUtils.quantity_hashmap.clear();
+                            RestaurantUtils.restaurant_discount = 0;
                             finish();
 
                         }

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.chaitanya.quicksoft.glutton.activities.authentication.Login;
 import com.chaitanya.quicksoft.glutton.activities.general.About;
 import com.chaitanya.quicksoft.glutton.activities.general.Profile;
 import com.chaitanya.quicksoft.glutton.activities.general.Support;
@@ -20,6 +21,7 @@ import com.chaitanya.quicksoft.glutton.interfaces.Home_CustomAdapter_Item_Click;
 import com.chaitanya.quicksoft.glutton.interfaces.NetworkResponseInterface;
 import com.chaitanya.quicksoft.glutton.room.DatabaseClient;
 import com.chaitanya.quicksoft.glutton.room.LoginTable_entity;
+import com.chaitanya.quicksoft.glutton.ui.home.HomeFragment;
 import com.chaitanya.quicksoft.glutton.utils.Glutton_Constants;
 import com.chaitanya.quicksoft.glutton.utils.NetworkCheck;
 import com.chaitanya.quicksoft.glutton.viewModels.HomeScreenViewModel;
@@ -27,6 +29,7 @@ import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.RestaurantsItem;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -264,9 +267,15 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
                     for (RestaurantsItem restaurantsItem : restaurantsItems) {
 
                         villageConfigCustomAdapterModel = new VillageConfigCustomAdapterModel(restaurantsItem.getName(),
-                                restaurantsItem.getAddress(), restaurantsItem.getImage(), restaurantsItem.getOffers(), restaurantsItem.getStatus(), restaurantsItem.getRestId(), restaurantsItem.getDescription());
+                                restaurantsItem.getAddress(), restaurantsItem.getImage(), restaurantsItem.getOffers(), restaurantsItem.getStatus(), restaurantsItem.getRest_id(), restaurantsItem.getDescription(), restaurantsItem.getDiscount_value());
                         recycler_model_list.add(villageConfigCustomAdapterModel);
                     }
+
+                    for(int i=0; i< recycler_model_list.size(); i++) {
+                        Log.d("TAG", i+" " + String.valueOf(recycler_model_list.get(i).getDiscount_val()));
+                    }
+                   // Log.d("TAG", String.valueOf(recycler_model_list));
+
                     villageListRecyclerCustomAdapter = new VillageListRecyclerCustomAdapter(Home_screen.this, recycler_model_list, Home_screen.this);
                     home_recycler_view.setAdapter(villageListRecyclerCustomAdapter);
                     villageListRecyclerCustomAdapter.notifyDataSetChanged();
@@ -317,7 +326,8 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
                     protected void onPostExecute(Void voids) {
                         super.onPostExecute(voids);
 
-                        finish();
+                        startActivity(new Intent(Home_screen.this, Login.class));
+                       // finish();
                     }
                 }
                 Logout logout = new Logout();
@@ -396,7 +406,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
     }
 
     @Override
-    public void Village_List_Custom_Adapter_Item_click(String restaurant_name, String address, String Image, String offers, int restaurant_id, String restaurant_descrp) {
+    public void Village_List_Custom_Adapter_Item_click(String restaurant_name, String address, String Image, String offers, int restaurant_id, String restaurant_descrp, int discount_val) {
 
         Intent selected_restrnt = new Intent(Home_screen.this, Food_Items.class);
         selected_restrnt.putExtra("selected_restrnt", restaurant_name);
@@ -405,6 +415,7 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
         selected_restrnt.putExtra("restaurant_image", Image);
         selected_restrnt.putExtra("restaurant_offer", offers);
         selected_restrnt.putExtra("restaurant_descrp", restaurant_descrp);
+        selected_restrnt.putExtra("restaurant_discount", discount_val);
         startActivity(selected_restrnt);
 
     }

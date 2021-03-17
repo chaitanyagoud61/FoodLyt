@@ -141,7 +141,7 @@ public class Login extends AppCompatActivity implements NetworkResponseInterface
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Login.this, SignIn.class);
+                Intent intent = new Intent(Login.this, SignUp.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

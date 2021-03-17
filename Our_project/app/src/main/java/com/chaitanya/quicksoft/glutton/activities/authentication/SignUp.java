@@ -28,7 +28,7 @@ import com.chaitanya.quicksoft.glutton.viewModels.Sign_view_model;
 import com.chaitanya.response.SignResponse;
 import com.google.gson.JsonObject;
 
-public class SignIn extends AppCompatActivity implements NetworkResponseInterface {
+public class SignUp extends AppCompatActivity implements NetworkResponseInterface {
 
     ActivitySignInBinding activitySignInBinding;
     Sign_view_model sign_view_model;
@@ -74,7 +74,7 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
                             registartion_jsonObject.addProperty("address", activitySignInBinding.addressDno.getText().toString() + "," +
                                     activitySignInBinding.addressArea.getText().toString() + "," + activitySignInBinding.addressNearBy.getText().toString() + "Rajam,Srikakulam,Andhra Pradesh");
 
-                            networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, SignIn.this);
+                            networkCheck = new NetworkCheck(connectivityManager, networkResponseInterface, SignUp.this);
                             networkCheck.CheckNetworkState(connectivityManager, Glutton_Constants.REGISTER);
                         }else {
                             Toast.makeText(getApplicationContext(), "Please agree terms & conditions", Toast.LENGTH_LONG).show();
@@ -91,7 +91,7 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
         activitySignInBinding.alredyHaveAccntLnrLyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignIn.this, Login.class);
+                Intent intent = new Intent(SignUp.this, Login.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -140,7 +140,7 @@ public class SignIn extends AppCompatActivity implements NetworkResponseInterfac
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(SignIn.this, Login.class);
+                            Intent intent = new Intent(SignUp.this, Login.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();

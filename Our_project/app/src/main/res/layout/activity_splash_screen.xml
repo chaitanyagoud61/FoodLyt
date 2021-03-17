@@ -24,7 +24,8 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:layout_margin="@dimen/_10sdp"
-                android:src="@drawable/logo"></ImageView>
+                android:background="@android:color/transparent"
+                android:src="@drawable/logo" />
 
                 <ProgressBar
                     android:id="@+id/splash_pb"

@@ -11,6 +11,8 @@ public class RestaurantUtils extends Application implements Sub_Category_Quantit
 
     public static HashMap<String,Integer> quantity_hashmap = new HashMap<>();
 
+    public static int restaurant_discount = 0;
+
     private static RestaurantUtils instance;
 
     public RestaurantUtils() {
@@ -25,6 +27,13 @@ public class RestaurantUtils extends Application implements Sub_Category_Quantit
         return quantity_hashmap;
     }
 
+    public static int getRestaurant_discount() {
+        return restaurant_discount;
+    }
+
+    public static void setRestaurant_discount(int restaurant_discount) {
+        RestaurantUtils.restaurant_discount = restaurant_discount;
+    }
 
     @Override
     public void itemAdded(String food_name, int quantity) {

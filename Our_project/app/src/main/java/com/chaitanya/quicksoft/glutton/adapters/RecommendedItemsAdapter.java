@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,22 @@ public class RecommendedItemsAdapter extends RecyclerView.Adapter<RecommendedIte
 
             holder.title.setText(productsModel.getName());
             holder.price.setText("₹ "+productsModel.getPrice());
+
+            int discount_value = RestaurantUtils.getRestaurant_discount();
+
+            if(discount_value!=0) {
+
+                holder.price.setPaintFlags(holder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                holder.txtDiscountPercentage.setVisibility(View.VISIBLE);
+                holder.txtDiscountedPrice.setVisibility(View.VISIBLE);
+
+                int reduced_price = (productsModel.getPrice() - (productsModel.getPrice() * discount_value/100));
+
+                holder.txtDiscountedPrice.setText("₹ " + reduced_price);
+                holder.txtDiscountPercentage.setText(discount_value + "% Off");
+            }
+
 
 
             // Allowing ADD Button and loading Image
@@ -251,7 +268,16 @@ public class RecommendedItemsAdapter extends RecyclerView.Adapter<RecommendedIte
 
                         holder.itemAdded(productsModel.getName(), quantity);
 
-                        holder.add_food_item_selected(String.valueOf(productsModel.getPrice()),String.valueOf(productsModel.getFood_id()),quantity,productsModel.getName());
+                        int final_price = 0;
+                        if(RestaurantUtils.getRestaurant_discount()!=0) {
+                            String[] discount = holder.txtDiscountedPrice.getText().toString().split(" ");
+                            final_price = Integer.parseInt(discount[1]);
+                        } else {
+                            final_price = itemsModelList.get(position).getPrice();
+                        }
+
+
+                        holder.add_food_item_selected(String.valueOf(final_price),String.valueOf(productsModel.getFood_id()),quantity,productsModel.getName());
                     }
                 });
 
@@ -268,8 +294,16 @@ public class RecommendedItemsAdapter extends RecyclerView.Adapter<RecommendedIte
 
                             holder.itemRemoved(productsModel.getName(), quantity);
 
+                            int final_price = 0;
+                            if(RestaurantUtils.getRestaurant_discount()!=0) {
+                                String[] discount = holder.txtDiscountedPrice.getText().toString().split(" ");
+                                final_price = Integer.parseInt(discount[1]);
+                            } else {
+                                final_price = itemsModelList.get(position).getPrice();
+                            }
 
-                            holder.minus_food_item_selected(String.valueOf(productsModel.getPrice()),String.valueOf(productsModel.getFood_id()),quantity,productsModel.getName());
+
+                            holder.minus_food_item_selected(String.valueOf(final_price),String.valueOf(productsModel.getFood_id()),quantity,productsModel.getName());
 
                         }
                     }
@@ -316,7 +350,7 @@ public class RecommendedItemsAdapter extends RecyclerView.Adapter<RecommendedIte
         TextView title, price, subProductQuantity;
         ImageView gridIcon;
         Button btnAdd;
-        TextView productMinus,productPlus,productQuantity;
+        TextView productMinus,productPlus,productQuantity, txtDiscountedPrice, txtDiscountPercentage;
         LinearLayout addButtonLayout, subCategoryAddButtonLayout;
 
         public ViewHolder(@NonNull View itemView) {
@@ -331,6 +365,9 @@ public class RecommendedItemsAdapter extends RecyclerView.Adapter<RecommendedIte
             addButtonLayout = itemView.findViewById(R.id.quantityLayout);
             subCategoryAddButtonLayout = itemView.findViewById(R.id.subCategoryQuantityLayout);
             subProductQuantity = itemView.findViewById(R.id.sub_product_quantity);
+            txtDiscountedPrice = itemView.findViewById(R.id.reduced_price);
+            txtDiscountPercentage = itemView.findViewById(R.id.discount_val);
+
 
         }
 

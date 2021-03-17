@@ -41,7 +41,16 @@ public class VillageConfigCustomAdapterModel {
     }
 
     int restaurant_id=0;
+    int discount_val = 0;
     String address = "";
+
+    public int getDiscount_val() {
+        return discount_val;
+    }
+
+    public void setDiscount_val(int discount_val) {
+        this.discount_val = discount_val;
+    }
 
     public String getImage() {
         return image;
@@ -74,7 +83,7 @@ public class VillageConfigCustomAdapterModel {
     String status="";
 
 
-    public VillageConfigCustomAdapterModel(String Restaurant_name, String address, String image , String offers,String status,int restaurant_id,String description) {
+    public VillageConfigCustomAdapterModel(String Restaurant_name, String address, String image , String offers,String status,int restaurant_id,String description, int discount_val) {
         this.Restaurant_name = Restaurant_name;
         this.address = address;
         this.image = image;
@@ -82,6 +91,7 @@ public class VillageConfigCustomAdapterModel {
         this.status = status;
         this.restaurant_id = restaurant_id;
         this.description = description;
+        this.discount_val = discount_val;
     }
 
 

@@ -39,8 +39,8 @@ public class VillageListRecyclerCustomAdapter extends RecyclerView.Adapter<Villa
     public VillageListRecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_screen_row_item, null);
-
         return new VillageListRecyclerViewHolder(view);
+
     }
 
     @Override
@@ -55,9 +55,16 @@ public class VillageListRecyclerCustomAdapter extends RecyclerView.Adapter<Villa
                     .into(viewHolder.hme_htl_image);
             viewHolder.offers.setText(model_list.get(i).getOffers());
 
+            if(model_list.get(i).getDiscount_val() == 0) {
+                viewHolder.discount.setVisibility(View.GONE);
+            }else
+                {
+                viewHolder.discount.setVisibility(View.VISIBLE);
+                viewHolder.discount.setText(model_list.get(i).getDiscount_val() + "% Off");
+            }
 
             viewHolder.SendRequestAccordingToSelectedItem(model_list.get(i).getRestaurant_name(), model_list.get(i).getAddress(),
-                    model_list.get(i).getImage(), model_list.get(i).getOffers(), model_list.get(i).getRestaurant_id(), model_list.get(i).getDescription());
+                    model_list.get(i).getImage(), model_list.get(i).getOffers(), model_list.get(i).getRestaurant_id(), model_list.get(i).getDescription(),model_list.get(i).getDiscount_val());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +88,7 @@ public class VillageListRecyclerCustomAdapter extends RecyclerView.Adapter<Villa
 
     public class VillageListRecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        TextView hme_htl_name, hme_htl_address, offers;
+        TextView hme_htl_name, hme_htl_address, offers, discount;
         ImageView hme_htl_image;
         CardView home_cardview;
         LinearLayout home_linr_lyt;
@@ -95,16 +102,17 @@ public class VillageListRecyclerCustomAdapter extends RecyclerView.Adapter<Villa
             offers = (TextView) itemView.findViewById(R.id.offers);
             home_cardview = (CardView) itemView.findViewById(R.id.home_cardview);
             home_linr_lyt = (LinearLayout) itemView.findViewById(R.id.home_linr_lyt);
+            discount = (TextView) itemView.findViewById(R.id.discount_badge);
 
         }
 
         public void SendRequestAccordingToSelectedItem(final String restaurant_name, final String address, final String dummy,
-                                                       final String offers, int restaurant_id,final String restaurant_descrp) {
+                                                       final String offers, int restaurant_id,final String restaurant_descrp, final int discount_val) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    home_customAdapter_item_click.Village_List_Custom_Adapter_Item_click(restaurant_name, address, dummy, offers, restaurant_id,restaurant_descrp);
+                    home_customAdapter_item_click.Village_List_Custom_Adapter_Item_click(restaurant_name, address, dummy, offers, restaurant_id,restaurant_descrp, discount_val);
 
                 }
             });

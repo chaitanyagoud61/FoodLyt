@@ -42,7 +42,8 @@ public class Splash_screen extends AppCompatActivity {
         animMove = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.move);
         builder = new AlertDialog.Builder(this);
-        saveData();
+
+        //saveData();
 
     }
 
