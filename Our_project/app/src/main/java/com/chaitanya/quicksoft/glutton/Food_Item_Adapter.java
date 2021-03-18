@@ -103,7 +103,7 @@ public class Food_Item_Adapter extends RecyclerView.Adapter<Food_Item_Adapter.Fo
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        return position;
     }
 
     @Override
