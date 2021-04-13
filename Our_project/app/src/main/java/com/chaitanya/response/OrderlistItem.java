@@ -22,6 +22,9 @@ public class OrderlistItem{
 	@SerializedName("delivered")
 	private boolean delivered;
 
+	@SerializedName("cancelled")
+	private boolean cancelled;
+
 	@SerializedName("rest_name")
 	private String restName;
 
@@ -59,4 +62,10 @@ public class OrderlistItem{
 	public int getFdItemCount(){
 		return fdItemCount;
 	}
+
+	public boolean isCancelled() {return cancelled;}
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 }

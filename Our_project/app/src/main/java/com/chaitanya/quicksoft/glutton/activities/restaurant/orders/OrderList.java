@@ -120,7 +120,7 @@ public class OrderList extends AppCompatActivity implements NetworkResponseInter
                 for (OrderlistItem orderItem : orderlistItem) {
 
                     orderListModel = new OrderListModel(orderItem.getRestName(), orderItem.getRestAddress(),
-                            String.valueOf(orderItem.getTotalPrice()), String.valueOf(orderItem.getFdItemCount()), orderItem.getDateTime(), orderItem.isDelivered(), orderItem.isInprogress(), orderItem.getOrderid());
+                            String.valueOf(orderItem.getTotalPrice()), String.valueOf(orderItem.getFdItemCount()), orderItem.getDateTime(), orderItem.isDelivered(), orderItem.isInprogress(), orderItem.isCancelled(),orderItem.getOrderid());
                     orderListModelArrayList.add(orderListModel);
                 }
                 if (orderListModelArrayList.size() > 0) {

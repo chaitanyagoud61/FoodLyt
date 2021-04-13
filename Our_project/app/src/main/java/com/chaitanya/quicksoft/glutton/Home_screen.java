@@ -49,6 +49,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -129,8 +130,8 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
         Restrnt_search = findViewById(R.id.Restrnt_search);
         home_recycler_view = (RecyclerView) findViewById(R.id.home_recycler_view);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(Home_screen.this, 1);
-        home_recycler_view.setLayoutManager(gridLayoutManager);
+        //GridLayoutManager gridLayoutManager = new GridLayoutManager(Home_screen.this, 1);
+        //home_recycler_view.setLayoutManager(gridLayoutManager);
         recycler_model_list = new ArrayList<>();
 
         init();
@@ -277,6 +278,8 @@ public class Home_screen extends AppCompatActivity implements NavigationView.OnN
                    // Log.d("TAG", String.valueOf(recycler_model_list));
 
                     villageListRecyclerCustomAdapter = new VillageListRecyclerCustomAdapter(Home_screen.this, recycler_model_list, Home_screen.this);
+                   LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Home_screen.this, LinearLayoutManager.VERTICAL, false);
+                    home_recycler_view.setLayoutManager(linearLayoutManager);
                     home_recycler_view.setAdapter(villageListRecyclerCustomAdapter);
                     villageListRecyclerCustomAdapter.notifyDataSetChanged();
                 }

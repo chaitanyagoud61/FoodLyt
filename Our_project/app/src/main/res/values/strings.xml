@@ -48,5 +48,6 @@
     <br>Right now we started </br>
     <br>our services in Rajam, </br>
     <br>Srikakulam District</br></string>
+    <string name="default_notification_channel_id" translate="false">fcm_default_channel</string>
     <string name="Read_more"><a href="https://docs.google.com/document/d/e/2PACX-1vRs8G5BwBWf2xcwBIGFQZDJwUSI_820HpQpV3Z-eUmyX-s6MBBZ5xco9TZ0r4FLV9C9wyd4R95LSxGq/pub">Terms &amp; Conditions </a></string>
 </resources>

@@ -64,7 +64,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/abril_fatface"
-                                android:text="( Rajam )"
+                                android:text=" (Rajam)"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12sdp"></TextView>
 

@@ -1,137 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_5sdp"
-    android:orientation="vertical">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/home_cardview"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:cardCornerRadius="@dimen/_5sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:cardUseCompatPadding="true">
+        android:layout_margin="@dimen/_5sdp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/home_linr_lyt"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/home_cardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_3sdp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-               <!-- <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:cardCornerRadius="@dimen/_5sdp"
-                    app:cardElevation="@dimen/_3sdp"
-                    app:cardUseCompatPadding="true">
--->
-                    <include
-                        layout="@layout/custom_restaurant_card"
-                        />
-<!--
-                </androidx.cardview.widget.CardView>
--->
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/hme_htl_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/acme"
-                    android:text="Kodi kura chitigare"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp"
-                    android:textStyle="bold"></TextView>
-
-                <TextView
-                    android:id="@+id/hme_htl_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:fontFamily="@font/jockey_one"
-                    android:text="Kodi kura chitigare"
-                    android:textColor="@color/hash"
-                    android:textSize="@dimen/_11sdp"
-                    android:textStyle="normal"></TextView>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@color/light_hash"></View>
+                android:id="@+id/home_linr_lyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.5"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_discount">
-
-                        </ImageView>
-
-                    </LinearLayout>
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1.5"
-                        android:orientation="vertical">
+                        <include
+                            layout="@layout/custom_restaurant_card"
+                            />
 
-                        <TextView
-                            android:id="@+id/offers"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_3sdp"
-                            android:text="Discount"
-                            android:textColor="@color/dark_hash"
-                            android:textSize="@dimen/_11sdp"
-                            android:textStyle="normal" />
-
-                    </LinearLayout>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/hme_htl_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/acme"
+                        android:text="Restaurant Name"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/hme_htl_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:fontFamily="@font/jockey_one"
+                        android:text="Description"
+                        android:textColor="@color/hash"
+                        android:textSize="@dimen/_11sdp"
+                        android:textStyle="normal"></TextView>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@color/light_hash"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_discount">
+
+                            </ImageView>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/offers"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_3sdp"
+                                android:text="Discount"
+                                android:textColor="@color/dark_hash"
+                                android:textSize="@dimen/_11sdp"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
             </LinearLayout>
 
 
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+    </LinearLayout>

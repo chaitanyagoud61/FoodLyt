@@ -18,8 +18,20 @@ public class OrderListModel {
 
     Boolean delivered=false;
 
+    Boolean cancelled = false;
+
+
+
     public Boolean getDelivered() {
         return delivered;
+    }
+
+    public Boolean getCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(Boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
     public void setDelivered(Boolean delivered) {
@@ -37,7 +49,7 @@ public class OrderListModel {
     Boolean inporgress=false;
 
     public OrderListModel(String restaurant_name, String restaurant_address, String order_price,
-                          String order_list_food_name_nd_qnty, String order_date_nd_time, Boolean delivered,Boolean inporgress,String orderId) {
+                          String order_list_food_name_nd_qnty, String order_date_nd_time, Boolean delivered,Boolean inporgress,Boolean cancelled,String orderId) {
         this.restaurant_name = restaurant_name;
         this.restaurant_address = restaurant_address;
         this.order_price = order_price;
@@ -45,6 +57,7 @@ public class OrderListModel {
         this.order_date_nd_time = order_date_nd_time;
         this.delivered = delivered;
         this.inporgress = inporgress;
+        this.cancelled = cancelled;
         this.orderId = orderId;
 
     }

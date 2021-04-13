@@ -6,15 +6,24 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.chaitanya.quicksoft.glutton.interfaces.BottomSheetDialogInterface;
 import com.chaitanya.quicksoft.glutton.Home_screen;
 import com.chaitanya.quicksoft.glutton.utils.NetworkCheck;
@@ -24,11 +33,13 @@ import com.chaitanya.quicksoft.glutton.R;
 import com.chaitanya.quicksoft.glutton.adapters.ViewCartAdapter;
 import com.chaitanya.quicksoft.glutton.databinding.ActivityViewCartBinding;
 import com.chaitanya.quicksoft.glutton.utils.Glutton_Constants;
+import com.chaitanya.quicksoft.glutton.utils.RestaurantUtils;
 import com.chaitanya.quicksoft.glutton.viewModels.View_Cart_modelView;
 import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.FoodItemsItem;
 import com.chaitanya.response.GstResponse;
+import com.chaitanya.response.PromoCodeResponse;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -42,6 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class View_Cart extends AppCompatActivity implements PaymentResultWithDataListener, NetworkResponseInterface, BottomSheetDialogInterface {
 
@@ -64,12 +76,30 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
     JsonArray order_placement_jsonarray = new JsonArray();
     JsonObject order_placement_jsonObject = new JsonObject();
     JsonObject order_placement_food_items_jsonObject = new JsonObject();
+
+    JsonObject get_promo_codes = new JsonObject();
+
+    int code_id;
+
+    EditText edtVerifyPromoCode;
+
+    int discount_availed = 0, min_discount = 0, max_discount = 0;
+
+    List<PromoCodeResponse.PromocodesBean> promoCodeResponseList;
+
     List<FoodItemsItem> foodItemsItemList = new ArrayList<>();
     Boolean items_avablty = false;
     int user_id = 0;
     String payment_id = "", payment_order_id = "";
     Snackbar snackbar;
     BottomSheetDialogInterface bottomSheetDialogInterface;
+
+    TextView txtDiscountedAmount, txtDiscountPercentage;
+
+    Button btnVerifyPromoCode;
+    LinearLayout discountValueLayout;
+
+    String promoCodeEntered;
 
 
     @Override
@@ -83,6 +113,16 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         activityViewCartBinding.setViewCartModelView(view_cart_modelView);
 
         bottomSheetDialogInterface = this;
+
+        discountValueLayout = findViewById(R.id.discount_val_layout);
+
+        btnVerifyPromoCode = findViewById(R.id.btn_verify_promo_code);
+
+        promoCodeResponseList = new ArrayList<>();
+        edtVerifyPromoCode = findViewById(R.id.edt_promo_code);
+
+        txtDiscountedAmount = findViewById(R.id.discounted_amount);
+        txtDiscountPercentage = findViewById(R.id.discount_applied);
 
         Intent intent = getIntent();
         cart_hashMap = (HashMap<String, String>) intent.getSerializableExtra("map");
@@ -115,9 +155,19 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             String[] name_quantity = item_name_and_food_quantity.split("~");
             food_name = name_quantity[0];
             food_quantity = name_quantity[1];
+            int food_id_modified = Integer.parseInt(fooditem);
+
+            /* if(Integer.parseInt(fooditem) > 100) {
+                food_id_modified = (Integer.parseInt(fooditem) /100);
+                //  Toast.makeText(this, "More than 100 Decreased Value" + (Integer.parseInt(fooditem) /100) , Toast.LENGTH_SHORT).show();
+            } else {
+                food_id_modified = Integer.parseInt(fooditem);
+            }*/
+
+
             selected_food_view_model = new Selected_food_view_model(food_name, food_quantity);
             selectedFoodViewModelList.add(selected_food_view_model);
-            innr_availability_jsonObject.addProperty("food_id", Integer.valueOf(fooditem));
+            innr_availability_jsonObject.addProperty("food_id", food_id_modified);
             availability_jsonarray.add(innr_availability_jsonObject);
         }
 
@@ -125,7 +175,9 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         availability_jsonObject.addProperty("rest_id", Integer.valueOf(selected_restrnt_id));
         availability_jsonObject.add("selected_food_items", availability_jsonarray);
 
+        Log.d("ORDER TAG", "Get  " +String.valueOf(order_placement_jsonObject));
 
+        
         GridLayoutManager gridLayoutManager = new GridLayoutManager(View_Cart.this, 1);
         activityViewCartBinding.selectedFoodItemsRyclr.setLayoutManager(gridLayoutManager);
         viewCartAdapter = new ViewCartAdapter(this, selectedFoodViewModelList);
@@ -150,6 +202,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         });
 
 
+        // Calling GST method
         getGSt();
 
         activityViewCartBinding.startPayment.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +226,169 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
 
             }
         });
+
+
+        btnVerifyPromoCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String enteredMsg = edtVerifyPromoCode.getText().toString().trim();
+                if(!enteredMsg.isEmpty()) {
+                    // Calling Verify Promo Code method
+                    verifyPromoCode();
+                } else {
+                    Toast.makeText(View_Cart.this, "Please enter Promo Code", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void verifyPromoCode() {
+
+        promoCodeEntered = edtVerifyPromoCode.getText().toString().trim();
+
+        if(checkPromoCodeAvailability(promoCodeEntered)) {
+
+            int initial_amt = Integer.parseInt(intial_amount);
+            int discount_calculation = (initial_amt * discount_availed/100);
+            int final_price_after_discount = 0;
+
+            // Checking whether it satisfies minimum Discount Amt
+            if(initial_amt > min_discount) {
+
+                if(discount_calculation < max_discount) {
+
+                    // Here, the price is less than max discount value, so we are doing normal Discount calculation
+                    final_price_after_discount = (initial_amt - (initial_amt * discount_availed/100));
+
+                    //Calling method to show Custom Dialog
+                    showPromoCodeStatusDialog("Success", "Total Discount");
+
+                } else {
+                    // Here the price is more than max value, so we are just Subtracting value
+                    final_price_after_discount = initial_amt - max_discount;
+
+                    //Calling method to show Custom Dialog
+                    showPromoCodeStatusDialog("Success", "Partial Discount");
+
+                }
+
+                txtDiscountedAmount.setVisibility(View.VISIBLE);
+
+                discountValueLayout.setVisibility(View.VISIBLE);
+                txtDiscountPercentage.setText(discount_availed+"%");
+
+                txtDiscountedAmount.setText("₹ "+intial_amount);
+                txtDiscountedAmount.setPaintFlags(txtDiscountedAmount.getPaintFlags()|Paint.STRIKE_THRU_TEXT_FLAG);
+
+
+
+
+            } else {
+
+                final_price_after_discount = initial_amt;
+                // Showing Custom Dialog with minimum Discount
+                showPromoCodeStatusDialog("LowPrice", "");
+
+                //txtDiscountedAmount.setVisibility(View.VISIBLE);
+
+                //discountValueLayout.setVisibility(View.VISIBLE);
+                //txtDiscountPercentage.setText(discount_availed+"%");
+
+                //txtDiscountedAmount.setText("₹ "+intial_amount);
+               // txtDiscountedAmount.setPaintFlags(txtDiscountedAmount.getPaintFlags()|Paint.STRIKE_THRU_TEXT_FLAG);
+
+
+
+
+            }
+            activityViewCartBinding.intialAmount.setText("₹ " + final_price_after_discount);
+            activityViewCartBinding.delivryAmount.setText("₹ " + delivery_fee);
+            activityViewCartBinding.gstTxt.setText("₹ " + gst);
+            activityViewCartBinding.finalPay.setText("₹ " + String.valueOf( Integer.valueOf(gst) + Integer.parseInt(activityViewCartBinding.intialAmount.getText().toString().split(" ")[1]) + Integer.valueOf(delivery_fee)));
+
+
+
+
+
+        } else {
+            discountValueLayout.setVisibility(View.GONE);
+
+            txtDiscountedAmount.setVisibility(View.INVISIBLE);
+
+            activityViewCartBinding.intialAmount.setText("₹ " +intial_amount);
+
+            activityViewCartBinding.delivryAmount.setText("₹ " + delivery_fee);
+            activityViewCartBinding.gstTxt.setText("₹ " + gst);
+            activityViewCartBinding.finalPay.setText("₹ " + String.valueOf( Integer.valueOf(gst) + Integer.parseInt(activityViewCartBinding.intialAmount.getText().toString().split(" ")[1])+ Integer.valueOf(delivery_fee)));
+
+            showPromoCodeStatusDialog("Error", "");
+        }
+
+    }
+
+    private Boolean checkPromoCodeAvailability(String promoCodeEntered) {
+        for(int i=0; i < promoCodeResponseList.size(); i++) {
+            if (promoCodeResponseList.get(i).getCode().equals(promoCodeEntered)) {
+                //Valid Promo Code Entered - Avail the Discount
+                discount_availed = promoCodeResponseList.get(i).getDiscount();
+                code_id = promoCodeResponseList.get(i).getCode_id();
+                min_discount = promoCodeResponseList.get(i).getMinimum();
+                max_discount = promoCodeResponseList.get(i).getUpto();
+
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
+
+
+    }
+
+    private void showPromoCodeStatusDialog(String status, String message) {
+
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom_dialog_layout);
+        TextView txtStatusMessage = dialog.findViewById(R.id.txtMessage);
+        ImageView imageView = dialog.findViewById(R.id.statusImageView);
+        Button btnDone = dialog.findViewById(R.id.btnDone);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        if(status.equals("Success") && discount_availed!=0) {
+
+            if(message.equals("Total Discount")) {
+
+                btnDone.setText("yay! Thanks");
+                imageView.setImageResource(R.drawable.success);
+                txtStatusMessage.setText("Success! You have availed " + discount_availed + "% Discount");
+            }
+             else if(message.equals("Partial Discount") && max_discount!=0) {
+
+                btnDone.setText("yay! Thanks");
+                imageView.setImageResource(R.drawable.success);
+                txtStatusMessage.setText("Success! You have availed discount upto ₹" + max_discount);
+            }
+
+        } else if(status.equals("LowPrice") && min_discount!=0)  {
+            btnDone.setText("Okay");
+            imageView.setImageResource(R.drawable.wrong);
+            txtStatusMessage.setText("This Promo Code will be availed for above ₹ " + min_discount);
+        }
+        else {
+            imageView.setImageResource(R.drawable.wrong);
+
+            btnDone.setText("Okay");
+            txtStatusMessage.setText("Sorry, The Promo Code Entered is invalid or Expired!");
+        }
+
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
     public void getFoodAvldStatusforPay(String mode){
@@ -251,7 +467,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
         view_cart_modelView.getErrorMessage().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Error: getFood"+s, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -278,15 +494,44 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             String[] name_quantity = item_name_and_food_quantity.split("~");
             food_name = name_quantity[0];
             food_quantity = name_quantity[1];
-            order_placement_food_items_jsonObject.addProperty("food_id", Integer.valueOf(fooditem));
+            int food_id_modified = Integer.parseInt(fooditem);
+
+            /* if(Integer.parseInt(fooditem) > 100) {
+                food_id_modified = (Integer.parseInt(fooditem) /100);
+              //  Toast.makeText(this, "More than 100 Decreased Value" + (Integer.parseInt(fooditem) /100) , Toast.LENGTH_SHORT).show();
+            } else {
+                food_id_modified = Integer.parseInt(fooditem);
+            }*/
+
+            order_placement_food_items_jsonObject.addProperty("food_id", food_id_modified);
             order_placement_food_items_jsonObject.addProperty("name", food_name);
             order_placement_food_items_jsonObject.addProperty("quantity", Integer.valueOf(food_quantity));
             order_placement_jsonarray.add(order_placement_food_items_jsonObject);
         }
+
+
         order_placement_jsonObject.add("food_items", order_placement_jsonarray);
-        order_placement_jsonObject.addProperty("Total_price", String.valueOf(Integer.valueOf(gst) +Integer.valueOf(intial_amount) + Integer.valueOf(delivery_fee)));
+        order_placement_jsonObject.addProperty("total_price", String.valueOf(Integer.valueOf(gst) + Integer.parseInt(activityViewCartBinding.intialAmount.getText().toString().split(" ")[1])+ Integer.valueOf(delivery_fee)));
         order_placement_jsonObject.addProperty("paymentmode", payment_mode);
+        // Order Placed with PromoCode or not
+
+        if(discount_availed == 0) {
+            // Promocode is not applied
+            order_placement_jsonObject.addProperty("appliedpromocode","No");
+            order_placement_jsonObject.addProperty("code_id", 0);
+
+           // Toast.makeText(this, "Placed Order without Promocode", Toast.LENGTH_SHORT).show();
+        } else {
+            // Promocode applied Successfully
+            order_placement_jsonObject.addProperty("appliedpromocode", "Yes");
+            order_placement_jsonObject.addProperty("code_id", code_id);
+
+           // Toast.makeText(this, "Placed Order with Promocode", Toast.LENGTH_SHORT).show();
+
+        }
+
         order_placement_jsonObject.addProperty("address", activityViewCartBinding.finalEdtLctn.getText().toString());
+        Log.d("ORDER TAG", "Start Order " +String.valueOf(order_placement_jsonObject));
 
         view_cart_modelView.ProceedOrderToServer(order_placement_jsonObject).observe(this, new Observer<FinalOrderResponse>() {
             @Override
@@ -317,6 +562,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                             }
                         },4000);
 
+                        RestaurantUtils.quantity_hashmap.clear();
 
                     } else if (s.getStatus().equalsIgnoreCase("failed")) {
 
@@ -335,6 +581,9 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                                 progressBar.dismiss();
                             }
                         },4000);
+
+                        RestaurantUtils.quantity_hashmap.clear();
+
                     }
 
                 }
@@ -345,7 +594,7 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             @Override
             public void onChanged(String s) {
 
-                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),"Error: Order "+s,Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -365,14 +614,27 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
             String[] name_quantity = item_name_and_food_quantity.split("~");
             food_name = name_quantity[0];
             food_quantity = name_quantity[1];
-            order_placement_food_items_jsonObject.addProperty("food_id", Integer.valueOf(fooditem));
+            int food_id_modified = Integer.parseInt(fooditem);
+
+            /*
+            if(Integer.parseInt(fooditem) > 100) {
+                food_id_modified = (Integer.parseInt(fooditem) /100);
+               // Toast.makeText(this, "More than 100 Decreased Value" + (Integer.parseInt(fooditem) /100) , Toast.LENGTH_SHORT).show();
+            } else {
+                food_id_modified = Integer.parseInt(fooditem);
+            }
+*/
+
+            order_placement_food_items_jsonObject.addProperty("food_id", food_id_modified);
             order_placement_food_items_jsonObject.addProperty("name", food_name);
             order_placement_food_items_jsonObject.addProperty("quantity", Integer.valueOf(food_quantity));
             order_placement_jsonarray.add(order_placement_food_items_jsonObject);
         }
+
         order_placement_jsonObject.add("food_items", order_placement_jsonarray);
-        order_placement_jsonObject.addProperty("Total_price", Integer.valueOf(intial_amount));
+        order_placement_jsonObject.addProperty("total_price", Integer.valueOf(intial_amount));
         order_placement_jsonObject.addProperty("city_id", 1);
+
 
         view_cart_modelView.GetGStPrice_Dataresponse(order_placement_jsonObject).observe(this, new Observer<GstResponse>() {
             @Override
@@ -382,21 +644,45 @@ public class View_Cart extends AppCompatActivity implements PaymentResultWithDat
                 gst = String.valueOf(gstResponse.getTaxes());
 
                 activityViewCartBinding.intialAmount.setText("₹ " + intial_amount);
+
                 activityViewCartBinding.delivryAmount.setText("₹ " + delivery_fee);
                 activityViewCartBinding.gstTxt.setText("₹ " + gst);
-                activityViewCartBinding.finalPay.setText("₹ " + String.valueOf( Integer.valueOf(gst) +Integer.valueOf(intial_amount) + Integer.valueOf(delivery_fee)));
+                activityViewCartBinding.finalPay.setText("₹ " + String.valueOf( Integer.valueOf(gst) + Integer.parseInt(activityViewCartBinding.intialAmount.getText().toString().split(" ")[1]) + Integer.valueOf(delivery_fee)));
             }
         });
 
+
+        // Adding properties for PromoCodes API call
+       // get_promo_codes = new JsonObject();
+        get_promo_codes.addProperty("city_id", 1);
+        get_promo_codes.addProperty("rest_id",selected_restrnt_id);
+        get_promo_codes.addProperty("user_id", user_id);
+
+       // Toast.makeText(View_Cart.this, "Hello "+ get_promo_codes, Toast.LENGTH_SHORT).show();
+
+
+        view_cart_modelView.GetPromoCode_Dataresponse(get_promo_codes).observe(this, new Observer<PromoCodeResponse>() {
+            @Override
+            public void onChanged(PromoCodeResponse promoCodeResponse) {
+
+                // Need to build the PromoCodeList here once the page loads
+
+               promoCodeResponseList = promoCodeResponse.getPromocodes();
+
+
+            }
+        });
 
         view_cart_modelView.getErrorMessage().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
 
-                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getApplicationContext(),"Error:gst "+s,Toast.LENGTH_LONG).show();
             }
         });
     }
+
+
 
     public void startPayment() {
 

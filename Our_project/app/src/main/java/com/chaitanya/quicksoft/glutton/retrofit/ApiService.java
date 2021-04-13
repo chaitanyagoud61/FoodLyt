@@ -11,6 +11,7 @@ import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
 import com.chaitanya.response.Orderlistresp;
 import com.chaitanya.response.OrderstatusResp;
+import com.chaitanya.response.PromoCodeResponse;
 import com.chaitanya.response.SignResponse;
 import com.google.gson.JsonObject;
 
@@ -55,6 +56,9 @@ public interface ApiService {
 
     @POST("getpricing")
     Call<GstResponse> GetPrice_response(@Body JsonObject jsonObject);
+
+    @POST("promocodes/getpromocodes")
+    Call<PromoCodeResponse> GetPromoCode_response(@Body JsonObject jsonObject);
 
     // Test URL Service Registration
 

@@ -1,6 +1,7 @@
 package com.chaitanya.quicksoft.glutton;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,13 +9,19 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.chaitanya.quicksoft.glutton.interfaces.Home_CustomAdapter_Item_Click;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,11 +58,10 @@ public class VillageListRecyclerCustomAdapter extends RecyclerView.Adapter<Villa
             viewHolder.hme_htl_name.setText(model_list.get(i).getRestaurant_name());
             viewHolder.hme_htl_address.setText(model_list.get(i).getAddress());
             Glide.with(context)
-                    .load(model_list.get(i).getImage())
-                    .into(viewHolder.hme_htl_image);
-            viewHolder.offers.setText(model_list.get(i).getOffers());
+                    .load(model_list.get(i).getImage()).into(viewHolder.hme_htl_image);
+          viewHolder.offers.setText(model_list.get(i).getOffers());
 
-            if(model_list.get(i).getDiscount_val() == 0) {
+           if(model_list.get(i).getDiscount_val() == 0) {
                 viewHolder.discount.setVisibility(View.GONE);
             }else
                 {

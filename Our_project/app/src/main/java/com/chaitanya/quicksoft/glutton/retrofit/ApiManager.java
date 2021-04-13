@@ -13,6 +13,7 @@ import com.chaitanya.response.HomeResponse;
 import com.chaitanya.response.LoginResponse;
 import com.chaitanya.response.Orderlistresp;
 import com.chaitanya.response.OrderstatusResp;
+import com.chaitanya.response.PromoCodeResponse;
 import com.chaitanya.response.SignResponse;
 import com.google.gson.JsonObject;
 
@@ -163,7 +164,7 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NotNull Call<FoodItemResponse> call, Throwable t) {
-                callBack.onError("");
+                callBack.onError(t.getMessage().toString());
             }
         });
 
@@ -207,7 +208,7 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NotNull Call<AvailabilityResponse> call, Throwable t) {
-                callBack.onError("");
+                callBack.onError(t.getMessage().toString());
             }
         });
 
@@ -228,7 +229,7 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NotNull Call<FinalOrderResponse> call, Throwable t) {
-                callBack.onError("");
+                callBack.onError(t.getMessage().toString());
             }
         });
 
@@ -250,11 +251,34 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NotNull Call<GstResponse> call, Throwable t) {
+                callBack.onError(t.getMessage().toString());
+            }
+        });
+
+    }
+
+    public void getPromoCodes(JsonObject jsonObject, final ResponseCallBack<PromoCodeResponse> callBack){
+
+        ApiService apiService=RetrofitUtils.getInstance();
+        Call<PromoCodeResponse> response=apiService.GetPromoCode_response(jsonObject);
+
+        response.enqueue(new Callback<PromoCodeResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<PromoCodeResponse> call, @NotNull Response<PromoCodeResponse> response) {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    callBack.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PromoCodeResponse> call, Throwable t) {
                 callBack.onError("");
             }
         });
 
     }
+
 
     public void getOrderDetails(JsonObject jsonObject, final ResponseCallBack<Orderlistresp> callBack){
 
@@ -272,7 +296,7 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NotNull Call<Orderlistresp> call, Throwable t) {
-                callBack.onError("");
+                callBack.onError(t.getMessage().toString());
             }
         });
 
@@ -293,7 +317,7 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NotNull Call<OrderstatusResp> call, Throwable t) {
-                callBack.onError("");
+                callBack.onError(t.getMessage().toString());
             }
         });
 

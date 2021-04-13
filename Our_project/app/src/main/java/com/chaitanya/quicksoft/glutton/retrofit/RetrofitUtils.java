@@ -23,7 +23,7 @@ public class RetrofitUtils {
     public static ApiService getInstance() {
         if (retrofit == null)
             retrofit = new Retrofit.Builder()
-                    .baseUrl(Glutton_Constants.testUrl) // change to production URL here
+                    .baseUrl(Glutton_Constants.url) // change to production URL here
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(getHttpClient())
                     .build();

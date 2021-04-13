@@ -251,6 +251,71 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:text="Have any Promo Code ?"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_13sdp"></TextView>
+
+                        <View
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/dotted_line"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/edt_promo_code"
+                                android:layout_width="wrap_content"
+                                android:layout_toStartOf="@id/btn_verify_promo_code"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:layout_marginTop="5dp"
+                                android:inputType="textCapCharacters"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:hint="Type Promo Code here"
+                                android:textSize="@dimen/_11sdp"
+                                android:textColor="@color/black" />
+                            <Button
+                                android:id="@+id/btn_verify_promo_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:text="apply"
+                                android:layout_centerVertical="true"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:textColor="@color/white" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:padding="@dimen/_5sdp">
@@ -299,15 +364,32 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:weightSum="2"
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/intial_amount"
-                                android:layout_width="match_parent"
+                                android:id="@+id/discounted_amount"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/_2sdp"
                                 android:fontFamily="@font/belgrano"
-                                android:text="₹ "
+                                android:text="₹ 100"
+                                android:visibility="invisible"
+                                android:layout_weight="1"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/orange"
+                                android:textSize="@dimen/_13sdp"
+                                android:textStyle="normal"></TextView>
+
+
+                            <TextView
+                                android:id="@+id/intial_amount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:fontFamily="@font/belgrano"
+                                android:text="₹ 500"
+                                android:layout_weight="1"
                                 android:textAlignment="viewEnd"
                                 android:textColor="@color/light_black"
                                 android:textSize="@dimen/_13sdp"
@@ -315,6 +397,54 @@
 
                         </LinearLayout>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/discount_val_layout"
+                        android:visibility="gone"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:fontFamily="@font/belgrano"
+                                android:text="Discount Applied "
+                                android:textColor="@color/light_black"
+                                android:textSize="@dimen/_13sdp"
+                                android:textStyle="bold"></TextView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/discount_applied"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:fontFamily="@font/belgrano"
+                                android:text="30%"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/blue"
+                                android:textSize="@dimen/_13sdp"
+                                android:textStyle="bold"></TextView>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"

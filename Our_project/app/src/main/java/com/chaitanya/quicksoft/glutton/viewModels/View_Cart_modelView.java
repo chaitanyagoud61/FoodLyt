@@ -8,6 +8,7 @@ import com.chaitanya.quicksoft.glutton.retrofit.ResponseCallBack;
 import com.chaitanya.response.AvailabilityResponse;
 import com.chaitanya.response.FinalOrderResponse;
 import com.chaitanya.response.GstResponse;
+import com.chaitanya.response.PromoCodeResponse;
 import com.google.gson.JsonObject;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,8 @@ public class View_Cart_modelView extends AndroidViewModel {
             paymnetmutableLiveData = new MutableLiveData<>();
     private MutableLiveData<GstResponse>
             gstmutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<PromoCodeResponse>
+            promoCodeResponseData = new MutableLiveData<>();
     private MutableLiveData<String>
             errorMessage = new MutableLiveData<>();
 
@@ -80,6 +83,24 @@ public class View_Cart_modelView extends AndroidViewModel {
         });
         return gstmutableLiveData;
     }
+
+    public MutableLiveData<PromoCodeResponse> GetPromoCode_Dataresponse(JsonObject jsonObject) {
+
+        ApiManager.getInstance(context).getPromoCodes(jsonObject, new ResponseCallBack<PromoCodeResponse>() {
+            @Override
+            public void onResponse(PromoCodeResponse s) {
+                promoCodeResponseData.postValue(s);
+            }
+
+
+            @Override
+            public void onError(String message) {
+                errorMessage.postValue(message);
+            }
+        });
+        return promoCodeResponseData;
+    }
+
 
     public LiveData<String> getErrorMessage(){
         return errorMessage;

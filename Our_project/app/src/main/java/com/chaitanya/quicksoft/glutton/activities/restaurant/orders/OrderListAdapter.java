@@ -3,6 +3,7 @@ package com.chaitanya.quicksoft.glutton.activities.restaurant.orders;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chaitanya.quicksoft.glutton.BR;
 import com.chaitanya.quicksoft.glutton.interfaces.OrderClickListner;
@@ -41,9 +42,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     @Override
     public void onBindViewHolder(@NonNull OrderListAdapterViewHolder holder, int position) {
         OrderListModel dataModel =orderListModelArrayList.get(position);
+
+
         holder.oderListRowItemBinding.setOrderlistmodel(dataModel);
         holder.bind(dataModel);
-        holder.oderListRowItemBinding.setOrderClickListner(this);
+        if(dataModel.getCancelled()) {
+            holder.oderListRowItemBinding.setOrderClickListner(null);
+        } else {
+            holder.oderListRowItemBinding.setOrderClickListner(this);
+
+        }
     }
 
     @Override
@@ -58,6 +66,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
     public class OrderListAdapterViewHolder extends RecyclerView.ViewHolder {
         OderListRowItemBinding oderListRowItemBinding;
+        TextView txtOrderStatus;
+
         public OrderListAdapterViewHolder(OderListRowItemBinding oderListRowItemBinding1) {
             super(oderListRowItemBinding1.getRoot());
             this.oderListRowItemBinding = oderListRowItemBinding1;

@@ -169,9 +169,18 @@ public class CategoryFoodItemResponse {
 
         public static class OtherPropsBean {
             private String name;
+            private int food_id;
             private int original_price;
             private int price;
             private String status;
+
+            public int getFood_id() {
+                return food_id;
+            }
+
+            public void setFood_id(int food_id) {
+                this.food_id = food_id;
+            }
 
             public String getName() {
                 return name;

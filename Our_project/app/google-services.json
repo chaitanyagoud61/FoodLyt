@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1038226343419",
+    "project_id": "foodlyt-b5439",
+    "storage_bucket": "foodlyt-b5439.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038226343419:android:251ba735e3726dac06f75e",
+        "android_client_info": {
+          "package_name": "com.chaitanya.quicksoft.glutton"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038226343419-vp1854lt66slf094eu4gs3tns955d1uk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chaitanya.quicksoft.glutton",
+            "certificate_hash": "0c93be420e7672c00d3dc841398ac0fc042a0edb"
+          }
+        },
+        {
+          "client_id": "1038226343419-9mg23vcd4qevv2bttpu8s38qac173fpm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAb1gYHceDH3413mz9SdcLk7FUV7h2awkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038226343419-9mg23vcd4qevv2bttpu8s38qac173fpm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

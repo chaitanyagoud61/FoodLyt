@@ -169,8 +169,11 @@ public class SubCategoryItemsAdapter extends RecyclerView.Adapter<SubCategoryIte
                 }
 
                 // NOTE: Here due to lack of IDs present in other_props array we fetched from parent and appending to parentID + 00 + position.
-                // For example parentItemID is 1 then here new Item ID will be 1001.
-                holder.add_food_item_selected(String.valueOf(final_price),String.valueOf(parentItemFoodId + 00 + (position+1)),quantity,parentItemName +" "+itemsModelList.get(position).getName());
+                // For example parentItemID is 1 then here new Item ID will be 1001. [DEPRECATED]
+
+                // Date: 12/04/2021 Lalith added IDs to Sub Items to avoid problems on Server Side
+
+                holder.add_food_item_selected(String.valueOf(final_price), String.valueOf(categoryItemsModel.getFood_id()),quantity,parentItemName +" "+itemsModelList.get(position).getName());
             }
         });
 
@@ -223,7 +226,10 @@ public class SubCategoryItemsAdapter extends RecyclerView.Adapter<SubCategoryIte
 
                     // NOTE: Here due to lack of IDs present in other_props array we fetched from parent and appending to parentID + 00 + position.
                     // For example parentItemID is 1 then here new Item ID will be 1001.
-                    holder.minus_food_item_selected(String.valueOf(final_price),String.valueOf(parentItemFoodId + 00 + (position+1)),quantity,parentItemName+ " " +itemsModelList.get(position).getName());
+
+                    // Date: 12/04/2021 Lalith added IDs to Sub Items to avoid problems on Server Side
+
+                    holder.minus_food_item_selected(String.valueOf(final_price),String.valueOf(categoryItemsModel.getFood_id()),quantity,parentItemName+ " " +itemsModelList.get(position).getName());
                 }
             }
         });

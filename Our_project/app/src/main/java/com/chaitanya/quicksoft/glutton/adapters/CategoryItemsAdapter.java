@@ -195,9 +195,6 @@ public class CategoryItemsAdapter extends RecyclerView.Adapter<CategoryItemsAdap
 
             if(!total_items_quantity_hashmap.isEmpty()) {
 
-
-
-
                 if(total_items_quantity_hashmap.get(categoryItemsModel.getName()) == null) {
                     holder.productQuantity.setText("0");
                 } else {

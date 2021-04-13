@@ -1,0 +1,113 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:clickable="true"
+        android:id="@+id/relativeLayoutImage"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/cake">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/blue_transparent" />
+
+        <TextView
+            android:id="@+id/txtRestaurantName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/txtAddress"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="2dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/muli"
+            android:maxLines="2"
+            android:text="FoodG "
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:text="Near GMRIT, Rajam"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+
+
+        <!--
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:id="@+id/dateRelatedInfo"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true">
+                    <TextView
+                        android:id="@+id/txtMonth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MAR"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/muli"
+                        android:layout_alignParentTop="true"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:id="@+id/txtDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23"
+                        android:fontFamily="@font/muli"
+                        android:textStyle="bold"
+                        android:layout_centerInParent="true"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp"
+                        android:layout_below="@id/txtMonth" />
+
+                    <TextView
+                        android:id="@+id/txtYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2020"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/muli"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@id/txtDate"
+                        android:textSize="12dp"
+                        android:textColor="#ffffff" />
+
+                </RelativeLayout>
+        -->
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
